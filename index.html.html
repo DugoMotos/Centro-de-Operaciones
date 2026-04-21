@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>Dugomotos — Operaciones</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--sf:#F8F8F6;--bd:#E8E6DF;--bd2:#D3D1C7;--tx:#2C2C2A;--tm:#888780;--tl:#B4B2A9;--gn:#1D9E75;--gnl:#E1F5EE;--gnd:#085041;--bl:#378ADD;--bll:#E6F1FB;--bld:#0C447C;--or:#D85A30;--orl:#FAECE7;--rd:#E24B4A;--rdl:#FCEBEB;--rdd:#A32D2D;--pr:#7F77DD;--prl:#EEEDFE;--yl:#FBBF24;--yll:#FAEEDA;--yld:#633806;--vl:#27500A;--vll:#EAF3DE;--vlb:#97C459;--cy:#22D3EE;--r:10px;--ff:'DM Sans',system-ui,sans-serif;--fm:'DM Mono',monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--ff);background:#F5F4F0;color:var(--tx);min-height:100dvh;-webkit-font-smoothing:antialiased}
+.app{max-width:680px;margin:0 auto;background:var(--bg);min-height:100dvh;border-left:1px solid var(--bd);border-right:1px solid var(--bd)}
+.pad{padding:16px 18px}
+@media(min-width:768px){
+.app{max-width:800px}
+.pad{padding:24px 32px}
+.hdr{padding:24px 32px 14px}
+.main-tabs{font-size:15px}
+.main-tab{padding:14px 12px;font-size:15px}
+.step-body{padding:14px 16px!important}
+.step-t{font-size:15px}
+.card{padding:16px 20px}
+.stat-grid{grid-template-columns:repeat(3,1fr)}
+.prefix-grid{grid-template-columns:repeat(4,1fr)}
+}
+@media(min-width:1024px){
+.app{max-width:960px}
+.pad{padding:28px 40px}
+}
+@media(max-width:380px){
+.pad{padding:14px 12px}
+.main-tab{font-size:12px;padding:10px 6px}
+.inp{font-size:14px;letter-spacing:2px}
+.btn{font-size:12px;padding:10px}
+.step-t{font-size:12px}
+}
+.hdr{text-align:center;padding:16px 18px 10px}
+.hdr h1{font-size:10px;font-weight:700;color:var(--rd);text-transform:uppercase;letter-spacing:2px}
+.hdr h2{font-size:18px;font-weight:700;margin-top:2px}
+.hdr p{font-size:11px;color:var(--tm);margin-top:2px}
+.lbl{font-size:10px;font-weight:700;color:var(--tm);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.toast{position:fixed;top:14px;left:50%;transform:translateX(-50%) translateY(-80px);background:var(--gnd);color:var(--gnl);padding:10px 20px;border-radius:var(--r);font-size:13px;font-weight:600;z-index:999;transition:transform .3s cubic-bezier(.34,1.56,.64,1);max-width:90vw;text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0)}.toast.err{background:var(--rd);color:#fff}
+.main-tabs{display:flex;border-bottom:2px solid var(--bd)}
+.main-tab{flex:1;padding:12px 8px;border:none;background:transparent;font-family:var(--ff);font-size:13px;font-weight:700;color:var(--tm);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s}
+.main-tab.on{color:var(--gnd);border-bottom-color:var(--gn)}
+.sub-tabs{display:flex;gap:3px;background:var(--sf);border-radius:10px;padding:3px;margin-bottom:14px;border:.5px solid var(--bd)}
+.sub-tab{flex:1;padding:8px 4px;border:none;background:transparent;color:var(--tm);font-family:var(--ff);font-size:10px;font-weight:600;border-radius:7px;cursor:pointer}
+.sub-tab.on{background:var(--bg);color:var(--tx);box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.inp{width:100%;padding:11px 12px;border-radius:var(--r);border:1.5px solid var(--bd2);background:var(--sf);font-family:var(--fm);font-size:16px;font-weight:700;color:var(--tx);text-align:center;text-transform:uppercase;letter-spacing:3px;outline:none;box-sizing:border-box}
+.inp:focus{border-color:var(--gn)}
+.inp-sm{font-size:11px;padding:8px 10px;text-align:left;letter-spacing:0;font-family:var(--ff);font-weight:400;text-transform:none}
+.btn{width:100%;padding:11px;border-radius:var(--r);font-family:var(--ff);font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .15s}
+.btn:active{transform:scale(.98)}.btn-p{background:var(--gnd);color:var(--gnl)}.btn-o{background:transparent;border:1px solid var(--bd2);color:var(--tx)}.btn-d{background:transparent;border:1px solid var(--rd);color:var(--rd)}.btn-v{background:var(--vl);color:var(--vll)}.btn:disabled{opacity:.35;cursor:default}
+.card{padding:12px 14px;border-radius:10px;background:var(--sf);margin-bottom:10px}
+.flex{display:flex;gap:8px}.fxc{align-items:center}.fxb{justify-content:space-between}
+.sel{width:100%;padding:11px;border-radius:var(--r);border:.5px solid var(--bd2);background:var(--sf);font-family:var(--ff);font-size:13px;color:var(--tx);outline:none;appearance:auto;box-sizing:border-box}
+.act-row{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:var(--r);border:.5px solid var(--bd);cursor:pointer;margin-bottom:5px}
+.act-row.on{border:1.5px solid var(--bl);background:rgba(55,138,221,.05)}
+.done-row{display:flex;align-items:center;gap:10px;padding:7px 10px;background:#F7FBF2;border-radius:7px;border:.5px solid #C0DD97;margin-bottom:3px;opacity:.7}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stat-card{background:var(--sf);border:.5px solid var(--bd);border-radius:10px;padding:12px;text-align:center}
+.stat-num{font-family:var(--fm);font-size:24px;font-weight:700}
+.stat-lbl{font-size:9px;font-weight:600;color:var(--tm);text-transform:uppercase;letter-spacing:.5px;margin-top:3px}
+.hist-row{display:flex;gap:8px;padding:8px 10px;background:var(--sf);border-radius:7px;border:.5px solid var(--bd);margin-bottom:3px}
+.conn{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:600}
+.conn-dot{width:7px;height:7px;border-radius:50%}
+.prefix-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px}
+.prefix-item{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--tm)}
+.prefix-letter{font-family:var(--fm);font-size:12px;font-weight:700;color:var(--tx);width:18px;height:18px;display:flex;align-items:center;justify-content:center;background:var(--sf);border-radius:3px}
+.step{display:flex;align-items:stretch;transition:opacity .3s}
+.step-line{display:flex;flex-direction:column;align-items:center;width:30px;flex-shrink:0}
+.step-dot{border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .3s}
+.step-bar{width:2px;flex:1}
+.step-body{flex:1;margin-left:5px;margin-bottom:3px;padding:7px 10px;border-radius:var(--r);transition:all .3s}
+.step-body.active{padding:12px}
+.step-tag{font-size:8px;font-weight:600;padding:1px 5px;border-radius:4px;display:inline-block;margin-right:3px}
+.step-t{margin:3px 0 0;font-size:13px;font-weight:600}
+.alist-opt{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:7px;border:.5px solid var(--bd);cursor:pointer;margin-bottom:3px}
+.alist-opt.on{border:1.5px solid var(--gn);background:var(--gnl)}
+.alist-chk{width:16px;height:16px;border-radius:3px;border:2px solid var(--bd2);display:flex;align-items:center;justify-content:center}
+.alist-opt.on .alist-chk{border-color:var(--gn);background:var(--gn)}
+.recent-btn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:9px 12px;border-radius:var(--r);border:.5px solid var(--bd);background:var(--sf);cursor:pointer;margin-bottom:3px;text-align:left}
+</style>
+</head>
+<body>
+<div class="app">
+<div id="stickyTop" style="position:sticky;top:0;z-index:10;background:var(--bg)">
+<div class="hdr"><h1>Dugomotos</h1><h2>Centro de operaciones</h2><p id="dP"></p></div>
+<div class="main-tabs">
+<button class="main-tab on" id="mt2" onclick="setMain('proc')">📋 Procedimiento</button>
+<button class="main-tab" id="mt1" onclick="setMain('alist')">⚙ Alistamientos</button>
+<button class="main-tab" id="mt3" onclick="setMain('plan')">📊 Plan</button>
+<button class="main-tab" id="mt4" onclick="setMain('config')">🔧</button>
+</div>
+<div class="pad" id="c"></div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+var SK_A='dugo-a-v4',SK_AC='dugo-ac-v2',SK_P='dugo-p-v2',SK_PC='dugo-pc-v1';
+var PREFIXES={H:'Hunk',P:'Xpulse',E:'Eco',X:'Xoom',A:'ADXTG',C:'Crox',T:'NH Trazer',I:'Ignitor'};
+var ACT_C={alistamiento:'#34D399',marcacion:'#60A5FA',defensas:'#FB923C',placa:'#A78BFA',gps:'#22D3EE'};
+var actK=function(p){return({alistamiento:'alistamiento','marcación':'marcacion',defensas:'defensas','instalación placa':'placa','instalación gps':'gps'})[(p||'').toLowerCase()]||'alistamiento'};
+var RESP_R={'Alistamiento|HERO':['Servicio Técnico'],'Alistamiento|SYM':['Moto Working','Servicio Técnico'],'Marcación|HERO':['Samuel Vásquez','Servicio Técnico','Gregorio Brito'],'Marcación|SYM':['Samuel Vásquez','Servicio Técnico','Gregorio Brito'],'Defensas|HERO':['Moto Working'],'Defensas|SYM':['Moto Working'],'Instalación placa|HERO':['Gregorio Brito'],'Instalación placa|SYM':['Gregorio Brito'],'Instalación GPS|HERO':['Externo GPS'],'Instalación GPS|SYM':['Externo GPS']};
+var ALL_R=['Samuel Vásquez','Servicio Técnico','Gregorio Brito','Moto Working','Externo GPS','Externo Marcación','Eder'];
+var DEMO=[{chasis:'HB0044',linea:'Eco',referencia:'100 IBS',marca:'Hero',color:'Negro',proceso:'Alistamiento',estado:''},{chasis:'HB0044',linea:'Eco',referencia:'100 IBS',marca:'Hero',color:'Negro',proceso:'Marcación',estado:''},{chasis:'HB0044',linea:'Eco',referencia:'100 IBS',marca:'Hero',color:'Negro',proceso:'Instalación placa',estado:''},{chasis:'HB0044',linea:'Eco',referencia:'100 IBS',marca:'Hero',color:'Negro',proceso:'Instalación GPS',estado:''},{chasis:'A32379',linea:'ADXTG',referencia:'150',marca:'SYM',color:'Gris nardo',proceso:'Alistamiento',estado:''},{chasis:'A32379',linea:'ADXTG',referencia:'150',marca:'SYM',color:'Gris nardo',proceso:'Marcación',estado:''},{chasis:'A32379',linea:'ADXTG',referencia:'150',marca:'SYM',color:'Gris nardo',proceso:'Defensas',estado:''},{chasis:'A32379',linea:'ADXTG',referencia:'150',marca:'SYM',color:'Gris nardo',proceso:'Instalación placa',estado:''},{chasis:'A32379',linea:'ADXTG',referencia:'150',marca:'SYM',color:'Gris nardo',proceso:'Instalación GPS',estado:''}];
+var AREAS={inv:{s:'#1D9E75',f:'#E1F5EE',l:'Inventario'},con:{s:'#378ADD',f:'#E6F1FB',l:'Contabilidad'},log:{s:'#D85A30',f:'#FAECE7',l:'Logística'},tra:{s:'#E24B4A',f:'#FCEBEB',l:'Trámites'},ven:{s:'#7F77DD',f:'#EEEDFE',l:'Ventas / Caja'}};
+var DAYS=[
+{day:1,title:'Pedido',desc:'Verificación de inventario, propuesta y creación de pedido en plataforma',steps:[
+{c:'inv',t:'Verificar inventario',d:'Revisar el inventario actual aplicando las políticas de abastecimiento y clasificación ABC para identificar referencias con stock reducido o en cero.',act:'Consultar tabla de inventario → Filtrar por políticas ABC',doc:'BD Inventario / Excel',tp:'exec'},
+{c:'inv',t:'Generar propuesta de pedido',d:'Consolidar las referencias necesarias en una propuesta formal indicando cantidades y referencias.',act:'Elaborar propuesta con referencias y cantidades',doc:'BD Inventario / Excel',pre:'Inventario revisado con faltantes identificados',tp:'exec'},
+{c:'inv',t:'Solicitar aprobación de pedido',d:'Enviar la propuesta a Gerencia para revisión y aprobación por cantidades y referencias.',act:'Enviar propuesta a Gerencia → Esperar visto bueno',pre:'Propuesta de pedido elaborada',gate:1,gl:'Gerencia debe aprobar antes de continuar',tp:'val'},
+{c:'inv',t:'Crear pedido en DataPro',d:'Con la aprobación obtenida, ingresar a DataPro para crear formalmente el pedido. Hero: carrito de compras. SYM: solicitar por WhatsApp al subdistribuidor.',act:'DataPro → Crear pedido → Agregar referencias al carrito',pre:'Aprobación de Gerencia obtenida',tp:'exec'},
+{c:'inv',t:'Ingresar motos + fecha de pedido',d:'Registrar las nuevas motocicletas en la base de datos de inventario incluyendo la fecha del pedido.',act:'BD Inventario → Ingresar nuevas motos → Fecha de pedido',doc:'BD Inventario / Excel',pre:'Pedido creado en DataPro',tp:'reg'}
+]},
+{day:2,title:'Facturación',desc:'Recepción de facturas de compra, registro de chasis y estimación de llegada',steps:[
+{c:'con',t:'Recibir factura de compra',d:'Las marcas envían las facturas de compra por correo electrónico. Contabilidad las recibe y verifica.',act:'Revisar correo → Descargar facturas de compra',pre:'Pedido en etapa de facturación (Día 1)',tp:'exec'},
+{c:'con',t:'Imprimir factura de compra',d:'Imprimir las facturas recibidas y separarlas por motocicleta para distribución.',act:'Imprimir facturas → Separar por moto',pre:'Facturas recibidas por correo',tp:'exec'},
+{c:'con',t:'Entregar facturas a trámites',d:'Entregar las facturas impresas al área de trámites en la carpeta designada de facturas próximas en llegar.',act:'Ubicar en carpeta de facturas → Entregar a trámites',doc:'Carpeta de facturas / próximas en llegar',pre:'Facturas impresas y separadas',tp:'exec'},
+{c:'inv',t:'Ingresar # chasis al inventario',d:'Cuando el pedido pasa a facturación, la marca comparte los números de chasis. Registrar cada chasis en la base de datos.',act:'BD Inventario → Columna chasis → Ingresar número por moto',doc:'BD Inventario / Excel',pre:'Marca compartió números de chasis',tp:'reg'},
+{c:'inv',t:'Ingresar fecha de facturación',d:'Registrar la fecha de facturación de cada motocicleta en el inventario.',act:'BD Inventario → Columna fecha facturación → Registrar',doc:'BD Inventario / Excel',pre:'Chasis registrados',tp:'reg'},
+{c:'inv',t:'Estimar tiempo de llegada',d:'Con base en la experiencia y tiempos del distribuidor, estimar cuándo llegarán las motocicletas.',act:'Consultar historial → Estimar fecha → Registrar',doc:'Archivo de llegada de motos',pre:'Fecha de facturación registrada',tp:'reg'}
+]},
+{day:3,title:'Recepción',desc:'Llegada de motos, inspección visual, novedades, manifiestos e improntas',steps:[
+{c:'log',t:'Recibir motos en concesionario',d:'Las motocicletas llegan físicamente. Logística las recibe y ubica en zona de recepción.',act:'Recibir transportador → Verificar cantidad vs. guía de despacho',pre:'Motos despachadas por la marca (Día 2)',tp:'exec'},
+{c:'log',t:'Inspección visual de motocicletas',d:'Inspección detallada de cada moto siguiendo el procedimiento de inspección establecido.',act:'Seguir procedimiento → Inspeccionar cada moto → Documentar estado',doc:'Procedimiento de inspección',pre:'Motos recibidas en zona de recepción',tp:'val'},
+{c:'log',t:'Consignar novedades',d:'Registrar cualquier novedad encontrada durante la inspección en el archivo de garantías.',act:'Archivo Garantías → Registrar novedades por moto',doc:'Garantías recepción / Excel',pre:'Inspección visual completada',tp:'reg'},
+{c:'log',t:'Informar novedades en DataPro',d:'Reportar las novedades por el enlace de DataPro para gestionar garantías con la marca.',act:'DataPro → Enlace novedades → Reportar',pre:'Novedades registradas en archivo',tp:'exec'},
+{c:'inv',t:'Seguimiento a novedades',d:'Desde inventario, monitorear el estado de las novedades y hacer seguimiento hasta resolución.',act:'Revisar archivo Garantías → Dar seguimiento → Actualizar estado',doc:'Garantías recepción / Excel',pre:'Novedades reportadas en DataPro por logística',tp:'exec'},
+{c:'log',t:'Entregar manifiestos a trámites',d:'Entregar los documentos de manifiesto de cada moto (con certificado de gases) al área de trámites.',act:'Organizar manifiestos por moto → Entregar a trámites',doc:'Carpeta de manifiestos',pre:'Motos recibidas e inspeccionadas',tp:'exec'},
+{c:'log',t:'Obtener improntas de motos nuevas',d:'Tomar las improntas de cada moto nueva de manera inmediata. Es requisito del tránsito para solicitar documentos.',act:'Tomar improntas de cada moto nueva',pre:'Motos recibidas en concesionario',tp:'exec'},
+{c:'log',t:'Entregar improntas a trámites',d:'Entregar las improntas obtenidas para que trámites las adjunte en los manifiestos.',act:'Entregar improntas organizadas por moto a trámites',pre:'Improntas tomadas de todas las motos',tp:'exec'},
+{c:'tra',t:'Adjuntar improntas en manifiesto',d:'Pegar las improntas de cada moto en su respectivo manifiesto. Requisito obligatorio del tránsito.',act:'Pegar impronta en manifiesto correspondiente → Verificar',pre:'Manifiestos e improntas recibidos de logística',tp:'exec'},
+{c:'inv',t:'Recepción de motos en DataPro',d:'Descargar las motos de la bodega virtual del fabricante a la del concesionario. Solo aplica para Hero.',act:'DataPro → Recepción → Descargar motos a bodega concesionario',pre:'Motos recibidas e inspeccionadas',tp:'exec'},
+{c:'inv',t:'Ingresar fecha de llegada',d:'Registrar la fecha de llegada real de cada motocicleta en el inventario.',act:'BD Inventario → Columna fecha llegada → Registrar',doc:'BD Inventario / Excel',pre:'Recepción completada en DataPro',tp:'reg'}
+]},
+{day:4,title:'Venta y trámites',desc:'Pedido de venta, revisión de ítems, alistamientos, facturación, SOAT y matrícula',steps:[
+{c:'ven',t:'Realizar pedido de venta',d:'El asesor comercial genera el pedido de venta una vez el cliente confirma la compra.',act:'Asesor → Generar pedido de venta en sistema',pre:'Moto disponible en inventario',tp:'exec'},
+{c:'ven',t:'Cotización en DataPro',d:'Cada asesor ingresa la cotización correspondiente en DataPro.',act:'DataPro → Ingresar cotización por asesor',pre:'Pedido de venta realizado',tp:'exec'},
+{c:'ven',t:'Ingresar pedido de venta en Caja',d:'El área de Caja registra el pedido de venta en su archivo de control.',act:'FV Caja → Registrar pedido de venta',doc:'FV Caja / Excel',pre:'Cotización ingresada en DataPro',tp:'reg'},
+{c:'ven',t:'Generar orden de caja',d:'Crear la orden de caja formal para el pedido de venta.',act:'Sistema de caja → Generar orden',pre:'Pedido registrado en Caja',tp:'exec'},
+{c:'ven',t:'Ingresar entidad financiera',d:'Registrar la entidad financiera del cliente. Generar alerta para entidades que requieren aprobación antes de iniciar trámites. Considerar tiempos de respuesta y documentos requeridos.',act:'Registrar entidad → Verificar si requiere aprobación → Esperar respuesta',pre:'Orden de caja generada',gate:1,gl:'Entidades que requieren aprobación previa para matricular',tp:'val'},
+{c:'tra',t:'Verificar ítems del pedido',d:'Revisión completa: código de barras, número de chasis, cotización en DataPro, prenda, inscripción al RUNT, entidad financiera (aprobación para matricular), y alistamientos/obsequios.',act:'Verificar: código barras ✓ chasis ✓ cotización ✓ prenda ✓ RUNT ✓ financiera ✓ alistamientos ✓',pre:'Entidad financiera registrada y aprobación obtenida si aplica — Ventas/Caja',gate:1,gl:'Todos los ítems deben estar OK para continuar',tp:'val'},
+{c:'tra',t:'Programar alistamientos',d:'Programar las actividades: alistamiento general, marcación, instalación de defensas e instalación de GPS.',act:'Plan alistamientos → Programar actividades por moto',doc:'Plan de alistamientos / Excel',pre:'Todos los ítems verificados OK',tp:'reg'},
+{c:'tra',t:'Asignar manifiesto',d:'Asignar el manifiesto correspondiente. Debe tener las improntas ya pegadas.',act:'Verificar improntas en manifiesto → Asignar a la moto → Registrar fecha',doc:'FV Trámites / Excel',pre:'Alistamientos programados',tp:'reg'},
+{c:'tra',t:'Solicitar preasignación de placa',d:'Enviar solicitud al tránsito por el grupo de WhatsApp.',act:'WhatsApp grupo tránsito → Solicitar preasignación de placa',pre:'Manifiesto asignado',tp:'exec'},
+{c:'tra',t:'Confirmar placa',d:'Registrar la fecha de preasignación y la placa confirmada por moto.',act:'Registrar fecha preasignación → Confirmar placa → Registrar',doc:'FV Trámites / Excel',pre:'Solicitud enviada al tránsito',tp:'reg'},
+{c:'tra',t:'Validar cotización DataPro',d:'Verificar si la motocicleta requiere cotización en DataPro. Solo aplica para motos Hero. Si no aplica, registrar NA.',act:'Consultar si aplica cotización → Si aplica: verificar cotización en DataPro y registrar fecha → Si no aplica: registrar NA',pre:'Placa confirmada',tp:'val'},
+{c:'inv',t:'Ingresar placa en inventario',d:'Registrar la placa asignada a cada moto en la base de datos.',act:'BD Inventario → Columna placa → Ingresar por moto',doc:'BD Inventario / Excel',pre:'Placa confirmada por trámites',tp:'reg'},
+{c:'tra',t:'Plan de marca',d:'Registrar el plan de marca por ítem, apoyos aplicables y método de recobro.',act:'Revisar plan de marca → Registrar por ítem → Definir método recobro',pre:'Placa ingresada en inventario',tp:'exec'},
+{c:'tra',t:'Solicitar factura de venta',d:'Solicitar a contabilidad. Horarios de entrega: 12pm y 4pm. Todos los negocios del día deben quedar facturados para poder solicitar SOAT el mismo día.',act:'Preparar paquete → Entregar a contabilidad antes de 12pm o 4pm',pre:'Plan de marca registrado',gate:1,gl:'Debe facturarse el mismo día para solicitar SOAT. Horarios: 12pm y 4pm',tp:'exec'},
+{c:'con',t:'Facturar motocicleta',d:'Contabilidad genera la factura de venta de la motocicleta.',act:'Recibir paquete de trámites → Generar factura de venta',pre:'Solicitud de factura recibida de trámites',tp:'exec'},
+{c:'con',t:'Registrar fecha facturación + recobros',d:'Registrar fecha de facturación. En comentarios incluir los recobros del plan de marca. Registrar en archivo de recobros.',act:'Registrar fecha → Incluir recobros en comentarios → Actualizar archivo',doc:'FV Contabilidad / Excel + Recobros plan marca / Excel',pre:'Motocicleta facturada',tp:'reg'},
+{c:'tra',t:'Verificar plan de marca en factura',d:'Verificar que los comentarios del plan de marca en la factura estén correctos y completos.',act:'Abrir factura → Verificar comentarios plan de marca → Confirmar OK',pre:'Factura emitida con recobros por contabilidad',tp:'val'},
+{c:'tra',t:'Solicitar SOAT',d:'Solicitar por WhatsApp con el tránsito. El SOAT debe activarse a las 12 de la noche para iniciar el día siguiente con SOAT OK.',act:'WhatsApp tránsito → Solicitar SOAT → Mover a carpeta proceso SOAT',doc:'Carpeta proceso de SOAT',pre:'Plan de marca verificado en factura',tp:'exec'},
+{c:'tra',t:'Organizar paquete de venta',d:'Reunir todos los documentos necesarios para matricular la motocicleta. Organizar en orden específico, una hoja encima de otra.',act:'Organizar paquete en este orden: 1. Copia cédula cliente → 2. Factura de venta → 3. Empadronamiento (sin archivo de gases) → 4. Contrato de mandato (logo de la E) → 5. Formulario del tránsito',pre:'SOAT solicitado',tp:'exec'},
+{c:'tra',t:'Entregar paquetes para matricular',d:'Entregar al tránsito separados: con impuestos y sin impuestos. Debe quedar listo antes de las 6pm en el escritorio de la persona del tránsito.',act:'Separar paquetes con/sin impuestos → Entregar antes de 6pm',doc:'Carpeta proceso de matrícula',pre:'Paquete de venta organizado',gate:1,gl:'Entrega obligatoria antes de las 6pm. Separar con y sin impuestos',tp:'exec'}
+]},
+{day:5,title:'SOAT, matrícula y alistamiento',desc:'Verificación de SOAT y matrícula, activación de garantía, alistamientos e instalación de placa',steps:[
+{c:'tra',t:'Verificar activación SOAT',d:'Confirmar que el SOAT se activó correctamente a las 12 de la noche del día anterior.',act:'Verificar activación SOAT → Confirmar OK → Registrar fecha',doc:'FV Trámites / Excel',pre:'SOAT solicitado el día anterior',gate:1,gl:'SOAT debe estar activo (se activa a las 12am)',tp:'val'},
+{c:'tra',t:'Imprimir SOAT',d:'Imprimir el documento del SOAT para incluirlo en el paquete de venta.',act:'Imprimir SOAT',pre:'SOAT verificado y activo',tp:'exec'},
+{c:'tra',t:'Incluir SOAT en paquete de venta',d:'Agregar el SOAT impreso al paquete de documentos.',act:'Incluir SOAT en carpeta de la moto',doc:'Carpeta SOAT OK – proceso matrícula',pre:'SOAT impreso',tp:'exec'},
+{c:'tra',t:'Informar cliente SOAT OK [1]',d:'Primer comunicado al cliente informando que el SOAT está activo. Enviar por canales autorizados.',act:'Usar plantilla comunicado [1] → Enviar al cliente',doc:'Plantilla de comunicados al cliente',pre:'SOAT incluido en paquete',tp:'com'},
+{c:'tra',t:'Verificar matrícula en RUNT',d:'Revisar en la página del RUNT que la matrícula esté activa. Las motos con impuestos deben quedar matriculadas antes de las 10am. Las demás en el transcurso del día. Placas llegan al concesionario entre 2-3pm.',act:'Página RUNT → Verificar matrícula → Confirmar activación',doc:'FV Trámites / Excel',pre:'Paquetes entregados al tránsito el día anterior antes de 6pm',gate:1,gl:'Matrícula activa en RUNT. Con impuestos antes de 10am',tp:'val'},
+{c:'log',t:'Coordinar alistamientos',d:'Coordinar con el equipo la ejecución de las actividades programadas: alistamiento general, marcación, defensas, GPS.',act:'Revisar plan → Coordinar equipo → Ejecutar actividades',pre:'Alistamientos programados por trámites (Día 4)',tp:'exec'},
+{c:'log',t:'Registrar avance alistamientos',d:'Registrar el progreso de cada actividad en el aplicativo de alistamiento.',act:'Abrir aplicativo → Registrar avance por actividad',doc:'Aplicativo de alistamiento / HTML',pre:'Actividades en ejecución',tp:'reg'},
+{c:'tra',t:'Revisar avance alistamientos',d:'Monitorear desde trámites el avance de las actividades de alistamiento.',act:'Plan alistamientos → Verificar avance → Seguimiento',doc:'Plan de alistamientos / Excel',pre:'Avance registrado por logística en aplicativo',tp:'val'},
+{c:'tra',t:'Recibir matrícula y placa',d:'Recibir del tránsito la matrícula y placa de las motos matriculadas. Generalmente llegan entre 2pm y 3pm.',act:'Recibir del tránsito → Verificar matrícula y placa por moto',pre:'Matrícula activa en RUNT',tp:'exec'},
+{c:'tra',t:'Activar garantía',d:'Para motos Hero se activa directamente en DataPro. Para motos SYM se deben solicitar documentos y registro de activación a MotoWorking. Solo se puede activar cuando se tiene la matrícula física.',act:'Hero: DataPro → Activar garantía / SYM: Solicitar a MotoWorking',pre:'Matrícula y placa recibidas físicamente',tp:'exec'},
+{c:'tra',t:'Programar instalación de placa',d:'Agregar la actividad de instalación de placa al plan de alistamientos. Se registra automáticamente en BD_Plan.',act:'Confirmar programación → Se registra "Placa" en Plan de alistamientos',pre:'Matrícula y placa recibidas',tp:'placa'},
+{c:'tra',t:'Informar cliente matrícula OK [2]',d:'Segundo comunicado al cliente informando que la matrícula está lista. Enviar por canales autorizados.',act:'Usar plantilla comunicado [2] → Enviar al cliente',doc:'Plantilla de comunicados al cliente',pre:'Instalación de placa programada',tp:'com'},
+{c:'log',t:'Coordinar instalación de placa',d:'Coordinar con el equipo logístico la instalación física de la placa.',act:'Asignar técnico → Instalar placa → Verificar',pre:'Instalación programada por trámites',tp:'exec'},
+{c:'log',t:'Registrar instalación de placa',d:'Registrar la instalación completada en el aplicativo.',act:'Aplicativo → Registrar instalación placa completada',doc:'Aplicativo de alistamiento / HTML',pre:'Placa instalada en la motocicleta',tp:'reg'}
+]},
+{day:6,title:'Entrega',desc:'Verificación final de alistamientos, programación y entrega de la motocicleta al cliente',steps:[
+{c:'tra',t:'Verificar alistamientos completos',d:'Verificación final: alistamiento general, marcación, defensas, GPS y placa deben estar al 100%.',act:'Plan alistamientos → Verificar 100% completado',doc:'Plan de alistamientos / Excel',pre:'Todas las actividades registradas como completadas por logística',gate:1,gl:'Todas las actividades de alistamiento completadas al 100%',tp:'val'},
+{c:'tra',t:'Informar asesores de crédito',d:'Notificar a los asesores de crédito que la motocicleta está lista para entrega.',act:'Comunicar a asesores → Moto lista para entrega',pre:'Alistamientos verificados al 100%',tp:'exec'},
+{c:'tra',t:'Programar entrega',d:'Coordinar la fecha y hora de entrega con los asesores de crédito, considerando los procesos internos de las financieras.',act:'Concertar con asesores/financieras → Programar fecha y hora',doc:'Carpeta de listas para entrega',pre:'Asesores de crédito informados',tp:'exec'},
+{c:'tra',t:'Informar cliente moto OK [3]',d:'Tercer y último comunicado al cliente informando que su motocicleta está lista para entrega.',act:'Usar plantilla comunicado [3] → Enviar al cliente',doc:'Plantilla de comunicados al cliente',pre:'Entrega programada con fecha y hora definidas',tp:'com'},
+{c:'log',t:'Confirmar entrega',d:'Ejecutar la entrega física de la motocicleta al cliente con todos sus documentos.',act:'Preparar moto → Entregar documentos → Entrega al cliente',pre:'Cliente informado y entrega programada por trámites',tp:'exec'},
+{c:'log',t:'Registrar fecha de entrega',d:'Registrar la fecha de entrega efectiva de la motocicleta.',act:'FV Servicio técnico → Registrar fecha entrega',doc:'FV Servicio técnico / Excel',pre:'Motocicleta entregada al cliente',tp:'reg'}
+]},
+{day:7,title:'Exhibición',desc:'Reposición de motocicletas en sala de exhibición',steps:[
+{c:'inv',t:'Revisar inventario de exhibición',d:'Verificar qué motocicletas hacen falta en la sala para mantener la muestra completa.',act:'Recorrer sala → Identificar espacios vacíos → Consultar inventario bodega',tp:'exec'},
+{c:'inv',t:'Coordinar traslado desde bodega',d:'Definir qué motocicletas se trasladarán desde la bodega a la sala.',act:'Seleccionar motos → Coordinar con logística',pre:'Espacios vacíos identificados en sala',tp:'exec'},
+{c:'log',t:'Trasladar moto para exhibición',d:'Ejecutar el traslado físico de la motocicleta desde la bodega hasta la sala de exhibición.',act:'Retirar de bodega → Trasladar → Ubicar en sala de exhibición',pre:'Traslado coordinado con inventario',tp:'exec'}
+]}
+];
+var TRAM_STEPS=[
+{id:'s01',t:'Verificar ítems del pedido',tp:'val',gate:1,gl:'Código barras, chasis, cotización, prenda, RUNT, financiera, alistamientos — todos OK'},
+{id:'s02',t:'Programar alistamientos',tp:'alist',bd:'plan'},
+{id:'s03',t:'Asignación de manifiesto',bd:'tram',col:'manifiesto',tp:'reg'},
+{id:'s04a',t:'Solicitar preasignación de placa',bd:'tram',col:'asig_placa',tp:'reg'},
+{id:'s05',t:'Validar cotización DataPro',bd:'tram',col:'cot_datapro',tp:'reg',naOption:1},
+{id:'s06',t:'Solicitud de SOAT',bd:'tram',col:'solic_soat',tp:'reg'},
+{id:'s07',t:'Confirmación SOAT',bd:'tram',col:'soat_ok',tp:'reg'},
+{id:'s08',t:'Entregar paquetes para matricular',bd:'tram',col:'matricula',tp:'reg'},
+{id:'s09',t:'Verificar matrícula en RUNT',bd:'tram',col:'mat_ok',tp:'reg'},
+{id:'s10',t:'Recepción de placa y matrícula',bd:'tram',col:'rec_placa',tp:'reg'},
+{id:'s11',t:'Activar garantía',bd:'tram',col:'garantia',tp:'reg'}
+];
+var ALIST_OPTS=[{l:'Alistamiento',v:'Alistamiento'},{l:'Marcación',v:'Marcación'},{l:'Instalación de defensas',v:'Defensas'},{l:'Instalación de GPS',v:'GPS'}];
+
+function ls(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}}
+function sv(k,v){localStorage.setItem(k,JSON.stringify(v))}
+function iD(){return new Date().toISOString().split('T')[0]}
+function fD(iso){if(!iso||iso==='NA')return'N/A';var d=new Date(iso);if(isNaN(d.getTime()))return iso;return d.toLocaleDateString('es-CO',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}
+function fT(){return new Date().toLocaleDateString('es-CO',{day:'2-digit',month:'short',year:'numeric'})}
+function toast(m,e){var t=document.getElementById('toast');t.textContent=m;t.className='toast'+(e?' err':'');setTimeout(function(){t.classList.add('show')},10);setTimeout(function(){t.classList.remove('show')},2800)}
+var chk='<svg width="10" height="10" viewBox="0 0 14 14"><path d="M3 7l3 3 5-5" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+var main='proc';
+
+// Default URLs - embedded for all users
+var DEFAULT_URLS={
+  // Pestaña Alistamientos
+  alistC:'https://defaultcf4c3cc039c24ec1a7440591e622df.9d.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/ed95d66f1f474cb4844f9d02cb0e4211/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=VkAy_elVjBc7ejJpuG9kR4EsRfihwhsbHflYTCRzLIU',
+  alistW:'https://defaultcf4c3cc039c24ec1a7440591e622df.9d.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/1b6f0ebb3c644a16ba88065af68b1734/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ze5QVdskYnUwsvfbOm4fuwGwPxaNc-9HtYObpyxyLvI',
+  // Pestaña Procedimiento
+  tramC:'https://defaultcf4c3cc039c24ec1a7440591e622df.9d.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/2348e1037b434da79d11bd0b14a1d553/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=3N6FFVcPhf2kCG0XJbBazkv_7wNgeZicUVXEEr8V2-U',
+  tramW:'https://defaultcf4c3cc039c24ec1a7440591e622df.9d.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/3eeece43880e412283046538942a1d0e/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=G9aiMxAQDTnxHgAcEFLjRhCIGEZNQFvCDb_vs_RUZt0',
+  planW:'https://defaultcf4c3cc039c24ec1a7440591e622df.9d.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/8458340b115e482e93f27dbcbda7b799/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ZOb_KGQZOUXi-DltCEN4oqUTpYgO7-pkw4BOHz-KnyI',
+  // Pestaña Plan
+  planC:'https://defaultcf4c3cc039c24ec1a7440591e622df.9d.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/3d940aab92b649af9b8aac13adaca11b/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=MYl8E3vGLn7Q2OCuw-be3mb8ZyGI8_vgDDpW2-k1Eiw',
+  // Pendientes
+  cajaC:'',cajaW:'',contC:'',contW:''
+};
+
+var aTab='Registrar',aRecs=ls(SK_A)||[],aMoto=null,aRows=[],aChosen=null,aSt='ejecutada',aResp='',aCmt='',aFD=iD(),aFA='',aFR='',aFC='',aLoading=false;
+
+// Unified config - merges defaults with any localStorage overrides
+var adminPin=ls('dugo-admin-pin')||'';
+var urlOverrides=ls('dugo-url-overrides')||{};
+function getUrl(key){return urlOverrides[key]||DEFAULT_URLS[key]||''}
+
+// Keep aCfg and pCfg as getters for backward compatibility
+var aCfg={get urlC(){return getUrl('alistC')},get urlW(){return getUrl('alistW')}};
+var pCfg={get tramC(){return getUrl('tramC')},get tramW(){return getUrl('tramW')},get cajaC(){return getUrl('cajaC')},get cajaW(){return getUrl('cajaW')},get contC(){return getUrl('contC')},get contW(){return getUrl('contW')},get planC(){return getUrl('planC')},get planW(){return getUrl('planW')}};
+
+var pSub='flujo',pArea='',pMotos=ls(SK_P)||{},pActive=null,pAlistSel=[],pMode='',pLoading=false,pUserArea='',pOpenDays={},pFocusReg=null,pExpandStep=null;
+var cfgAdmin=false,cfgPinInput='';
+
+document.getElementById('dP').textContent=new Date().toLocaleDateString('es-CO',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+function setMain(m){main=m;document.getElementById('mt2').className='main-tab'+(m==='proc'?' on':'');document.getElementById('mt1').className='main-tab'+(m==='alist'?' on':'');document.getElementById('mt3').className='main-tab'+(m==='plan'?' on':'');document.getElementById('mt4').className='main-tab'+(m==='config'?' on':'');render()}
+
+function render(){
+  var el=document.getElementById('c');
+  if(main==='alist')el.innerHTML=renderAlist();
+  else if(main==='plan')el.innerHTML=renderPlan();
+  else if(main==='config')el.innerHTML=renderConfig();
+  else el.innerHTML=renderProc();
+}
+
+function renderAlist(){
+  var hasUrl=!!aCfg.urlC;
+  var h='<div class="flex fxc fxb" style="margin-bottom:10px"><div class="conn"><div class="conn-dot" style="background:'+(hasUrl?'var(--gn)':'var(--yl)')+'"></div><span style="color:'+(hasUrl?'var(--gnd)':'var(--yld)')+'">'+(hasUrl?'Conectado':'Sin conexión')+'</span></div><div style="font-size:10px;color:var(--tm)">Llave: chasis</div></div>';
+  h+='<div class="sub-tabs">'+['Registrar','Historial','Resumen'].map(function(t){return'<button class="sub-tab'+(aTab===t?' on':'')+'" onclick="aTab=\''+t+'\';render()">'+t+'</button>'}).join('')+'</div>';
+  if(aTab==='Registrar')h+=aRegView();
+  else if(aTab==='Historial')h+=aHistView();
+  else h+=aResView();
+  return h;
+}
+
+function aRegView(){
+  if(aLoading){
+    return '<div style="text-align:center;padding:50px 20px"><div style="font-size:32px;margin-bottom:12px">🔍</div><div style="font-size:15px;font-weight:700;margin-bottom:6px">Buscando actividades...</div><div style="font-size:12px;color:var(--tm)">Consultando BD Plan en SharePoint</div><div style="margin-top:16px"><div style="width:40px;height:40px;border:3px solid var(--bd);border-top-color:var(--gn);border-radius:50%;margin:0 auto;animation:spin 1s linear infinite"></div></div><style>@keyframes spin{to{transform:rotate(360deg)}}</style><button class="btn btn-o" style="max-width:200px;margin:20px auto 0" onclick="aLoading=false;render()">Cancelar</button></div>';
+  }
+  if(!aMoto){
+    var h='<div class="lbl">Código chasis</div><div class="flex" style="margin-bottom:10px"><input class="inp" id="aIn" placeholder="Ej: HB0044" maxlength="6" onkeydown="if(event.key===\'Enter\')aBuscar()"><button class="btn btn-p" style="width:auto;padding:11px 18px" onclick="aBuscar()">Buscar</button></div>';
+    h+='<div class="card" style="padding:10px 12px"><div style="font-size:9px;font-weight:600;color:var(--tm);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">Prefijos</div><div class="prefix-grid">';
+    for(var k in PREFIXES)h+='<div class="prefix-item"><div class="prefix-letter">'+k+'</div>'+PREFIXES[k]+'</div>';
+    h+='</div></div>';
+    return h;
+  }
+  var marca=(aMoto.marca||aMoto.MARCA||'').toUpperCase();
+  var done=aRows.filter(function(r){var e=(r.estado||'').toLowerCase();return e==='ejecutada'||e==='ejecutado'});
+  var pend=aRows.filter(function(r){var e=(r.estado||'').toLowerCase();return e!=='ejecutada'&&e!=='ejecutado'});
+  var mLinea=aMoto.linea||aMoto.LINEA||'';
+  var mRef=aMoto.referencia||aMoto.REFERENCIA||'';
+  var mColor=aMoto.color||aMoto.COLOR||'';
+  var mChasis=aMoto.chasis||aMoto.CHASIS||aMoto.codigo_barras||'';
+  var h='<div class="card"><div class="flex fxc fxb"><div><div style="font-size:15px;font-weight:700">'+mLinea+' '+mRef+'</div><div style="font-size:11px;color:var(--tm);margin-top:2px">'+mColor+' · <span style="font-family:var(--fm);font-weight:600">'+mChasis+'</span></div></div><span class="badge" style="background:'+(marca==='HERO'?'var(--gnl)':'var(--orl)')+';color:'+(marca==='HERO'?'var(--gnd)':'#712B13')+'">'+marca+'</span></div></div>';
+  if(done.length){h+='<div class="lbl">Completadas</div>';done.forEach(function(r){h+='<div class="done-row" style="opacity:.7"><div style="width:9px;height:9px;border-radius:50%;background:'+ACT_C[actK(r.proceso)]+'"></div><span style="font-size:12px;font-weight:600;flex:1">'+r.proceso+'</span><div style="text-align:right"><span style="font-size:10px;font-weight:600;color:var(--gn)">✓</span>'+(r.ejecuto?'<div style="font-size:8px;color:var(--tm)">'+r.ejecuto+'</div>':'')+'</div></div>'})}
+  if(pend.length){
+    h+='<div class="lbl" style="margin-top:10px">Pendientes</div>';
+    pend.forEach(function(r,i){var proc=r.proceso;var resps=RESP_R[proc+'|'+marca]||['Servicio Técnico'];h+='<div class="act-row'+(aChosen===i?' on':'')+'" onclick="aPick('+i+')"><div style="width:11px;height:11px;border-radius:50%;background:'+ACT_C[actK(proc)]+'"></div><div style="flex:1"><div style="font-size:13px;font-weight:600">'+proc+'</div><div style="font-size:9px;color:var(--tm);margin-top:1px">'+resps.join(' / ')+'</div></div></div>'});
+    if(aChosen!==null){
+      var proc=pend[aChosen].proceso;var resps=RESP_R[proc+'|'+marca]||['Servicio Técnico'];
+      h+='<div class="lbl" style="margin-top:10px">Estado</div><div class="flex" style="margin-bottom:10px"><button class="btn'+(aSt==='ejecutada'?' btn-p':' btn-o')+'" style="flex:1" onclick="aSt=\'ejecutada\';render()">✓ Ejecutada</button><button class="btn" style="flex:1;'+(aSt==='pendiente'?'background:var(--yl);color:#000;border:none':'background:transparent;border:1px solid var(--bd2);color:var(--tm)')+'" onclick="aSt=\'pendiente\';render()">⏳ Pendiente</button></div>';
+      if(aSt==='pendiente')h+='<textarea style="width:100%;padding:9px;border-radius:var(--r);border:1.5px solid var(--yl);background:var(--sf);font-family:var(--ff);font-size:12px;color:var(--tx);resize:none;height:45px;outline:none;margin-bottom:10px;box-sizing:border-box" maxlength="100" placeholder="Comentario..." oninput="aCmt=this.value">'+aCmt+'</textarea>';
+      h+='<div class="lbl">Responsable</div><select class="sel" style="margin-bottom:10px" onchange="aResp=this.value;render()"><option value="">Seleccionar...</option>'+resps.map(function(r){return'<option value="'+r+'"'+(aResp===r?' selected':'')+'>'+r+'</option>'}).join('')+'</select>';
+      h+='<div style="display:flex;gap:6px;margin-top:4px"><button class="btn btn-p" style="flex:1" '+(aResp?'':'disabled')+' onclick="aGuardar()">✓ Guardar</button><button class="btn btn-o" style="flex:1" '+(aResp?'':'disabled')+' onclick="aGuardarCerrar()">✓ Guardar y cerrar</button></div>';
+    }
+  }else h+='<div style="background:var(--gnl);border:1px solid var(--gn);border-radius:10px;padding:16px;text-align:center;margin:12px 0"><div style="font-size:13px;font-weight:700;color:var(--gnd)">✓ Todas completadas</div></div>';
+  h+='<button class="btn btn-o" style="margin-top:10px" onclick="aReset()">← Nueva consulta</button>';
+  return h;
+}
+
+function aHistView(){
+  var r2=aRecs.slice();
+  if(aFD)r2=r2.filter(function(r){return r.fecha===aFD});
+  if(aFA)r2=r2.filter(function(r){return r.proceso===aFA});
+  if(aFR)r2=r2.filter(function(r){return r.responsable===aFR});
+  if(aFC)r2=r2.filter(function(r){return(r.chasis||'').toUpperCase().indexOf(aFC.toUpperCase())>=0});
+  r2=r2.slice(0,200);
+  var h='<div class="lbl">Filtros</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px"><input type="date" class="inp inp-sm" value="'+aFD+'" onchange="aFD=this.value;render()"><select class="inp inp-sm" onchange="aFA=this.value;render()"><option value="">Todas</option><option>Alistamiento</option><option>Marcación</option><option>Defensas</option><option>Instalación placa</option><option>Instalación GPS</option></select><select class="inp inp-sm" onchange="aFR=this.value;render()"><option value="">Todos</option>'+ALL_R.map(function(r){return'<option>'+r+'</option>'}).join('')+'</select><input class="inp inp-sm" placeholder="Chasis..." value="'+aFC+'" oninput="aFC=this.value;render()"></div>';
+  h+='<div class="flex fxc fxb" style="margin-bottom:8px"><span style="font-family:var(--fm);font-size:10px;color:var(--tm);background:var(--sf);padding:3px 8px;border-radius:10px">'+r2.length+' reg.</span><button style="font-size:10px;font-weight:600;color:var(--rd);background:none;border:1px solid var(--rd);border-radius:5px;padding:3px 8px;cursor:pointer" onclick="aRecs=[];sv(SK_A,[]);toast(\'Limpiado\');render()">Limpiar</button></div>';
+  if(!r2.length)return h+'<div style="text-align:center;padding:24px;color:var(--tl);font-size:12px">Sin registros</div>';
+  r2.forEach(function(r){h+='<div class="hist-row"><div style="width:9px;height:9px;border-radius:50%;background:'+ACT_C[actK(r.proceso)]+';margin-top:3px;flex-shrink:0"></div><div style="flex:1;min-width:0"><div style="font-family:var(--fm);font-size:11px;font-weight:700">'+r.chasis+'</div><div style="font-size:9px;font-weight:600;color:'+ACT_C[actK(r.proceso)]+';text-transform:uppercase;letter-spacing:.5px">'+r.proceso+'</div><div style="font-size:9px;color:var(--tm)">'+r.responsable+'</div>'+(r.comentario?'<div style="font-size:9px;color:var(--yl);font-style:italic">"'+r.comentario+'"</div>':'')+'</div><div style="text-align:right;flex-shrink:0"><div style="font-family:var(--fm);font-size:9px;color:var(--tm)">'+r.hora+'</div><div style="font-size:8px;color:var(--tl)">'+r.fecha+'</div><span style="font-size:8px;font-weight:700;padding:2px 5px;border-radius:3px;background:'+(r.estado==='ejecutada'?'var(--gnl)':'var(--yll)')+';color:'+(r.estado==='ejecutada'?'var(--gnd)':'var(--yld)')+'">'+(r.estado==='ejecutada'?'✓':'⏳')+'</span></div></div>'});
+  return h;
+}
+
+function aResView(){
+  var td=iD(),tr=aRecs.filter(function(r){return r.fecha===td});
+  var c=function(p){return tr.filter(function(r){return r.proceso===p}).length};
+  return '<div class="lbl">Actividades hoy</div><div class="stat-grid">'+[['Alistamiento','alistamiento'],['Marcación','marcacion'],['Defensas','defensas'],['Inst. Placa','placa'],['Inst. GPS','gps']].map(function(x){var l=x[0],k=x[1];var p=l==='Inst. Placa'?'Instalación placa':l==='Inst. GPS'?'Instalación GPS':l;return'<div class="stat-card"><div class="stat-num" style="color:'+ACT_C[k]+'">'+c(p)+'</div><div class="stat-lbl">'+l+'</div></div>'}).join('')+'<div class="stat-card"><div class="stat-num">'+tr.length+'</div><div class="stat-lbl">Total</div></div></div>';
+}
+
+function aCfgView(){
+  if(!aAdmin){
+    return '<div style="text-align:center;padding:30px 20px"><div style="font-size:36px;margin-bottom:12px">🔒</div><div style="font-size:14px;font-weight:700;margin-bottom:4px">Acceso administrador</div><div style="font-size:11px;color:var(--tm);margin-bottom:16px">Ingresa el PIN para configuración</div><input type="password" inputmode="numeric" maxlength="6" class="inp" style="max-width:180px;margin:0 auto 12px;display:block;letter-spacing:8px" id="aPinIn" placeholder="••••" value="'+aPinInput+'" oninput="aPinInput=this.value" onkeydown="if(event.key===\'Enter\')aCheckPin()"><button class="btn btn-p" style="max-width:180px;margin:0 auto" onclick="aCheckPin()">Ingresar</button>'+(aCfg.pin?'':'<div style="font-size:10px;color:var(--tm);margin-top:16px;padding:10px;background:var(--sf);border-radius:7px">Primera vez: el PIN que ingreses será tu PIN de administrador.</div>')+'</div>';
+  }
+  var h='<div class="flex fxc fxb" style="margin-bottom:12px"><div class="lbl" style="margin:0">Configuración administrador</div><button style="font-size:10px;color:var(--rd);background:none;border:1px solid var(--rd);border-radius:5px;padding:3px 8px;cursor:pointer" onclick="aAdmin=false;aPinInput=\'\';render()">🔒 Cerrar</button></div>';
+  h+='<div class="lbl">Conexión Power Automate</div>';
+  h+='<div class="card"><div style="font-size:11px;font-weight:700;color:var(--gn);margin-bottom:3px">URL de consulta</div><div style="font-size:10px;color:var(--tm)">Busca en BD_Plan por chasis</div></div><input class="inp inp-sm" style="font-family:var(--fm);margin-bottom:12px" value="'+(aCfg.urlC||'')+'" placeholder="URL flujo consulta..." oninput="aCfg.urlC=this.value">';
+  h+='<div class="card"><div style="font-size:11px;font-weight:700;color:var(--gn);margin-bottom:3px">URL de escritura</div><div style="font-size:10px;color:var(--tm)">Actualiza estado en BD_Plan</div></div><input class="inp inp-sm" style="font-family:var(--fm);margin-bottom:12px" value="'+(aCfg.urlW||'')+'" placeholder="URL flujo escritura..." oninput="aCfg.urlW=this.value">';
+  h+='<button class="btn btn-p" style="margin-bottom:8px" onclick="sv(SK_AC,aCfg);toast(\'✓ Guardado\')">Guardar conexiones</button>';
+  h+='<button class="btn btn-o" style="margin-bottom:8px" onclick="aExpCSV()">Exportar CSV</button>';
+  h+='<div class="card" style="margin-top:8px"><div style="font-size:11px;font-weight:700;color:var(--gn);margin-bottom:3px">Almacenamiento</div><div style="font-size:10px;color:var(--tm)">Registros: <strong>'+aRecs.length+'</strong></div></div>';
+  h+='<button class="btn btn-d" style="margin-top:8px" onclick="if(confirm(\'¿Borrar?\')){aRecs=[];sv(SK_A,[]);toast(\'Eliminado\');render()}">Borrar historial</button>';
+  h+='<div style="margin-top:16px;padding:12px;background:var(--rdl);border-radius:8px;border:1px solid var(--rd)"><div style="font-size:11px;font-weight:700;color:var(--rdd);margin-bottom:6px">⚠️ Modo pruebas (temporal)</div><div style="font-size:10px;color:var(--rdd);margin-bottom:8px">Reinicia TODA la memoria del app: historial, motos, checks, procedimiento. No afecta SharePoint.</div><button class="btn btn-d" onclick="if(confirm(\'¿REINICIAR TODO? Se borran todos los datos locales del app. SharePoint no se afecta.\')){localStorage.removeItem(\'dugo-a-v4\');localStorage.removeItem(\'dugo-ac-v2\');localStorage.removeItem(\'dugo-p-v2\');localStorage.removeItem(\'dugo-pc-v1\');toast(\'Todo reiniciado — recargando...\');setTimeout(function(){location.reload()},500)}">Reiniciar TODO el app</button></div>';
+  h+='<div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--bd)"><div class="lbl">Cambiar PIN</div><input type="password" inputmode="numeric" maxlength="6" class="inp" style="max-width:180px;letter-spacing:8px;margin-bottom:10px" id="aNewPin" placeholder="Nuevo PIN"><button class="btn btn-o" onclick="aChangePin()">Actualizar PIN</button></div>';
+  return h;
+}
+
+function aCheckPin(){
+  var entered=aPinInput.trim();
+  if(!entered||entered.length<4){toast('PIN mínimo 4 dígitos',1);return}
+  if(!aCfg.pin){aCfg.pin=entered;sv(SK_AC,aCfg);aAdmin=true;aPinInput='';toast('✓ PIN creado');render();return}
+  if(entered===aCfg.pin){aAdmin=true;aPinInput='';toast('✓ Acceso concedido');render()}
+  else{toast('PIN incorrecto',1);aPinInput='';render()}
+}
+
+function aChangePin(){
+  var inp=document.getElementById('aNewPin');
+  var v=(inp?inp.value:'').trim();
+  if(!v||v.length<4){toast('Mínimo 4 dígitos',1);return}
+  aCfg.pin=v;sv(SK_AC,aCfg);toast('✓ PIN actualizado');render();
+}
+
+function aBuscar(){var inp=document.getElementById('aIn');var code=(inp?inp.value:'').trim().toUpperCase();if(!code||code.length<5){toast('Mín 5 caracteres',1);return}var url=aCfg.urlC||pCfg.planC;if(!url){toast('Configura URL de consulta en Config de Alistamientos o en Procedimiento → Config → BD Plan',1);return}aLoading=true;render();var ctrl=new AbortController();var to=setTimeout(function(){ctrl.abort()},12000);fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chasis:code,codigoBarras:code}),signal:ctrl.signal}).then(function(r){clearTimeout(to);return r.json()}).then(function(data){var rs=data.value||data;if(!Array.isArray(rs))rs=[];rs=rs.filter(function(r){return(r.chasis||r.codigo_barras||'').toUpperCase().indexOf(code)>=0});aLoading=false;if(!rs.length){toast('No encontrado: '+code,1);render();return}aRows=rs;aMoto=rs[0];aChosen=null;aResp='';aCmt='';render()}).catch(function(e){clearTimeout(to);aLoading=false;toast(e.name==='AbortError'?'Tiempo agotado':'Error conexión',1);render()})}
+
+function aPick(i){aChosen=i;var marca=(aMoto.marca||'').toUpperCase();var pend=aRows.filter(function(r){return(r.estado||'').toLowerCase()!=='ejecutada'});var resps=RESP_R[pend[i].proceso+'|'+marca]||['Servicio Técnico'];aResp=resps.length===1?resps[0]:'';render()}
+
+function aGuardar(){var pend=aRows.filter(function(r){return(r.estado||'').toLowerCase()!=='ejecutada'});var row=pend[aChosen];var now=new Date();var proc=row.proceso||row.PROCESO;var chasis=row.chasis||row.CHASIS||row.codigo_barras||'';var codigoB=row.codigo_barras||row.chasis||'';var rec={chasis:chasis,proceso:proc,estado:aSt,responsable:aResp,comentario:aSt==='pendiente'?aCmt:'',fecha:iD(),hora:now.toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}),timestamp:now.toISOString(),referencia:(row.linea||row.LINEA||'')+' '+(row.referencia||row.REFERENCIA||''),marca:row.marca||row.MARCA||''};aRecs.unshift(rec);sv(SK_A,aRecs);var url=aCfg.urlW||pCfg.planW;if(url){fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:codigoB+'_'+proc,chasis:chasis,proceso:proc,estado:aSt==='ejecutada'?'Ejecutada':'Pendiente',ejecuto:aResp,responsable:aResp,comentario:rec.comentario,fecha:rec.fecha,hora:rec.hora})}).then(function(){toast('✓ '+proc+' — guardado en SharePoint')}).catch(function(){toast('✓ '+proc+' — guardado local',1)})}else{toast('✓ '+proc)}var idx=aRows.findIndex(function(r){return(r.proceso||r.PROCESO)===proc&&(r.estado||'').toLowerCase()!=='ejecutada'});if(idx>=0){aRows[idx].estado=aSt==='ejecutada'?'Ejecutada':'Pendiente';aRows[idx].ejecuto=aResp}aChosen=null;aResp='';aCmt='';aSt='ejecutada';render()}
+
+function aGuardarCerrar(){aGuardar();setTimeout(function(){aMoto=null;aRows=[];aChosen=null;toast('Sesión cerrada');render()},500)}
+
+function aReset(){aMoto=null;aRows=[];aChosen=null;render()}
+
+function aExpCSV(){if(!aRecs.length){toast('Sin registros',1);return}var h='CHASIS,PROCESO,ESTADO,RESPONSABLE,COMENTARIO,FECHA,HORA\n';var rs=aRecs.map(function(r){return'"'+r.chasis+'","'+r.proceso+'","'+r.estado+'","'+r.responsable+'","'+(r.comentario||'')+'","'+r.fecha+'","'+r.hora+'"'}).join('\n');var b=new Blob(['\uFEFF'+h+rs],{type:'text/csv;charset=utf-8;'});var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='alistamientos_'+iD()+'.csv';a.click();toast('✓ '+aRecs.length+' exportados')}
+
+function renderProc(){
+  if(pLoading){
+    return '<div style="text-align:center;padding:50px 20px"><div style="font-size:32px;margin-bottom:12px">🔍</div><div style="font-size:15px;font-weight:700;margin-bottom:6px">Buscando motocicleta...</div><div style="font-size:12px;color:var(--tm)">Consultando BD Trámites en SharePoint</div><div style="margin-top:16px"><div style="width:40px;height:40px;border:3px solid var(--bd);border-top-color:var(--gn);border-radius:50%;margin:0 auto;animation:spin 1s linear infinite"></div></div><style>@keyframes spin{to{transform:rotate(360deg)}}</style><button class="btn btn-o" style="max-width:200px;margin:20px auto 0" onclick="pLoading=false;render()">Cancelar</button></div>';
+  }
+  if(!pActive){
+    var regS=TRAM_STEPS.filter(function(s){return s.bd||s.tp==='alist'});
+    var recent=Object.entries(pMotos).sort(function(a,b){var aL=Object.values(a[1].steps).sort().pop()||a[1].created;var bL=Object.values(b[1].steps).sort().pop()||b[1].created;return bL.localeCompare(aL)}).slice(0,8);
+    var h='<div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">';
+    h+='<div style="text-align:center;margin-bottom:4px"><div style="font-size:13px;font-weight:700">¿Qué deseas hacer?</div></div>';
+    h+='<div class="card" style="border:1.5px solid var(--bl);cursor:pointer" onclick="pMode=\'track\';render()"><div class="flex fxc" style="gap:12px"><div style="width:36px;height:36px;border-radius:8px;background:var(--bll);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">📝</div><div><div style="font-size:13px;font-weight:700">Registrar avance</div><div style="font-size:10px;color:var(--tm);margin-top:1px">Ingresar código de barras y registrar progreso</div></div></div></div>';
+    h+='<div class="card" style="border:1.5px solid var(--bd);cursor:pointer" onclick="pMode=\'view\';pActive=\'__view__\';render()"><div class="flex fxc" style="gap:12px"><div style="width:36px;height:36px;border-radius:8px;background:var(--sf);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">👁</div><div><div style="font-size:13px;font-weight:700">Solo visualizar</div><div style="font-size:10px;color:var(--tm);margin-top:1px">Consultar pasos del procedimiento por área</div></div></div></div>';
+    h+='</div>';
+    if(pMode==='track'){
+      h+='<div class="lbl">¿A qué área perteneces?</div><div class="flex" style="flex-wrap:wrap;margin-bottom:14px">';
+      for(var k in AREAS){var ar=AREAS[k];h+='<button class="btn btn-o" style="width:auto;padding:8px 14px;font-size:12px;'+(pUserArea===k?'border-color:'+ar.s+';color:'+ar.s+';background:'+ar.f+';font-weight:700':'')+'" onclick="pUserArea=\''+k+'\';render()">'+ar.l+'</button>'}
+      h+='</div>';
+      if(pUserArea){
+        h+='<div class="lbl">Código de barras</div><div class="flex" style="margin-bottom:14px"><input class="inp" style="font-size:14px;letter-spacing:1px" id="pIn" placeholder="Escanear o digitar..." onkeydown="if(event.key===\'Enter\')pBuscar()"><button class="btn btn-p" style="width:auto;padding:11px 18px" onclick="pBuscar()">Buscar</button></div>';
+        if(recent.length){h+='<div class="lbl">Motos recientes</div>';recent.forEach(function(x){var code=x[0],data=x[1];var chk=data.checks||{};var allS=[];DAYS.forEach(function(day){day.steps.forEach(function(s,si){if(!pUserArea||s.c===pUserArea)allS.push({k:day.day+'_'+si})})});var totS=allS.length||1;var doneS=allS.filter(function(s){return chk[s.k]}).length;var p2=Math.round((doneS/totS)*100);h+='<button class="recent-btn" onclick="pActive=\''+code+'\';pMode=\'track\';pAlistSel=[];render()"><span style="font-family:var(--fm);font-size:13px;font-weight:700">'+code+'</span><span style="font-size:10px;font-weight:700;color:'+(p2===100?'var(--gn)':'var(--tx)')+'">'+p2+'%</span></button>'})}
+      }else{
+        h+='<div style="text-align:center;padding:16px;color:var(--tm);font-size:12px">Selecciona tu área para continuar</div>';
+      }
+    }
+    return h;
+  }
+  if(pActive==='__cfg__'){
+    var h='<button style="font-size:12px;color:var(--tm);background:none;border:none;cursor:pointer;margin-bottom:10px" onclick="pActive=null;pMode=\'\';render()">← Volver</button>';
+    h+=pCfgView();
+    return h;
+  }
+  if(pActive==='__view__'){
+    var h='<button style="font-size:12px;color:var(--tm);background:none;border:none;cursor:pointer;margin-bottom:10px" onclick="pActive=null;pMode=\'\';render()">← Volver</button>';
+    h+=pFlujoView();
+    return h;
+  }
+  try{return pTrackView()}catch(e){return '<div style="padding:20px;text-align:center"><div style="font-size:28px;margin-bottom:10px">⚠️</div><div style="font-size:14px;font-weight:600;margin-bottom:8px">Error en pTrackView</div><div style="font-size:12px;color:red;background:#fee;padding:10px;border-radius:8px;text-align:left;word-break:break-all">'+e.message+'<br><br>Stack: '+e.stack+'</div><button class="btn btn-o" style="margin-top:12px" onclick="pActive=null;pMode=\'\';render()">← Volver</button></div>'}
+}
+
+function pFlujoView(){
+  var h='<div class="lbl">Filtrar por área</div><div class="flex" style="flex-wrap:wrap;margin-bottom:12px"><button class="btn'+(pArea===''?' btn-p':' btn-o')+'" style="width:auto;padding:7px 12px;font-size:11px" onclick="pArea=\'\';render()">Todas</button>';
+  for(var k in AREAS){var a=AREAS[k];h+='<button class="btn btn-o" style="width:auto;padding:7px 12px;font-size:11px;'+(pArea===k?'border-color:'+a.s+';color:'+a.s+';background:'+a.f:'')+'" onclick="pArea=\''+k+'\';render()">'+a.l+'</button>'}
+  h+='</div>';
+  var tpColors={exec:{bg:'var(--sf)',color:'var(--tm)',label:'Ejecución'},reg:{bg:'var(--bll)',color:'var(--bld)',label:'Registro'},val:{bg:'var(--vll)',color:'var(--vl)',label:'Validación'},com:{bg:'var(--prl)',color:'var(--pr)',label:'Comunicado'}};
+  DAYS.forEach(function(day){
+    var steps=pArea?day.steps.filter(function(s){return s.c===pArea}):day.steps;
+    if(!steps.length)return;
+    h+='<div style="margin-bottom:16px"><div style="padding:10px 12px;border-radius:8px;background:var(--sf);margin-bottom:4px"><div style="font-size:13px;font-weight:700">Día '+day.day+' — '+day.title+'</div>'+(day.desc?'<div style="font-size:10px;color:var(--tm);margin-top:2px">'+day.desc+'</div>':'')+'</div>';
+    steps.forEach(function(step,si){
+      var a=AREAS[step.c];
+      var tpc=tpColors[step.tp]||tpColors.exec;
+      h+='<div class="step" style="opacity:1"><div class="step-line"><div class="step-dot" style="width:20px;height:20px;background:'+a.f+';border:2px solid '+a.s+'"></div><div class="step-bar" style="background:'+a.s+';opacity:.15"></div></div><div class="step-body" style="border:.5px solid var(--bd);padding:12px">';
+      h+='<div style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:4px">';
+      h+='<span class="step-tag" style="background:'+a.f+';color:'+a.s+'">'+a.l+'</span>';
+      h+='<span class="step-tag" style="background:'+tpc.bg+';color:'+tpc.color+'">'+tpc.label+'</span>';
+      if(step.gate)h+='<span class="step-tag" style="background:var(--rdl);color:var(--rdd)">Gate</span>';
+      h+='</div>';
+      h+='<div class="step-t">'+step.t+'</div>';
+      if(step.d)h+='<div style="font-size:11px;color:var(--tm);margin-top:4px;line-height:1.5">'+step.d+'</div>';
+      if(step.pre)h+='<div style="margin-top:6px;padding:6px 10px;background:var(--yll);border-radius:6px;border-left:3px solid var(--yl);border-radius:0"><div style="font-size:9px;font-weight:700;color:var(--yld);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Prerrequisito</div><div style="font-size:10px;color:var(--yld);line-height:1.4">'+step.pre+'</div></div>';
+      if(step.act)h+='<div style="margin-top:6px;padding:6px 10px;background:var(--sf);border-radius:6px"><div style="font-size:9px;font-weight:700;color:var(--tm);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Acción</div><div style="font-size:10px;color:var(--tx);line-height:1.4">'+step.act+'</div></div>';
+      if(step.doc)h+='<div style="margin-top:6px;display:flex;align-items:center;gap:6px;padding:5px 10px;border-radius:6px;border:.5px solid var(--bd)"><svg width="14" height="14" viewBox="0 0 16 16" style="flex-shrink:0"><rect x="3" y="1" width="10" height="14" rx="1.5" fill="none" stroke="var(--tm)" stroke-width="1"/><line x1="5.5" y1="5" x2="10.5" y2="5" stroke="var(--tm)" stroke-width=".7"/><line x1="5.5" y1="7.5" x2="10.5" y2="7.5" stroke="var(--tm)" stroke-width=".7"/></svg><div><div style="font-size:8px;color:var(--tm)">Documento / archivo</div><div style="font-size:10px;font-weight:600;color:var(--tx)">'+step.doc+'</div></div></div>';
+      if(step.gate&&step.gl)h+='<div style="margin-top:6px;padding:6px 10px;background:var(--rdl);border-radius:6px;border-left:3px solid var(--rd);border-radius:0"><div style="font-size:10px;font-weight:600;color:var(--rdd)">⚠ '+step.gl+'</div></div>';
+      h+='</div></div>';
+    });
+    h+='</div>';
+  });
+  return h;
+}
+
+function pTrackView(){
+  if(pLoading){return '<div style="text-align:center;padding:40px"><div style="font-size:28px;margin-bottom:10px">⏳</div><div style="font-size:14px;font-weight:600">Consultando SharePoint...</div><div style="font-size:11px;color:var(--tm);margin-top:4px">Verificando actividades para '+pActive+'</div><button class="btn btn-o" style="max-width:200px;margin:16px auto 0" onclick="pLoading=false;render()">Cancelar</button></div>'}
+  var md=pMotos[pActive];
+  if(!md){md={created:new Date().toISOString(),steps:{},alist:[],remote:{},checks:{},info:{}};pMotos[pActive]=md;sv(SK_P,pMotos)}
+  if(!md.checks)md.checks={};
+  if(!md.steps)md.steps={};
+  if(!md.info)md.info={};
+  var regS=TRAM_STEPS.filter(function(s){return s.bd});
+  var datesDone=regS.filter(function(s){return md.steps[s.id]}).length;
+  var allAreaSteps=[];
+  DAYS.forEach(function(day){day.steps.forEach(function(s,si){if(!pUserArea||s.c===pUserArea)allAreaSteps.push({dayNum:day.day,idx:si})})});
+  var totalSteps=allAreaSteps.length||1;
+  var completedChecks=allAreaSteps.filter(function(s){return md.checks[s.dayNum+'_'+s.idx]}).length;
+  var pct=Math.round((completedChecks/totalSteps)*100);
+  var userAreaInfo=AREAS[pUserArea]||{s:'var(--tm)',f:'var(--sf)',l:'Todas'};
+  var isOnline=!!pCfg.tramC;
+  function canDo(idx){for(var i=0;i<idx;i++){var p=TRAM_STEPS[i];if((p.bd||p.tp==='val'||p.tp==='alist')&&!md.steps[p.id])return false}return true}
+
+  var info=md.info||{};
+  var mMarca=(info.marca||'').toUpperCase();
+  var mColor=info.color||'';
+
+  // STICKY HEADER
+  var h='<div style="position:sticky;top:0;z-index:5;background:var(--bg);margin:0 -18px;border-bottom:2px solid var(--bd)">';
+
+  // Moto identity card
+  h+='<div style="padding:12px 18px">';
+  // Row 1: back + actions
+  h+='<div class="flex fxc fxb" style="margin-bottom:10px">';
+  h+='<button style="font-size:12px;color:var(--tm);background:none;border:none;cursor:pointer" onclick="pActive=null;pMode=\'\';pAlistSel=[];render()">← Volver</button>';
+  h+='<div style="display:flex;gap:6px">';
+  h+='<button style="font-size:10px;color:var(--rd);background:none;border:1px solid var(--rd);border-radius:5px;padding:3px 8px;cursor:pointer" onclick="if(confirm(\'¿Borrar todos los registros de '+pActive+'?\')){pMotos[pActive]={created:new Date().toISOString(),steps:{},alist:[],remote:{},checks:{},info:{}};sv(SK_P,pMotos);toast(\'Registros limpiados\');render()}">Limpiar</button>';
+  h+='<button style="font-size:10px;color:var(--bl);background:none;border:1px solid var(--bl);border-radius:5px;padding:3px 8px;cursor:pointer" onclick="pActive=null;render()">Nueva consulta</button>';
+  h+='</div></div>';
+
+  // Row 2: Moto info
+  if(mMarca){
+    var marcaBg=mMarca==='HERO'?'linear-gradient(135deg,#085041,#1D9E75)':'linear-gradient(135deg,#712B13,#D85A30)';
+    var marcaLight=mMarca==='HERO'?'var(--gnl)':'var(--orl)';
+    h+='<div style="background:'+marcaBg+';border-radius:10px;padding:12px 14px;color:#fff;margin-bottom:8px">';
+    h+='<div class="flex fxc fxb">';
+    h+='<div style="flex:1">';
+    h+='<div style="font-size:11px;font-weight:600;opacity:.7;text-transform:uppercase;letter-spacing:1px">'+mMarca+'</div>';
+    h+='<div style="font-size:18px;font-weight:800;margin-top:2px">'+(info.linea||'')+' '+(info.referencia||'')+'</div>';
+    var details=[];
+    if(info.modelo)details.push('Modelo '+info.modelo);
+    if(details.length)h+='<div style="font-size:11px;opacity:.8;margin-top:2px">'+details.join(' · ')+'</div>';
+    h+='</div>';
+    h+='<div style="text-align:right">';
+    h+='<div style="font-family:var(--fm);font-size:14px;font-weight:700;background:rgba(255,255,255,.2);padding:4px 10px;border-radius:6px">'+pActive+'</div>';
+    if(mColor)h+='<div style="display:flex;align-items:center;gap:4px;justify-content:flex-end;margin-top:6px"><div style="width:10px;height:10px;border-radius:50%;background:#fff;border:2px solid rgba(255,255,255,.4)"></div><span style="font-size:10px;font-weight:600;opacity:.9">'+mColor+'</span></div>';
+    h+='</div></div></div>';
+  }else{
+    h+='<div style="background:var(--sf);border-radius:10px;padding:12px 14px;margin-bottom:8px">';
+    h+='<div style="font-family:var(--fm);font-size:20px;font-weight:800">'+pActive+'</div>';
+    h+='<div style="font-size:11px;color:var(--tm);margin-top:2px">Sin datos de SharePoint</div>';
+    h+='</div>';
+  }
+
+  // Row 3: Progress + badges
+  h+='<div class="flex fxc fxb">';
+  h+='<div style="display:flex;gap:5px;align-items:center;flex-wrap:wrap">';
+  h+='<span style="font-size:9px;font-weight:700;padding:2px 8px;border-radius:5px;background:'+userAreaInfo.f+';color:'+userAreaInfo.s+'">'+userAreaInfo.l+'</span>';
+  if(pUserArea==='tra')h+='<span style="font-size:8px;color:var(--bld);background:var(--bll);padding:2px 6px;border-radius:5px">'+datesDone+'/'+regS.length+' fechas</span>';
+  h+='<div class="conn"><div class="conn-dot" style="background:'+(isOnline?'var(--gn)':'var(--yl)')+'"></div><span style="color:'+(isOnline?'var(--gnd)':'var(--yld)')+'">'+(isOnline?'SP':'Local')+'</span></div>';
+  h+='</div>';
+  h+='<div style="font-size:20px;font-weight:800;color:'+(pct===100?'var(--gn)':'var(--tx)')+'">'+pct+'%<span style="font-size:10px;font-weight:600;color:var(--tm);margin-left:4px">'+completedChecks+'/'+totalSteps+'</span></div>';
+  h+='</div>';
+  h+='<div style="height:5px;background:var(--sf);border-radius:3px;overflow:hidden;margin-top:6px"><div style="height:100%;width:'+pct+'%;background:'+(pct===100?'var(--gn)':'var(--or)')+';border-radius:3px;transition:width .5s"></div></div>';
+
+  h+='</div></div>';
+  // END STICKY HEADER
+
+  h+='<div class="lbl" style="margin-top:4px">Procedimiento por día</div>';
+  h+='<div style="margin-bottom:4px"><button style="font-size:10px;color:var(--bl);background:none;border:none;cursor:pointer;text-decoration:underline" onclick="pToggleAll()">Desplegar / colapsar todos</button></div>';
+
+  DAYS.forEach(function(day){
+    var steps=pUserArea?day.steps.filter(function(s){return s.c===pUserArea}):day.steps;
+    if(!steps.length)return;
+    var isOpen=!!pOpenDays[day.day];
+    var stepCount=steps.length;
+    var dayChecked=steps.filter(function(s){var oi=day.steps.indexOf(s);return md.checks[day.day+'_'+oi]}).length;
+    var dayDone=dayChecked===stepCount;
+
+    h+='<div style="margin-bottom:6px">';
+    h+='<div style="padding:10px 12px;border-radius:8px;background:'+(dayDone?'var(--gnl)':'var(--sf)')+';cursor:pointer;display:flex;align-items:center;justify-content:space-between;border:.5px solid '+(dayDone?'var(--gn)':'var(--bd)')+'" onclick="pToggleDay('+day.day+')">';
+    h+='<div><div style="font-size:13px;font-weight:700">Día '+day.day+' — '+day.title+'</div>';
+    h+='</div>';
+    h+='<div style="display:flex;align-items:center;gap:8px"><span style="font-size:10px;font-weight:600;color:'+(dayDone?'var(--gnd)':'var(--tm)')+';background:var(--bg);padding:2px 8px;border-radius:10px">'+dayChecked+'/'+stepCount+'</span><span style="font-size:14px;color:var(--tm);display:inline-block;transform:rotate('+(isOpen?'90':'0')+'deg)">▸</span></div>';
+    h+='</div>';
+
+    if(isOpen){
+      var tpColors={exec:{bg:'var(--sf)',color:'var(--tm)',label:'Ejecución'},reg:{bg:'var(--bll)',color:'var(--bld)',label:'Registro'},val:{bg:'var(--vll)',color:'var(--vl)',label:'Validación'},com:{bg:'var(--prl)',color:'var(--pr)',label:'Comunicado'}};
+      h+='<div style="padding:6px 0 0">';
+      steps.forEach(function(step,si){
+        var a=AREAS[step.c];
+        var origIdx=day.steps.indexOf(step);
+        var checkKey=day.day+'_'+origIdx;
+        var isChecked=!!md.checks[checkKey];
+        var tpc=tpColors[step.tp]||tpColors.exec;
+
+        // Find matching TRAM_STEP for date registration
+        var tramStep=null;
+        for(var ti=0;ti<TRAM_STEPS.length;ti++){
+          if(TRAM_STEPS[ti].t===step.t){tramStep=TRAM_STEPS[ti];break}
+        }
+        // Fuzzy match for steps whose DAYS title differs from TRAM_STEPS title
+        if(!tramStep&&step.c==='tra'){
+          for(var ti=0;ti<TRAM_STEPS.length;ti++){
+            var ts=TRAM_STEPS[ti];
+            if((step.t.indexOf('Verificar ítems')>=0&&ts.id==='s01')||
+               (step.t.indexOf('Programar alistamientos')>=0&&ts.id==='s02')||
+               (step.t.indexOf('Asignar manifiesto')>=0&&ts.id==='s03')||
+               (step.t.indexOf('preasignación')>=0&&ts.id==='s04a')||
+               (step.t.indexOf('Validar cotización')>=0&&ts.id==='s05')||
+               (step.t.indexOf('Solicitar SOAT')>=0&&ts.id==='s06')||
+               (step.t.indexOf('Verificar activación SOAT')>=0&&ts.id==='s07')||
+               (step.t.indexOf('Entregar paquetes')>=0&&ts.id==='s08')||
+               (step.t.indexOf('matrícula en RUNT')>=0&&ts.id==='s09')||
+               (step.t.indexOf('Recibir matrícula')>=0&&ts.id==='s10')||
+               (step.t.indexOf('Activar garantía')>=0&&ts.id==='s11')){
+              tramStep=ts;break;
+            }
+          }
+        }
+
+        var hasDateReg=tramStep&&tramStep.bd&&tramStep.col;
+        var dateRegistered=tramStep?!!md.steps[tramStep.id]:false;
+        var isAlist=tramStep&&tramStep.tp==='alist';
+        var savedAlist=md.alist||[];
+
+        var dotBg=isChecked?'var(--gn)':a.f;
+        var dotBd=isChecked?'var(--gn)':a.s;
+        var bodyBg=isChecked?'#F7FBF2':'transparent';
+        var bodyBd=isChecked?'.5px solid #C0DD97':'.5px solid var(--bd)';
+
+        h+='<div class="step" style="opacity:1"><div class="step-line"><div class="step-dot" style="width:'+(isChecked?20:18)+'px;height:'+(isChecked?20:18)+'px;background:'+dotBg+';border:2px solid '+dotBd+';cursor:pointer" onclick="pCheckStep('+day.day+','+origIdx+')">'+(isChecked?chk:'')+'</div><div class="step-bar" style="background:'+a.s+';opacity:.15"></div></div>';
+
+        var stepExpandKey=day.day+'_'+origIdx;
+        var isExpanded=isChecked?(pExpandStep===stepExpandKey):true;
+
+        if(isChecked&&!isExpanded){
+          // Collapsed completed step - just title, tap to expand
+          h+='<div class="step-body" style="background:#F7FBF2;border:.5px solid #C0DD97;padding:8px 12px;cursor:pointer;display:flex;align-items:center;justify-content:space-between" onclick="pExpandStep=\''+stepExpandKey+'\';render()">';
+          h+='<div style="display:flex;align-items:center;gap:6px"><span class="step-tag" style="background:'+a.f+';color:'+a.s+'">'+a.l+'</span><span style="font-size:13px;font-weight:600;color:var(--gnd)">'+step.t+'</span></div>';
+          h+='<span style="font-size:10px;color:var(--gn)">✓</span>';
+          h+='</div></div>';
+        }else{
+          // Expanded step (active or completed+expanded)
+          h+='<div class="step-body" style="background:'+bodyBg+';border:'+bodyBd+';padding:12px'+(isChecked?';cursor:pointer':'')+'"'+(isChecked?' onclick="pExpandStep=null;render()"':'')+'>';
+
+          // Tags
+          h+='<div style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:4px">';
+          h+='<span class="step-tag" style="background:'+a.f+';color:'+a.s+'">'+a.l+'</span>';
+          h+='<span class="step-tag" style="background:'+tpc.bg+';color:'+tpc.color+'">'+tpc.label+'</span>';
+          if(step.gate)h+='<span class="step-tag" style="background:var(--rdl);color:var(--rdd)">Gate</span>';
+          if(hasDateReg)h+='<span class="step-tag" style="background:var(--bll);color:var(--bld)">Consignar fecha</span>';
+          h+='</div>';
+
+          // Title
+          h+='<div class="step-t">'+step.t+'</div>';
+
+          // Description
+          if(step.d)h+='<div style="font-size:11px;color:var(--tm);margin-top:4px;line-height:1.5">'+step.d+'</div>';
+
+          // Prerequisite
+          if(step.pre)h+='<div style="margin-top:6px;padding:6px 10px;background:var(--yll);border-left:3px solid var(--yl)"><div style="font-size:9px;font-weight:700;color:var(--yld);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Prerrequisito</div><div style="font-size:10px;color:var(--yld);line-height:1.4">'+step.pre+'</div></div>';
+
+          // Action
+          if(step.act)h+='<div style="margin-top:6px;padding:6px 10px;background:var(--sf);border-radius:6px"><div style="font-size:9px;font-weight:700;color:var(--tm);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Acción</div><div style="font-size:10px;color:var(--tx);line-height:1.4">'+step.act+'</div></div>';
+
+          // Gate warning
+          if(step.gate&&step.gl)h+='<div style="margin-top:6px;padding:6px 10px;background:var(--rdl);border-left:3px solid var(--rd)"><div style="font-size:10px;font-weight:600;color:var(--rdd)">⚠ '+step.gl+'</div></div>';
+
+        // Date registration (collapsible - only show content when this step is the active/focused one)
+        if(hasDateReg){
+          var bdNames={tram:'BD Trámites',plan:'BD Plan alistamientos',caja:'BD Caja',cont:'BD Contabilidad'};
+          var isNA=md.steps[tramStep.id]==='NA';
+          if(dateRegistered){
+            if(isNA){
+              h+='<div style="margin-top:6px;padding:6px 10px;border-radius:6px;background:var(--sf);border:.5px solid var(--bd)"><div style="font-size:10px;font-weight:600;color:var(--tm)">N/A — No aplica</div><div style="font-size:9px;color:var(--tl);margin-top:2px">'+(bdNames[tramStep.bd]||'')+' → '+tramStep.col+'</div></div>';
+            }else{
+              h+='<div style="margin-top:6px;padding:6px 10px;border-radius:6px;background:var(--gnl);border:.5px solid var(--gn)"><div style="font-size:10px;font-weight:600;color:var(--gnd)">✓ Fecha registrada: '+fD(md.steps[tramStep.id])+'</div><div style="font-size:9px;color:var(--gn);margin-top:2px">'+(bdNames[tramStep.bd]||'')+' → '+tramStep.col+'</div></div>';
+            }
+          }else{
+            h+='<div style="margin-top:6px;cursor:pointer" onclick="event.stopPropagation();pFocusReg=pFocusReg===\''+tramStep.id+'\'?null:\''+tramStep.id+'\';render()">';
+            h+='<div style="padding:6px 10px;border-radius:6px;background:var(--bll);border:.5px solid var(--bl);display:flex;align-items:center;justify-content:space-between">';
+            h+='<div style="font-size:10px;font-weight:600;color:var(--bld)">📝 Consignar fecha</div>';
+            h+='<span style="font-size:12px;color:var(--bld);transform:rotate('+(pFocusReg===tramStep.id?'90':'0')+'deg);display:inline-block">▸</span>';
+            h+='</div>';
+            if(pFocusReg===tramStep.id){
+              h+='<div style="padding:8px 10px;background:var(--bll);border-radius:0 0 6px 6px;border:.5px solid var(--bl);border-top:0">';
+              h+='<div style="font-size:9px;color:var(--bld);margin-bottom:6px">'+(bdNames[tramStep.bd]||'')+' → <strong>'+tramStep.col+'</strong></div>';
+              h+='<button class="btn btn-p" style="font-size:12px;padding:9px;margin-bottom:6px" onclick="event.stopPropagation();pReg(\''+tramStep.id+'\')">Registrar fecha — '+fT()+'</button>';
+              if(tramStep.naOption){
+                h+='<button class="btn btn-o" style="font-size:11px;padding:8px;color:var(--tm)" onclick="event.stopPropagation();pRegNA(\''+tramStep.id+'\')">No aplica (N/A)</button>';
+              }
+              h+='</div>';
+            }
+            h+='</div>';
+          }
+        }
+
+        // Alistamiento selector (inline)
+        if(isAlist&&!md.steps[tramStep.id]){
+          h+='<div style="margin-top:8px;padding:8px 10px;border-radius:6px;background:var(--vll);border:.5px solid var(--vlb)">';
+          h+='<div style="font-size:9px;font-weight:700;color:var(--vl);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px">Seleccionar actividades</div>';
+          ALIST_OPTS.forEach(function(opt){var on=pAlistSel.indexOf(opt.v)>=0;h+='<div class="alist-opt'+(on?' on':'')+'" onclick="event.stopPropagation();pToggle(\''+opt.v+'\')"><div class="alist-chk">'+(on?chk:'')+'</div><span style="font-size:12px;font-weight:600">'+opt.l+'</span></div>'});
+          h+='<div style="font-size:9px;color:var(--vl);margin-top:5px;padding:5px 8px;background:var(--bg);border-radius:5px">→ Código de barras → Plan de alistamientos</div>';
+          h+='<button class="btn btn-p" style="margin-top:6px;font-size:12px;padding:9px" '+(pAlistSel.length?'':'disabled')+' onclick="event.stopPropagation();pConfirmAlist()">Confirmar '+pAlistSel.length+' actividad'+(pAlistSel.length!==1?'es':'')+'</button>';
+          h+='</div>';
+        }
+        if(isAlist&&md.steps[tramStep.id]&&savedAlist.length){
+          h+='<div style="margin-top:6px">'+savedAlist.map(function(a){return'<span style="display:inline-block;font-size:9px;font-weight:600;color:var(--gnd);background:var(--gnl);padding:2px 7px;border-radius:5px;margin:0 3px 2px 0">'+a+'</span>'}).join('')+'</div>';
+        }
+
+        // Placa registration (like alistamientos but single activity)
+        var isPlaca=step.tp==='placa';
+        var placaDone=isPlaca&&md.steps['placa_programada'];
+        if(isPlaca&&!placaDone){
+          h+='<div style="margin-top:8px;padding:8px 10px;border-radius:6px;background:var(--vll);border:.5px solid var(--vlb)">';
+          h+='<div style="font-size:10px;color:var(--vl);margin-bottom:6px">Se registrará "Placa" en Plan de alistamientos</div>';
+          h+='<button class="btn btn-p" style="font-size:12px;padding:9px" onclick="event.stopPropagation();pRegPlaca()">Programar instalación de placa</button>';
+          h+='</div>';
+        }
+        if(isPlaca&&placaDone){
+          h+='<div style="margin-top:6px;padding:6px 10px;border-radius:6px;background:var(--gnl);border:.5px solid var(--gn)"><div style="font-size:10px;font-weight:600;color:var(--gnd)">✓ Placa programada en alistamientos</div></div>';
+        }
+
+        // Checked timestamp
+        if(isChecked)h+='<div style="margin-top:4px;font-size:9px;color:var(--gn)">✓ Completado</div>';
+
+        h+='</div></div>';
+        }
+      });
+      h+='</div>';
+    }
+    h+='</div>';
+  });
+
+  h+='<button class="btn btn-o" style="margin-top:10px" onclick="pActive=null;pMode=\'\';pAlistSel=[];render()">← Volver al menú</button>';
+  return h;
+}
+
+function pCfgView(){
+  if(!pAdmin){
+    return '<div style="text-align:center;padding:30px 20px"><div style="font-size:36px;margin-bottom:12px">🔒</div><div style="font-size:14px;font-weight:700;margin-bottom:4px">Acceso administrador</div><div style="font-size:11px;color:var(--tm);margin-bottom:16px">Ingresa el PIN para acceder a la configuración</div><input type="password" inputmode="numeric" maxlength="6" class="inp" style="max-width:180px;margin:0 auto 12px;display:block;letter-spacing:8px" id="pinIn" placeholder="••••" value="'+pPinInput+'" oninput="pPinInput=this.value" onkeydown="if(event.key===\'Enter\')pCheckPin()"><button class="btn btn-p" style="max-width:180px;margin:0 auto" onclick="pCheckPin()">Ingresar</button>'+(pCfg.pin?'':'<div style="font-size:10px;color:var(--tm);margin-top:16px;padding:10px;background:var(--sf);border-radius:7px">Primera vez: ingresa el PIN que quieras usar. Se guardará como tu PIN de administrador.</div>')+'</div>';
+  }
+  var h='<div class="flex fxc fxb" style="margin-bottom:12px"><div class="lbl" style="margin:0">Configuración administrador</div><button style="font-size:10px;color:var(--rd);background:none;border:1px solid var(--rd);border-radius:5px;padding:3px 8px;cursor:pointer" onclick="pAdmin=false;pPinInput=\'\';render()">🔒 Cerrar sesión</button></div>';
+  var files=[
+    {cK:'tramC',wK:'tramW',name:'BD Trámites',desc:'Registro de fechas de trámites (manifiesto, placa, SOAT, matrícula)',color:'var(--bld)',bg:'var(--bll)'},
+    {cK:'cajaC',wK:'cajaW',name:'BD Caja',desc:'Registro de pedidos de venta',color:'var(--yld)',bg:'var(--yll)'},
+    {cK:'contC',wK:'contW',name:'BD Contabilidad',desc:'Facturación y recobros',color:'var(--pr)',bg:'var(--prl)'},
+    {cK:'planC',wK:'planW',name:'BD Plan de alistamientos',desc:'Programación y seguimiento de alistamientos',color:'var(--vl)',bg:'var(--vll)'}
+  ];
+  files.forEach(function(f){
+    h+='<div class="card" style="padding:10px 12px;margin-bottom:4px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:3px"><div style="width:8px;height:8px;border-radius:2px;background:'+f.color+'"></div><div style="font-size:12px;font-weight:700;color:'+f.color+'">'+f.name+'</div></div><div style="font-size:10px;color:var(--tm)">'+f.desc+'</div></div>';
+    h+='<div style="font-size:9px;font-weight:600;color:var(--tm);margin:4px 0 3px;text-transform:uppercase;letter-spacing:.5px">🔍 URL consulta — busca fila por código de barras</div>';
+    h+='<input class="inp inp-sm" style="font-family:var(--fm);margin-bottom:6px" value="'+(pCfg[f.cK]||'')+'" placeholder="URL flujo consulta..." oninput="pCfg.'+f.cK+'=this.value">';
+    h+='<div style="font-size:9px;font-weight:600;color:var(--tm);margin:4px 0 3px;text-transform:uppercase;letter-spacing:.5px">✏️ URL escritura — actualiza columna con fecha</div>';
+    h+='<input class="inp inp-sm" style="font-family:var(--fm);margin-bottom:14px" value="'+(pCfg[f.wK]||'')+'" placeholder="URL flujo escritura..." oninput="pCfg.'+f.wK+'=this.value">';
+  });
+  h+='<button class="btn btn-p" style="margin-bottom:10px" onclick="sv(SK_PC,pCfg);toast(\'✓ Conexiones guardadas\')">Guardar todas las conexiones</button>';
+  h+='<div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--bd)"><div class="lbl">Seguridad</div><div class="card"><div style="font-size:11px;font-weight:700;color:var(--rdd);margin-bottom:3px">Cambiar PIN</div><div style="font-size:10px;color:var(--tm)">PIN actual configurado</div></div><input type="password" inputmode="numeric" maxlength="6" class="inp" style="max-width:180px;letter-spacing:8px;margin-bottom:10px" id="newPin" placeholder="Nuevo PIN"><button class="btn btn-o" onclick="pChangePin()">Actualizar PIN</button></div>';
+  return h;
+}
+
+function pCheckPin(){
+  var entered=pPinInput.trim();
+  if(!entered||entered.length<4){toast('PIN mínimo 4 dígitos',1);return}
+  if(!pCfg.pin){pCfg.pin=entered;sv(SK_PC,pCfg);pAdmin=true;pPinInput='';toast('✓ PIN creado. No lo olvides');render();return}
+  if(entered===pCfg.pin){pAdmin=true;pPinInput='';toast('✓ Acceso concedido');render()}
+  else{toast('PIN incorrecto',1);pPinInput='';render()}
+}
+
+function pChangePin(){
+  var inp=document.getElementById('newPin');
+  var v=(inp?inp.value:'').trim();
+  if(!v||v.length<4){toast('Mínimo 4 dígitos',1);return}
+  pCfg.pin=v;sv(SK_PC,pCfg);toast('✓ PIN actualizado');render();
+}
+
+function pBuscar(){
+  var inp=document.getElementById('pIn');
+  var code=(inp?inp.value:'').trim().toUpperCase();
+  if(!code){toast('Ingresa código',1);return}
+  if(!pMotos[code]){
+    pMotos[code]={created:new Date().toISOString(),steps:{},alist:[],remote:{},checks:{},info:{}};
+  }
+  pMotos[code].checks=pMotos[code].checks||{};
+  pMotos[code].steps=pMotos[code].steps||{};
+  pMotos[code].info=pMotos[code].info||{};
+  sv(SK_P,pMotos);
+  pAlistSel=[];
+  pExpandStep=null;
+  pFocusReg=null;
+
+  if(pCfg.tramC){
+    // Show loading in menu area
+    pLoading=true;pActive=null;render();
+    var ctrl=new AbortController();
+    var to=setTimeout(function(){ctrl.abort()},12000);
+    fetch(pCfg.tramC,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({codigoBarras:code}),signal:ctrl.signal
+    }).then(function(r){clearTimeout(to);return r.json()}).then(function(data){
+      var rows=data.value||data;
+      if(rows&&rows.length>0){
+        var row=Array.isArray(rows)?rows[0]:rows;
+        pMotos[code].info={
+          marca:row.marca||row.MARCA||row.Marca||'',
+          linea:row.linea||row.LINEA||row.Linea||'',
+          referencia:row.referencia||row.REFERENCIA||row.Referencia||'',
+          modelo:row.modelo||row.MODELO||row.Modelo||'',
+          color:row.color||row.COLOR||row.Color||''
+        };
+        var colMap={
+          'manifiesto':'s03','asig_placa':'s04a','cot_datapro':'s05',
+          'solic_soat':'s06','soat_ok':'s07','matricula':'s08',
+          'mat_ok':'s09','rec_placa':'s10','garantia':'s11'
+        };
+        for(var col in colMap){
+          var val=row[col]||'';
+          if(val&&val.toString().trim()!=='')pMotos[code].steps[colMap[col]]=val;
+        }
+        sv(SK_P,pMotos);
+      }else{
+        toast('Código no encontrado en BD Trámites',1);
+      }
+      pLoading=false;pActive=code;render();
+    }).catch(function(e){
+      clearTimeout(to);
+      pLoading=false;pActive=code;
+      toast(e.name==='AbortError'?'Tiempo agotado — modo local':'Sin conexión — modo local',1);
+      render();
+    });
+  }else{
+    pActive=code;render();
+  }
+}
+
+function pReg(sid){
+  var now=new Date();
+  var fechaISO=now.toISOString();
+  var fechaLocal=now.toLocaleDateString('es-CO',{day:'2-digit',month:'2-digit',year:'numeric'});
+
+  // Save locally first (always)
+  pMotos[pActive].steps[sid]=fechaISO;
+  sv(SK_P,pMotos);
+
+  var step=TRAM_STEPS.find(function(s){return s.id===sid});
+
+  // If step has a BD and we have the write URL, send to SharePoint
+  if(step&&step.bd==='tram'&&step.col&&pCfg.tramW){
+    fetch(pCfg.tramW,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        codigoBarras:pActive,
+        columna:step.col,
+        valor:fechaLocal
+      })
+    }).then(function(r){return r.json()}).then(function(){
+      pMotos[pActive].remote[sid]=fechaLocal;
+      sv(SK_P,pMotos);
+      toast('✓ '+step.t+' — guardado en SharePoint');
+    }).catch(function(){
+      toast('✓ '+step.t+' — guardado local (sincronizar después)',1);
+    });
+  }else{
+    toast('✓ '+step.t);
+  }
+  render();
+}
+
+function pRegNA(sid){
+  pMotos[pActive].steps[sid]='NA';
+  sv(SK_P,pMotos);
+
+  var step=TRAM_STEPS.find(function(s){return s.id===sid});
+
+  if(step&&step.bd==='tram'&&step.col&&pCfg.tramW){
+    fetch(pCfg.tramW,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        codigoBarras:pActive,
+        columna:step.col,
+        valor:'NA'
+      })
+    }).then(function(r){return r.json()}).then(function(){
+      toast('✓ '+step.t+' — N/A guardado en SharePoint');
+    }).catch(function(){
+      toast('✓ '+step.t+' — N/A guardado local',1);
+    });
+  }else{
+    toast('✓ '+step.t+' — No aplica');
+  }
+  render();
+}
+
+function pToggle(opt){var idx=pAlistSel.indexOf(opt);if(idx>=0)pAlistSel.splice(idx,1);else pAlistSel.push(opt);render()}
+
+function pConfirmAlist(){
+  if(!pAlistSel.length)return;
+  var now=new Date();
+  var fechaLocal=now.toLocaleDateString('es-CO',{day:'2-digit',month:'2-digit',year:'numeric'});
+  pMotos[pActive].steps.s02=now.toISOString();
+  pMotos[pActive].alist=pAlistSel.slice();
+  sv(SK_P,pMotos);
+
+  if(pCfg.planW){
+    var total=pAlistSel.length;
+    var done=0;
+    pAlistSel.forEach(function(act){
+      fetch(pCfg.planW,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          id:pActive+'_'+act,
+          codigoBarras:pActive,
+          proceso:act,
+          fecha:fechaLocal
+        })
+      }).then(function(){
+        done++;
+        if(done===total)toast('✓ '+total+' filas creadas en Plan de alistamientos');
+      }).catch(function(){
+        done++;
+        if(done===total)toast('Algunas actividades no se sincronizaron',1);
+      });
+    });
+  }else{
+    toast('✓ '+pAlistSel.length+' actividades programadas');
+  }
+  pAlistSel=[];render();
+}
+
+function pRegPlaca(){
+  var now=new Date();
+  var fechaLocal=now.toLocaleDateString('es-CO',{day:'2-digit',month:'2-digit',year:'numeric'});
+  pMotos[pActive].steps['placa_programada']=now.toISOString();
+  sv(SK_P,pMotos);
+
+  if(pCfg.planW){
+    fetch(pCfg.planW,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        id:pActive+'_Placa',
+        codigoBarras:pActive,
+        proceso:'Placa',
+        fecha:fechaLocal
+      })
+    }).then(function(){
+      toast('✓ Placa registrada en Plan de alistamientos');
+    }).catch(function(){
+      toast('Placa guardada local',1);
+    });
+  }else{
+    toast('✓ Placa programada');
+  }
+  render();
+}
+
+function pUndo(sid){delete pMotos[pActive].steps[sid];sv(SK_P,pMotos);toast('Revertido (solo local)');render()}
+
+function pToggleDay(d){pOpenDays[d]=!pOpenDays[d];render()}
+
+function pToggleAll(){var days=DAYS.map(function(d){return d.day});var allOpen=days.every(function(d){return pOpenDays[d]});days.forEach(function(d){pOpenDays[d]=!allOpen});render()}
+function pCheckStep(dayNum,stepIdx){
+  var md=pMotos[pActive];if(!md.checks)md.checks={};
+  var key=dayNum+'_'+stepIdx;
+  // Already checked = permanent, no undo
+  if(md.checks[key])return;
+  // Find all steps for this day and area to enforce sequential
+  var day=DAYS.find(function(d){return d.day===dayNum});
+  if(!day)return;
+  var areaSteps=pUserArea?day.steps.filter(function(s){return s.c===pUserArea}):day.steps;
+  // Check that all previous steps in this day are completed
+  for(var i=0;i<areaSteps.length;i++){
+    var oi=day.steps.indexOf(areaSteps[i]);
+    var pk=dayNum+'_'+oi;
+    if(oi===stepIdx)break;
+    if(!md.checks[pk]){toast('Completa el paso anterior primero',1);return}
+  }
+  md.checks[key]=new Date().toISOString();
+  sv(SK_P,pMotos);render();
+}
+
+var planData=null,planLoading=false,planFilter='',planFilterProc='',planFilterEstado='',planFilterFecha='';
+
+function renderConfig(){
+  if(!cfgAdmin){
+    if(!adminPin){
+      return '<div style="text-align:center;padding:30px 20px"><div style="font-size:36px;margin-bottom:12px">🔧</div><div style="font-size:14px;font-weight:700;margin-bottom:4px">Configuración administrador</div><div style="font-size:11px;color:var(--tm);margin-bottom:16px">Creá tu PIN de administrador</div><input type="password" inputmode="numeric" maxlength="6" class="inp" style="max-width:180px;margin:0 auto 12px;display:block;letter-spacing:8px" id="cfgPinIn" placeholder="••••" value="'+cfgPinInput+'" oninput="cfgPinInput=this.value" onkeydown="if(event.key===\'Enter\')cfgCheckPin()"><button class="btn btn-p" style="max-width:180px;margin:0 auto" onclick="cfgCheckPin()">Crear PIN</button></div>';
+    }
+    return '<div style="text-align:center;padding:30px 20px"><div style="font-size:36px;margin-bottom:12px">🔒</div><div style="font-size:14px;font-weight:700;margin-bottom:4px">Configuración administrador</div><div style="font-size:11px;color:var(--tm);margin-bottom:16px">Solo el administrador puede modificar la configuración</div><input type="password" inputmode="numeric" maxlength="6" class="inp" style="max-width:180px;margin:0 auto 12px;display:block;letter-spacing:8px" id="cfgPinIn" placeholder="••••" value="'+cfgPinInput+'" oninput="cfgPinInput=this.value" onkeydown="if(event.key===\'Enter\')cfgCheckPin()"><button class="btn btn-p" style="max-width:180px;margin:0 auto" onclick="cfgCheckPin()">Ingresar</button></div>';
+  }
+
+  var h='<div class="flex fxc fxb" style="margin-bottom:12px"><div style="font-size:14px;font-weight:700">Configuración administrador</div><button style="font-size:10px;color:var(--rd);background:none;border:1px solid var(--rd);border-radius:5px;padding:3px 8px;cursor:pointer" onclick="cfgAdmin=false;cfgPinInput=\'\';render()">🔒 Cerrar sesión</button></div>';
+
+  var sections=[
+    {title:'📋 Procedimiento — BD Trámites',desc:'Consulta y escritura de fechas en BD_Tramites.xlsx',items:[
+      {key:'tramC',label:'Consulta',desc:'Busca por código de barras → trae datos de la moto'},
+      {key:'tramW',label:'Escritura',desc:'Registra fechas en columnas de BD_Tramites'}
+    ]},
+    {title:'📋 Procedimiento — Plan de alistamientos',desc:'Programación de actividades desde el procedimiento',items:[
+      {key:'planW',label:'Escritura',desc:'Crea filas en BD_Plan (alistamiento, marcación, defensas, GPS, placa)'}
+    ]},
+    {title:'⚙ Alistamientos',desc:'Consulta y registro de ejecución de actividades',items:[
+      {key:'alistC',label:'Consulta',desc:'Busca por chasis → trae actividades programadas con estado'},
+      {key:'alistW',label:'Escritura',desc:'Actualiza estado y responsable de la actividad ejecutada'}
+    ]},
+    {title:'📊 Plan',desc:'Vista completa de la tabla BD_Plan',items:[
+      {key:'planC',label:'Consulta',desc:'Trae todas las filas de BD_Plan para visualización'}
+    ]},
+    {title:'📋 Procedimiento — BD Caja (pendiente)',desc:'Registro de pedidos de venta',items:[
+      {key:'cajaC',label:'Consulta',desc:'Pendiente de crear'},
+      {key:'cajaW',label:'Escritura',desc:'Pendiente de crear'}
+    ]},
+    {title:'📋 Procedimiento — BD Contabilidad (pendiente)',desc:'Facturación y recobros',items:[
+      {key:'contC',label:'Consulta',desc:'Pendiente de crear'},
+      {key:'contW',label:'Escritura',desc:'Pendiente de crear'}
+    ]}
+  ];
+
+  sections.forEach(function(sec){
+    h+='<div style="margin-bottom:16px;padding:12px;background:var(--sf);border-radius:8px;border:.5px solid var(--bd)">';
+    h+='<div style="font-size:12px;font-weight:700;margin-bottom:2px">'+sec.title+'</div>';
+    h+='<div style="font-size:10px;color:var(--tm);margin-bottom:8px">'+sec.desc+'</div>';
+    sec.items.forEach(function(item){
+      var cur=getUrl(item.key);
+      var hasUrl=!!cur;
+      h+='<div style="margin-bottom:8px">';
+      h+='<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px"><div style="width:6px;height:6px;border-radius:50%;background:'+(hasUrl?'var(--gn)':'var(--rd)')+'"></div><span style="font-size:10px;font-weight:700">'+(item.label==='Consulta'?'🔍':'✏️')+' '+item.label+'</span><span style="font-size:9px;color:var(--tm)">'+item.desc+'</span></div>';
+      h+='<input class="inp inp-sm" style="font-family:var(--fm);font-size:9px" value="'+(urlOverrides[item.key]||'')+'" placeholder="'+(hasUrl?'✓ URL por defecto configurada':'URL pendiente...')+'" oninput="urlOverrides.'+item.key+'=this.value">';
+      h+='</div>';
+    });
+    h+='</div>';
+  });
+
+  h+='<button class="btn btn-p" style="margin-bottom:8px" onclick="sv(\'dugo-url-overrides\',urlOverrides);toast(\'✓ URLs guardadas\')">Guardar cambios</button>';
+  h+='<div style="font-size:9px;color:var(--tm);padding:8px;background:var(--sf);border-radius:6px;margin-bottom:12px">Los campos vacíos usan las URLs por defecto incrustadas en el app. Solo necesitás llenar un campo si querés reemplazar una URL.</div>';
+
+  h+='<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--bd)"><div style="font-size:12px;font-weight:700;margin-bottom:8px">Cambiar PIN</div><input type="password" inputmode="numeric" maxlength="6" class="inp" style="max-width:180px;letter-spacing:8px;margin-bottom:8px" id="cfgNewPin" placeholder="Nuevo PIN"><button class="btn btn-o" onclick="var v=document.getElementById(\'cfgNewPin\').value.trim();if(!v||v.length<4){toast(\'Mínimo 4 dígitos\',1);return}adminPin=v;sv(\'dugo-admin-pin\',adminPin);toast(\'✓ PIN actualizado\')">Actualizar PIN</button></div>';
+
+  h+='<div style="margin-top:16px;padding:12px;background:var(--rdl);border-radius:8px;border:1px solid var(--rd)"><div style="font-size:11px;font-weight:700;color:var(--rdd);margin-bottom:6px">⚠️ Modo pruebas (temporal)</div><div style="font-size:10px;color:var(--rdd);margin-bottom:8px">Reinicia TODA la memoria local del app.</div><button class="btn btn-d" onclick="if(confirm(\'¿REINICIAR TODO?\')){localStorage.removeItem(\'dugo-a-v4\');localStorage.removeItem(\'dugo-p-v2\');localStorage.removeItem(\'dugo-url-overrides\');localStorage.removeItem(\'dugo-admin-pin\');toast(\'Reiniciado\');setTimeout(function(){location.reload()},500)}">Reiniciar TODO</button></div>';
+
+  return h;
+}
+
+function cfgCheckPin(){
+  var v=cfgPinInput.trim();
+  if(!v||v.length<4){toast('PIN mínimo 4 dígitos',1);return}
+  if(!adminPin){adminPin=v;sv('dugo-admin-pin',adminPin);cfgAdmin=true;cfgPinInput='';toast('✓ PIN creado');render();return}
+  if(v===adminPin){cfgAdmin=true;cfgPinInput='';toast('✓ Acceso concedido');render()}
+  else{toast('PIN incorrecto',1);cfgPinInput='';render()}
+}
+
+function renderPlan(){
+  var h='<div style="margin-bottom:12px"><div style="font-size:14px;font-weight:700;margin-bottom:4px">Plan de alistamientos</div><div style="font-size:11px;color:var(--tm)">Vista de la tabla BD_Plan desde SharePoint</div></div>';
+
+  if(!pCfg.planC){
+    h+='<div style="text-align:center;padding:30px;color:var(--tm)"><div style="font-size:28px;margin-bottom:8px">⚠️</div><div style="font-size:12px">URL de consulta no configurada.<br>Ingresá a Procedimiento → Config para agregar la URL de BD Plan de alistamientos.</div></div>';
+    return h;
+  }
+
+  h+='<div class="flex" style="margin-bottom:10px"><button class="btn btn-p" style="width:auto;padding:9px 16px;font-size:12px" onclick="planSync()">🔄 Actualizar datos</button></div>';
+
+  if(planLoading){
+    h+='<div style="text-align:center;padding:30px"><div style="width:30px;height:30px;border:3px solid var(--bd);border-top-color:var(--gn);border-radius:50%;margin:0 auto;animation:spin 1s linear infinite"></div><div style="font-size:11px;color:var(--tm);margin-top:8px">Cargando datos...</div></div>';
+    return h;
+  }
+
+  if(!planData||!planData.length){
+    h+='<div style="text-align:center;padding:30px;color:var(--tm);font-size:12px">Sin datos. Presiona "Actualizar datos" para cargar.</div>';
+    return h;
+  }
+
+  // Filters
+  h+='<div class="lbl">Filtros</div>';
+  h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px">';
+  h+='<input class="inp inp-sm" id="planFilterInp" placeholder="Código (sin DM)..." value="'+planFilter+'" oninput="planFilter=this.value" onchange="render()" onkeydown="if(event.key===\'Enter\'){planFilter=this.value;render()}">';
+  h+='<input type="date" class="inp inp-sm" value="'+planFilterFecha+'" onchange="planFilterFecha=this.value;render()">';
+  h+='</div>';
+  h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px">';
+  h+='<select class="inp inp-sm" value="'+planFilterProc+'" onchange="planFilterProc=this.value;render()"><option value=""'+(planFilterProc===''?' selected':'')+'>Todos los procesos</option><option value="Alistamiento"'+(planFilterProc==='Alistamiento'?' selected':'')+'>Alistamiento</option><option value="Marcación"'+(planFilterProc==='Marcación'?' selected':'')+'>Marcación</option><option value="Defensas"'+(planFilterProc==='Defensas'?' selected':'')+'>Defensas</option><option value="GPS"'+(planFilterProc==='GPS'?' selected':'')+'>GPS</option><option value="Placa"'+(planFilterProc==='Placa'?' selected':'')+'>Placa</option></select>';
+  h+='<select class="inp inp-sm" value="'+planFilterEstado+'" onchange="planFilterEstado=this.value;render()"><option value=""'+(planFilterEstado===''?' selected':'')+'>Todos los estados</option><option value="Pendiente"'+(planFilterEstado==='Pendiente'?' selected':'')+'>Pendiente</option><option value="Ejecutada"'+(planFilterEstado==='Ejecutada'?' selected':'')+'>Ejecutada</option></select>';
+  h+='</div>';
+  h+='<div style="margin-bottom:10px"><button style="font-size:10px;color:var(--bl);background:none;border:none;cursor:pointer;text-decoration:underline" onclick="planFilter=\'\';planFilterProc=\'\';planFilterEstado=\'\';planFilterFecha=\'\';render()">Limpiar filtros</button></div>';
+
+  var filtered=planData.slice();
+  if(planFilter)filtered=filtered.filter(function(r){return(r.codigo_barras||'').toUpperCase().indexOf(planFilter.toUpperCase())>=0});
+  if(planFilterFecha)filtered=filtered.filter(function(r){var f=r.fecha||'';if(f.indexOf('/')>=0){var p=f.split('/');f=p[2]+'-'+p[1]+'-'+p[0]}return f.indexOf(planFilterFecha)>=0});
+  if(planFilterProc)filtered=filtered.filter(function(r){return(r.proceso||'')===planFilterProc});
+  if(planFilterEstado==='Pendiente')filtered=filtered.filter(function(r){var e=(r.estado||'').toLowerCase();return!e||e==='pendiente'});
+  else if(planFilterEstado==='Ejecutada')filtered=filtered.filter(function(r){var e=(r.estado||'').toLowerCase();return e==='ejecutada'||e==='ejecutado'});
+
+  h+='<div style="font-family:var(--fm);font-size:10px;color:var(--tm);margin-bottom:8px">'+filtered.length+' de '+planData.length+' registros</div>';
+
+  // Table cards
+  filtered.slice(0,50).forEach(function(r){
+    var est=(r.estado||'').toLowerCase();
+    var isEjec=est==='ejecutada'||est==='ejecutado';
+    var estBg=isEjec?'var(--gnl)':'var(--yll)';
+    var estColor=isEjec?'var(--gnd)':'var(--yld)';
+    var estText=isEjec?'Ejecutada':'Pendiente';
+    var procColor={'Alistamiento':'#34D399','Marcación':'#60A5FA','Defensas':'#FB923C','GPS':'#22D3EE'};
+
+    h+='<div style="padding:10px 12px;border-radius:8px;background:var(--sf);border:.5px solid var(--bd);margin-bottom:4px">';
+    h+='<div class="flex fxc fxb">';
+    h+='<div style="flex:1">';
+    h+='<div class="flex fxc" style="gap:6px;margin-bottom:3px">';
+    h+='<span style="font-family:var(--fm);font-size:13px;font-weight:700">'+(r.codigo_barras||'')+'</span>';
+    h+='<span style="font-size:8px;font-weight:700;padding:2px 6px;border-radius:4px;background:'+estBg+';color:'+estColor+'">'+estText+'</span>';
+    h+='</div>';
+    h+='<div class="flex fxc" style="gap:6px">';
+    h+='<div style="width:8px;height:8px;border-radius:50%;background:'+(procColor[r.proceso]||'var(--tm)')+'"></div>';
+    h+='<span style="font-size:11px;font-weight:600">'+(r.proceso||'')+'</span>';
+    if(r.marca)h+='<span style="font-size:9px;color:var(--tm)">'+(r.marca||'')+' '+(r.linea||'')+'</span>';
+    h+='</div>';
+    if(r.responsable||r.ejecuto)h+='<div style="font-size:9px;color:var(--tm);margin-top:2px">'+(r.ejecuto?'Ejecutó: '+r.ejecuto:'Resp: '+r.responsable)+'</div>';
+    h+='</div>';
+    h+='<div style="text-align:right;flex-shrink:0">';
+    if(r.fecha)h+='<div style="font-size:9px;color:var(--tm)">'+(r.fecha||'')+'</div>';
+    if(r.placa)h+='<div style="font-size:9px;font-family:var(--fm);color:var(--tx);margin-top:2px">'+(r.placa||'')+'</div>';
+    h+='</div></div></div>';
+  });
+
+  if(filtered.length>50)h+='<div style="text-align:center;padding:10px;font-size:11px;color:var(--tm)">Mostrando 50 de '+filtered.length+'. Usá los filtros para reducir.</div>';
+
+  return h;
+}
+
+function planSync(){
+  if(!pCfg.planC){toast('URL de consulta no configurada',1);return}
+  planLoading=true;render();
+  var ctrl=new AbortController();
+  var to=setTimeout(function(){ctrl.abort()},15000);
+  fetch(pCfg.planC,{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({codigoBarras:'*'}),signal:ctrl.signal
+  }).then(function(r){clearTimeout(to);return r.json()}).then(function(data){
+    planData=data.value||data;
+    if(!Array.isArray(planData))planData=[];
+    planLoading=false;
+    toast('✓ '+planData.length+' registros cargados');
+    render();
+  }).catch(function(e){
+    clearTimeout(to);planLoading=false;
+    toast('Error al cargar datos',1);render();
+  });
+}
+
+try{render()}catch(e){
+  document.getElementById('c').innerHTML='<div style="text-align:center;padding:40px"><div style="font-size:28px;margin-bottom:10px">⚠️</div><div style="font-size:14px;font-weight:600;margin-bottom:8px">Error al cargar</div><div style="font-size:12px;color:var(--tm);margin-bottom:16px">'+e.message+'</div><button class="btn btn-d" style="max-width:240px;margin:0 auto" onclick="localStorage.removeItem(\'dugo-p-v2\');localStorage.removeItem(\'dugo-a-v4\');location.reload()">Reiniciar datos y recargar</button></div>';
+}
+</script>
+</body>
+</html>
