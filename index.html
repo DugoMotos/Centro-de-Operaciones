@@ -6,94 +6,239 @@
 <title>Dugomotos — Operaciones</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#fff;--sf:#F8F8F6;--bd:#E8E6DF;--bd2:#D3D1C7;--tx:#2C2C2A;--tm:#888780;--tl:#B4B2A9;--gn:#1D9E75;--gnl:#E1F5EE;--gnd:#085041;--bl:#378ADD;--bll:#E6F1FB;--bld:#0C447C;--or:#D85A30;--orl:#FAECE7;--rd:#E24B4A;--rdl:#FCEBEB;--rdd:#A32D2D;--pr:#7F77DD;--prl:#EEEDFE;--yl:#FBBF24;--yll:#FAEEDA;--yld:#633806;--vl:#27500A;--vll:#EAF3DE;--vlb:#97C459;--cy:#22D3EE;--r:10px;--ff:'DM Sans',system-ui,sans-serif;--fm:'DM Mono',monospace}
+:root{--bg:#0A0A0A;--sf:rgba(255,255,255,0.02);--sf2:rgba(255,255,255,0.04);--bd:rgba(255,255,255,0.06);--bd2:rgba(255,255,255,0.12);--tx:#E8E8E8;--tm:#888;--tl:#555;--gn:#1D9E75;--gnl:rgba(29,158,117,0.15);--gnd:#5DCAA5;--bl:#378ADD;--bll:rgba(55,138,221,0.15);--bld:#85B7EB;--or:#D85A30;--orl:rgba(216,90,48,0.15);--rd:#E24B4A;--rdl:rgba(226,75,74,0.1);--rdd:#F09595;--pr:#7F77DD;--prl:rgba(127,119,221,0.15);--yl:#EF9F27;--yll:rgba(186,117,23,0.15);--yld:#EF9F27;--vl:#27500A;--vll:rgba(99,153,34,0.18);--vlb:#97C459;--cy:#22D3EE;--r:8px;--ff:'DM Sans',system-ui,sans-serif;--fm:'DM Mono',monospace}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:var(--ff);background:#F5F4F0;color:var(--tx);min-height:100dvh;-webkit-font-smoothing:antialiased}
-.app{max-width:680px;margin:0 auto;background:var(--bg);min-height:100dvh;border-left:1px solid var(--bd);border-right:1px solid var(--bd)}
-.pad{padding:16px 18px}
-@media(min-width:768px){
-.app{max-width:800px}
-.pad{padding:24px 32px}
-.hdr{padding:24px 32px 14px}
-.main-tabs{font-size:15px}
-.main-tab{padding:14px 12px;font-size:15px}
-.step-body{padding:14px 16px!important}
-.step-t{font-size:15px}
-.card{padding:16px 20px}
-.stat-grid{grid-template-columns:repeat(3,1fr)}
-.prefix-grid{grid-template-columns:repeat(4,1fr)}
-}
-@media(min-width:1024px){
-.app{max-width:960px}
-.pad{padding:28px 40px}
-}
-@media(max-width:380px){
-.pad{padding:14px 12px}
-.main-tab{font-size:12px;padding:10px 6px}
-.inp{font-size:14px;letter-spacing:2px}
-.btn{font-size:12px;padding:10px}
-.step-t{font-size:12px}
-}
-.hdr{text-align:center;padding:16px 18px 10px}
-.hdr h1{font-size:10px;font-weight:700;color:var(--rd);text-transform:uppercase;letter-spacing:2px}
-.hdr h2{font-size:18px;font-weight:700;margin-top:2px}
-.hdr p{font-size:11px;color:var(--tm);margin-top:2px}
-.lbl{font-size:10px;font-weight:700;color:var(--tm);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
-.toast{position:fixed;top:14px;left:50%;transform:translateX(-50%) translateY(-80px);background:var(--gnd);color:var(--gnl);padding:10px 20px;border-radius:var(--r);font-size:13px;font-weight:600;z-index:999;transition:transform .3s cubic-bezier(.34,1.56,.64,1);max-width:90vw;text-align:center}
+body{font-family:var(--ff);background:#000;color:var(--tx);min-height:100dvh;-webkit-font-smoothing:antialiased}
+.app{max-width:100%;width:100%;margin:0;background:var(--bg);min-height:100dvh;display:grid;grid-template-columns:230px 1fr;border:none}
+@media(min-width:1600px){.main{padding:32px 48px}}
+@media(max-width:768px){.app{grid-template-columns:1fr}.side{display:none}}
+
+/* SIDEBAR */
+.side{background:var(--bg);border-right:0.5px solid var(--bd);padding:20px 0;overflow-y:auto;min-height:100dvh}
+.side-brand{display:flex;align-items:center;gap:10px;padding:0 18px 18px;border-bottom:0.5px solid var(--bd);margin-bottom:14px}
+.side-logo{width:26px;height:26px;background:var(--rd);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:white;letter-spacing:0.5px}
+.side-name{font-size:13px;font-weight:500;letter-spacing:1px}
+.side-sub{font-size:10px;color:#666;letter-spacing:0.5px;margin-left:auto}
+.side-group{padding:14px 0 6px}
+.side-group-title{font-size:9px;color:var(--tl);letter-spacing:2px;padding:0 18px 8px;text-transform:uppercase}
+.side-link{display:flex;align-items:center;gap:10px;padding:10px 18px;font-size:13px;color:#aaa;cursor:pointer;border-left:2px solid transparent;transition:all 0.15s;user-select:none}
+.side-link:hover{background:rgba(255,255,255,0.03);color:#ddd}
+.side-link.on{background:rgba(226,75,74,0.08);color:white;border-left-color:var(--rd);font-weight:500}
+.side-link svg{flex-shrink:0;opacity:0.7}
+.side-link.on svg{opacity:1}
+.side-chevron{margin-left:auto;font-size:10px;color:#666;transition:transform 0.2s}
+.side-link.parent.expanded .side-chevron{transform:rotate(90deg);color:#aaa}
+.side-badge{margin-left:auto;font-size:10px;background:var(--rd);color:white;padding:1px 8px;border-radius:10px;font-weight:500;font-family:var(--fm)}
+.side-link.parent.expanded .side-badge{margin-left:0;margin-right:8px}
+.side-sub{max-height:0;overflow:hidden;transition:max-height 0.25s ease}
+.side-sub.open{max-height:240px}
+.sublink{display:flex;align-items:center;gap:10px;padding:8px 18px 8px 44px;font-size:12px;color:#888;cursor:pointer;border-left:2px solid transparent;transition:all 0.15s;user-select:none}
+.sublink:hover{background:rgba(255,255,255,0.03);color:#ccc}
+.sublink.on{background:rgba(226,75,74,0.06);color:var(--rdd);border-left-color:#A32D2D;font-weight:500}
+.sublink svg{opacity:0.6}
+.sublink.on svg{opacity:1}
+
+/* MAIN */
+.main{padding:28px 32px;overflow-x:hidden}
+@media(max-width:768px){.main{padding:18px 16px}}
+.eyebrow{font-size:9px;color:#888;letter-spacing:2.5px;font-weight:500;margin-bottom:6px;text-transform:uppercase}
+.h1{font-size:26px;font-weight:500;line-height:1;margin-bottom:6px}
+.sub-title{font-size:13px;color:#888;margin-bottom:22px}
+
+/* COMPATIBILIDAD CON CLASES EXISTENTES */
+.pad{padding:0}
+.lbl{font-size:10px;font-weight:500;color:#888;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;display:block}
+.toast{position:fixed;top:14px;left:50%;transform:translateX(-50%) translateY(-80px);background:var(--gn);color:#fff;padding:10px 20px;border-radius:var(--r);font-size:13px;font-weight:600;z-index:999;transition:transform .3s cubic-bezier(.34,1.56,.64,1);max-width:90vw;text-align:center}
 .toast.show{transform:translateX(-50%) translateY(0)}.toast.err{background:var(--rd);color:#fff}
-.main-tabs{display:flex;border-bottom:2px solid var(--bd)}
-.main-tab{flex:1;padding:12px 8px;border:none;background:transparent;font-family:var(--ff);font-size:13px;font-weight:700;color:var(--tm);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s}
-.main-tab.on{color:var(--gnd);border-bottom-color:var(--gn)}
-.sub-tabs{display:flex;gap:3px;background:var(--sf);border-radius:10px;padding:3px;margin-bottom:14px;border:.5px solid var(--bd)}
-.sub-tab{flex:1;padding:8px 4px;border:none;background:transparent;color:var(--tm);font-family:var(--ff);font-size:10px;font-weight:600;border-radius:7px;cursor:pointer}
-.sub-tab.on{background:var(--bg);color:var(--tx);box-shadow:0 1px 3px rgba(0,0,0,.06)}
-.inp{width:100%;padding:11px 12px;border-radius:var(--r);border:1.5px solid var(--bd2);background:var(--sf);font-family:var(--fm);font-size:16px;font-weight:700;color:var(--tx);text-align:center;text-transform:uppercase;letter-spacing:3px;outline:none;box-sizing:border-box}
-.inp:focus{border-color:var(--gn)}
-.inp-sm{font-size:11px;padding:8px 10px;text-align:left;letter-spacing:0;font-family:var(--ff);font-weight:400;text-transform:none}
-.btn{width:100%;padding:11px;border-radius:var(--r);font-family:var(--ff);font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .15s}
-.btn:active{transform:scale(.98)}.btn-p{background:var(--gnd);color:var(--gnl)}.btn-o{background:transparent;border:1px solid var(--bd2);color:var(--tx)}.btn-d{background:transparent;border:1px solid var(--rd);color:var(--rd)}.btn-v{background:var(--vl);color:var(--vll)}.btn:disabled{opacity:.35;cursor:default}
-.card{padding:12px 14px;border-radius:10px;background:var(--sf);margin-bottom:10px}
+
+.sub-tabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap}
+.sub-tab{padding:8px 16px;border:0.5px solid var(--bd2);border-radius:6px;background:var(--sf2);font-family:var(--ff);font-size:12px;color:#aaa;cursor:pointer;transition:all 0.15s}
+.sub-tab:hover{color:#ccc}
+.sub-tab.on{background:rgba(226,75,74,0.1);color:var(--rdd);border-color:#A32D2D;font-weight:500}
+
+.inp{width:100%;padding:12px 14px;border-radius:var(--r);border:0.5px solid var(--bd2);background:var(--sf2);font-family:var(--fm);font-size:14px;font-weight:500;color:var(--tx);text-align:center;text-transform:uppercase;letter-spacing:1.5px;outline:none;box-sizing:border-box}
+.inp:focus{border-color:var(--rd)}
+.inp-sm{font-size:11px;padding:8px 12px;text-align:left;letter-spacing:0;font-family:var(--ff);font-weight:400;text-transform:none;color:#ccc}
+.inp-sm::placeholder{color:#666}
+
+.btn{width:100%;padding:11px;border-radius:var(--r);font-family:var(--ff);font-size:13px;font-weight:500;cursor:pointer;border:none;transition:all .15s}
+.btn:active{transform:scale(.98)}
+.btn-p{background:var(--rd);color:white}
+.btn-p:hover{background:#D03B3A}
+.btn-o{background:var(--sf2);border:0.5px solid var(--bd2);color:#ccc}
+.btn-o:hover{background:rgba(255,255,255,0.07);color:#fff}
+.btn-d{background:transparent;border:0.5px solid var(--rd);color:var(--rd)}
+.btn-v{background:var(--gn);color:#fff}
+.btn:disabled{opacity:.35;cursor:default}
+
+.card{padding:14px 16px;border-radius:var(--r);background:var(--sf);border:0.5px solid var(--bd);margin-bottom:10px}
 .flex{display:flex;gap:8px}.fxc{align-items:center}.fxb{justify-content:space-between}
-.sel{width:100%;padding:11px;border-radius:var(--r);border:.5px solid var(--bd2);background:var(--sf);font-family:var(--ff);font-size:13px;color:var(--tx);outline:none;appearance:auto;box-sizing:border-box}
-.act-row{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:var(--r);border:.5px solid var(--bd);cursor:pointer;margin-bottom:5px}
-.act-row.on{border:1.5px solid var(--bl);background:rgba(55,138,221,.05)}
-.done-row{display:flex;align-items:center;gap:10px;padding:7px 10px;background:#F7FBF2;border-radius:7px;border:.5px solid #C0DD97;margin-bottom:3px;opacity:.7}
-.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.stat-card{background:var(--sf);border:.5px solid var(--bd);border-radius:10px;padding:12px;text-align:center}
-.stat-num{font-family:var(--fm);font-size:24px;font-weight:700}
-.stat-lbl{font-size:9px;font-weight:600;color:var(--tm);text-transform:uppercase;letter-spacing:.5px;margin-top:3px}
-.hist-row{display:flex;gap:8px;padding:8px 10px;background:var(--sf);border-radius:7px;border:.5px solid var(--bd);margin-bottom:3px}
-.conn{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:600}
+
+.sel{width:100%;padding:11px 14px;border-radius:var(--r);border:0.5px solid var(--bd2);background:var(--sf2);font-family:var(--ff);font-size:13px;color:var(--tx);outline:none;box-sizing:border-box}
+
+.act-row{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:var(--r);border:0.5px solid var(--bd);cursor:pointer;margin-bottom:5px;background:var(--sf)}
+.act-row.on{border:1px solid var(--bl);background:var(--bll)}
+.done-row{display:flex;align-items:center;gap:10px;padding:8px 12px;background:rgba(99,153,34,0.06);border-radius:7px;border:0.5px solid rgba(99,153,34,0.3);margin-bottom:3px}
+
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:768px){.stat-grid{grid-template-columns:1fr 1fr}}
+.stat-card{background:var(--sf);border:0.5px solid var(--bd);border-radius:var(--r);padding:14px;text-align:center}
+.stat-num{font-family:var(--fm);font-size:26px;font-weight:500}
+.stat-lbl{font-size:9px;font-weight:500;color:#888;text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+
+.hist-row{display:flex;gap:10px;padding:10px 12px;background:var(--sf);border-radius:7px;border:0.5px solid var(--bd);margin-bottom:4px}
+
+.conn{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:500}
 .conn-dot{width:7px;height:7px;border-radius:50%}
-.prefix-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px}
-.prefix-item{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--tm)}
-.prefix-letter{font-family:var(--fm);font-size:12px;font-weight:700;color:var(--tx);width:18px;height:18px;display:flex;align-items:center;justify-content:center;background:var(--sf);border-radius:3px}
+
+.prefix-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:14px;background:var(--sf);border:0.5px solid var(--bd);border-radius:var(--r);margin-top:14px}
+@media(max-width:768px){.prefix-grid{grid-template-columns:repeat(2,1fr)}}
+.prefix-item{display:flex;align-items:center;gap:8px;font-size:11px;color:#aaa}
+.prefix-letter{font-family:var(--fm);font-size:12px;font-weight:500;color:white;background:rgba(255,255,255,0.08);padding:3px 9px;border-radius:4px}
+
+/* STEPS (procedimiento por día) */
 .step{display:flex;align-items:stretch;transition:opacity .3s}
 .step-line{display:flex;flex-direction:column;align-items:center;width:30px;flex-shrink:0}
 .step-dot{border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .3s}
 .step-bar{width:2px;flex:1}
-.step-body{flex:1;margin-left:5px;margin-bottom:3px;padding:7px 10px;border-radius:var(--r);transition:all .3s}
-.step-body.active{padding:12px}
-.step-tag{font-size:8px;font-weight:600;padding:1px 5px;border-radius:4px;display:inline-block;margin-right:3px}
-.step-t{margin:3px 0 0;font-size:13px;font-weight:600}
-.alist-opt{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:7px;border:.5px solid var(--bd);cursor:pointer;margin-bottom:3px}
-.alist-opt.on{border:1.5px solid var(--gn);background:var(--gnl)}
-.alist-chk{width:16px;height:16px;border-radius:3px;border:2px solid var(--bd2);display:flex;align-items:center;justify-content:center}
+.step-body{flex:1;margin-left:5px;margin-bottom:6px;padding:10px 12px;border-radius:var(--r);transition:all .3s;background:var(--sf);border:0.5px solid var(--bd)}
+.step-body.active{padding:14px}
+.step-tag{font-size:9px;font-weight:500;padding:2px 7px;border-radius:4px;display:inline-block;margin-right:3px;text-transform:uppercase;letter-spacing:0.5px}
+.step-t{margin:3px 0 0;font-size:13px;font-weight:500}
+
+.alist-opt{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:7px;border:0.5px solid var(--bd);cursor:pointer;margin-bottom:4px;background:var(--sf)}
+.alist-opt.on{border:1px solid var(--gn);background:var(--gnl)}
+.alist-chk{width:16px;height:16px;border-radius:3px;border:1.5px solid var(--bd2);display:flex;align-items:center;justify-content:center}
 .alist-opt.on .alist-chk{border-color:var(--gn);background:var(--gn)}
-.recent-btn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:9px 12px;border-radius:var(--r);border:.5px solid var(--bd);background:var(--sf);cursor:pointer;margin-bottom:3px;text-align:left}
+
+.recent-btn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:10px 14px;border-radius:var(--r);border:0.5px solid var(--bd);background:var(--sf);cursor:pointer;margin-bottom:4px;text-align:left;color:#ccc}
+.recent-btn:hover{border-color:var(--bd2);background:var(--sf2)}
+
+.empty{text-align:center;padding:60px 20px;color:#555;font-size:13px}
+
+/* INPUTS DARK */
+input[type="date"].inp-sm,input[type="text"].inp-sm,select.inp-sm{color-scheme:dark}
+input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7)}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,0.2)}
+/* NEGOCIOS */
+.neg-filters{display:flex;align-items:flex-end;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+.neg-filter-block{display:flex;flex-direction:column}
+.neg-select-label{font-size:9px;color:#666;letter-spacing:1.2px;text-transform:uppercase;display:block;margin-bottom:5px}
+.neg-select{background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.12);color:#ddd;padding:9px 32px 9px 14px;font-size:12px;font-family:var(--ff);border-radius:6px;outline:none;cursor:pointer;min-width:200px;appearance:none;background-image:url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5' viewBox='0 0 8 5'%3E%3Cpath fill='%23888' d='M0 0l4 5 4-5z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;background-size:8px}
+.neg-select:focus{border-color:var(--rd)}
+
+.neg-table{border:0.5px solid var(--bd);border-radius:8px;overflow:hidden;margin-top:14px}
+.neg-table-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:0.5px solid var(--bd);background:rgba(255,255,255,0.015);gap:10px;flex-wrap:wrap}
+.neg-table-count{font-size:10px;color:#888;letter-spacing:1.5px}
+.neg-cols{display:grid;grid-template-columns:90px 1.4fr 110px 1.4fr 1.4fr 90px;gap:18px;align-items:center}
+@media(max-width:900px){.neg-cols{grid-template-columns:80px 1.3fr 90px 1.3fr 1.2fr 70px;gap:10px}}
+.neg-table-head{padding:11px 18px;font-size:9px;color:#777;letter-spacing:1.5px;border-bottom:0.5px solid var(--bd)}
+.neg-th{cursor:pointer;user-select:none;display:flex;align-items:center;gap:4px;transition:color 0.15s}
+.neg-th:hover{color:#ccc}
+.neg-th.active{color:var(--rdd)}
+.neg-th-arrow{font-size:8px;line-height:1;display:inline-flex;flex-direction:column;color:#444;margin-left:2px}
+.neg-th-arrow span{line-height:0.8}
+.neg-th-arrow .up.on,.neg-th-arrow .dn.on{color:var(--rdd)}
+.neg-th.right{justify-content:flex-end}
+.neg-row{padding:13px 18px;border-bottom:0.5px solid rgba(255,255,255,0.04);cursor:pointer;transition:background 0.1s}
+.neg-row:last-child{border-bottom:none}
+.neg-row:hover{background:rgba(226,75,74,0.04)}
+.neg-code{font-family:var(--fm);font-size:13px;color:var(--rd);font-weight:500}
+.neg-cell{font-size:13px}
+.neg-mark{font-size:9px;font-weight:500;padding:3px 7px;border-radius:3px;display:inline-block;margin-top:3px}
+.neg-mark.hero{background:var(--gnl);color:var(--gnd)}
+.neg-mark.sym{background:var(--orl);color:#F0997B}
+.neg-mark.otra{background:rgba(255,255,255,0.06);color:#aaa}
+.neg-fecha{font-family:var(--fm);font-size:11px;color:#888}
+.neg-tag{display:inline-block;padding:4px 10px;border-radius:4px;font-size:11px;border:0.5px solid;white-space:nowrap;max-width:200px;overflow:hidden;text-overflow:ellipsis}
+.neg-tag-warn{background:var(--yll);color:var(--yld);border-color:#BA7517}
+.neg-tag-purple{background:var(--prl);color:#AFA9EC;border-color:#534AB7}
+.neg-tag-red{background:var(--rdl);color:var(--rdd);border-color:#A32D2D}
+.neg-tag-green{background:var(--vll);color:var(--vlb);border-color:#639922}
+.neg-tag-blue{background:var(--bll);color:var(--bld);border-color:#378ADD}
+.neg-tag-empty{background:rgba(255,255,255,0.04);color:#666;border-color:rgba(255,255,255,0.1)}
+.neg-progress{display:flex;align-items:center;gap:10px}
+.neg-progress-bar{flex:1;height:6px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden}
+.neg-progress-fill{height:100%;border-radius:3px;transition:width 0.4s}
+.neg-progress-pct{font-size:11px;font-family:var(--fm);min-width:36px;text-align:right;font-weight:500}
+.neg-days-warn{color:var(--yl);font-weight:500}
+.neg-days-danger{color:var(--rd);font-weight:500}
+.neg-comment-icon{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;cursor:pointer;background:var(--yll);border:0.5px solid #BA7517;color:var(--yl);flex-shrink:0;margin-left:8px;position:relative}
+.neg-comment-icon:hover{background:rgba(186,117,23,0.3)}
+.neg-comment-dot{position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:var(--rd);border-radius:50%;border:1.5px solid var(--bg)}
+.neg-comment-spacer{display:inline-block;width:32px}
+/* Ajustes finos modo dark */
+.hist-row{color:#ccc}
+.act-row{color:#ddd}
+.act-row.on{background:rgba(55,138,221,0.08);border-color:var(--bl)}
+.done-row{color:#bbb}
+.recent-btn{transition:all 0.15s}
+.recent-btn:hover{transform:translateX(2px);border-color:var(--bd2)}
+
+.stat-card{transition:transform 0.15s;color:#ddd}
+.stat-card:hover{transform:translateY(-2px);border-color:var(--bd2)}
+
+select option{background:#1a1a1a;color:#ddd}
+
+.step-body{color:#ddd}
+
+.toast{box-shadow:0 4px 16px rgba(0,0,0,0.4)}
+
+/* Sticky header transparente sobre fondo dark */
+[id="stickyTop"]{background:var(--bg)!important}
 </style>
 </head>
 <body>
 <div class="app">
-<div id="stickyTop" style="position:sticky;top:0;z-index:10;background:var(--bg)">
-<div class="hdr"><h1>Dugomotos</h1><h2>Centro de operaciones</h2><p id="dP"></p></div>
-<div class="main-tabs">
-<button class="main-tab on" id="mt2" onclick="setMain('proc')">📋 Procedimiento</button>
-<button class="main-tab" id="mt1" onclick="setMain('alist')">⚙ Alistamientos</button>
-<button class="main-tab" id="mt3" onclick="setMain('plan')">📊 Plan</button>
-<button class="main-tab" id="mt4" onclick="setMain('config')">🔧</button>
-</div>
-<div class="pad" id="c"></div>
+<aside class="side">
+  <div class="side-brand">
+    <div class="side-logo">DM</div>
+    <div class="side-name">DUGOMOTOS</div>
+    <div class="side-sub">Intranet</div>
+  </div>
+
+  <div class="side-group">
+    <div class="side-group-title">Operación</div>
+    <div class="side-link" data-sec="negocios" onclick="setMain('negocios')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+      Negocios
+    </div>
+    <div class="side-link parent expanded on" id="parentProc" onclick="toggleProcParent()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
+      Procedimiento
+      <span class="side-chevron">▸</span>
+    </div>
+    <div class="side-sub open" id="subProc">
+      <div class="sublink on" data-sec="proc" onclick="event.stopPropagation();setMain('proc')">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/></svg>
+        Trámites
+      </div>
+      <div class="sublink" data-sec="alist" onclick="event.stopPropagation();setMain('alist')">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/></svg>
+        Servicio Técnico
+      </div>
+      <div class="sublink" data-sec="plan" onclick="event.stopPropagation();setMain('plan')">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/></svg>
+        Plan
+      </div>
+    </div>
+  </div>
+
+  <div class="side-group">
+    <div class="side-group-title">Sistema</div>
+    <div class="side-link" data-sec="config" onclick="setMain('config')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.6h.09A1.65 1.65 0 0010 3.09V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      Configuración
+    </div>
+  </div>
+</aside>
+
+<main class="main" id="c"></main>
 </div>
 <div class="toast" id="toast"></div>
 <script>
@@ -222,6 +367,10 @@ var DEFAULT_URLS={
   planW:'https://defaultcf4c3cc039c24ec1a7440591e622df.9d.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/8458340b115e482e93f27dbcbda7b799/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ZOb_KGQZOUXi-DltCEN4oqUTpYgO7-pkw4BOHz-KnyI',
   // Pestaña Plan
   planC:'https://defaultcf4c3cc039c24ec1a7440591e622df.9d.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/3d940aab92b649af9b8aac13adaca11b/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=MYl8E3vGLn7Q2OCuw-be3mb8ZyGI8_vgDDpW2-k1Eiw',
+  // Lista SharePoint Registro_Actividades (NUEVO)
+  tramAvance:'https://defaultcf4c3cc039c24ec1a7440591e622df.9d.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/c3c12da24d6f4c0e99f16052a4ba8aa4/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=nyBQQh9ZPVjC-XyPcSlngrfltqUi8JPYR_0uTn4RmLY',
+  tramEscrAct:'https://defaultcf4c3cc039c24ec1a7440591e622df.9d.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/62544a55453949f4893dabe4321c2f83/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=6OHV4Yw6sJAJUeDhWCzBMTirYYGgZbOAMqE7ulN6lrY',
+  tramLista:'https://defaultcf4c3cc039c24ec1a7440591e622df.9d.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/8bb7152418da49f684d2c78e54ee5d82/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=34OIs9vYrLwN0nHIsKFiEA_sh5FHTmmNiW5Ei3lXX7c',
   // Pendientes
   cajaC:'',cajaW:'',contC:'',contW:''
 };
@@ -240,21 +389,354 @@ var pCfg={get tramC(){return getUrl('tramC')},get tramW(){return getUrl('tramW')
 var pSub='flujo',pArea='',pMotos=ls(SK_P)||{},pActive=null,pAlistSel=[],pMode='',pLoading=false,pUserArea='',pOpenDays={},pFocusReg=null,pExpandStep=null;
 var cfgAdmin=false,cfgPinInput='';
 
-document.getElementById('dP').textContent=new Date().toLocaleDateString('es-CO',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+function setMain(m){
+  main=m;
+  document.querySelectorAll('.side-link').forEach(function(x){x.classList.remove('on')});
+  document.querySelectorAll('.sublink').forEach(function(x){x.classList.remove('on')});
+  var isSubProc = m==='proc'||m==='alist'||m==='plan';
+  if(isSubProc){
+    var p=document.getElementById('parentProc');
+    if(p){p.classList.add('on','expanded')}
+    var sp=document.getElementById('subProc');
+    if(sp)sp.classList.add('open');
+    var sl=document.querySelector('.sublink[data-sec="'+m+'"]');
+    if(sl)sl.classList.add('on');
+  } else {
+    var l=document.querySelector('.side-link[data-sec="'+m+'"]');
+    if(l)l.classList.add('on');
+  }
+  render();
+}
 
-function setMain(m){main=m;document.getElementById('mt2').className='main-tab'+(m==='proc'?' on':'');document.getElementById('mt1').className='main-tab'+(m==='alist'?' on':'');document.getElementById('mt3').className='main-tab'+(m==='plan'?' on':'');document.getElementById('mt4').className='main-tab'+(m==='config'?' on':'');render()}
+function toggleProcParent(){
+  var p=document.getElementById('parentProc');
+  var sp=document.getElementById('subProc');
+  if(!p||!sp)return;
+  var expanded=p.classList.contains('expanded');
+  if(expanded){
+    p.classList.remove('expanded','on');
+    sp.classList.remove('open');
+  } else {
+    p.classList.add('expanded');
+    sp.classList.add('open');
+    setMain('proc');
+  }
+}
 
 function render(){
   var el=document.getElementById('c');
   if(main==='alist')el.innerHTML=renderAlist();
   else if(main==='plan')el.innerHTML=renderPlan();
+  else if(main==='negocios')el.innerHTML=renderNegocios();
   else if(main==='config')el.innerHTML=renderConfig();
   else el.innerHTML=renderProc();
 }
 
+// ============= NEGOCIOS - DATOS Y ESTADO =============
+var ACTIVIDADES_TRAM=[
+  {num:'1',titulo:'Adjuntar improntas en el manifiesto'},
+  {num:'2',titulo:'Revisar ítems del pedido'},
+  {num:'3',titulo:'Programar alistamientos'},
+  {num:'4',titulo:'Asignar manifiesto'},
+  {num:'4.1',titulo:'Consignar fecha de manifiesto'},
+  {num:'5',titulo:'Solicitar preasignación de placa'},
+  {num:'5.1',titulo:'Consignar fecha de preasignación de placa'},
+  {num:'6',titulo:'Confirmar placa'},
+  {num:'7',titulo:'Validar cotización en DataPro'},
+  {num:'7.1',titulo:'Consignar fecha de cotización'},
+  {num:'8',titulo:'Consignar plan de marca'},
+  {num:'9',titulo:'Solicitar factura de venta'},
+  {num:'10',titulo:'Revisar comentarios de plan de marca en factura'},
+  {num:'11',titulo:'Solicitar SOAT'},
+  {num:'11.1',titulo:'Consignar fecha de solicitud de SOAT'},
+  {num:'12',titulo:'Organizar paquete de venta para matricular'},
+  {num:'13',titulo:'Entregar paquetes para matricular'},
+  {num:'13.1',titulo:'Consignar fecha de solicitud de matrícula'},
+  {num:'14',titulo:'Verificar activación del SOAT'},
+  {num:'14.1',titulo:'Consignar fecha SOAT OK'},
+  {num:'15',titulo:'Imprimir SOAT'},
+  {num:'16',titulo:'Incluir SOAT en paquete de venta'},
+  {num:'17',titulo:'Informar cliente SOAT OK'},
+  {num:'18',titulo:'Verificar activación de matrícula en RUNT'},
+  {num:'18.1',titulo:'Consignar fecha de matrícula OK'},
+  {num:'19',titulo:'Revisar avance alistamientos'},
+  {num:'20',titulo:'Recibir matrícula y placa'},
+  {num:'20.1',titulo:'Consignar fecha de recepción OK'},
+  {num:'21',titulo:'Activar garantía'},
+  {num:'21.1',titulo:'Consignar fecha de garantía OK'},
+  {num:'22',titulo:'Programar instalación de placa'},
+  {num:'23',titulo:'Informar cliente matrícula OK'},
+  {num:'24',titulo:'Verificar alistamientos completos'},
+  {num:'25',titulo:'Informar a los asesores de crédito'},
+  {num:'26',titulo:'Programar entrega de motocicleta'},
+  {num:'27',titulo:'Informar cliente motocicleta OK'}
+];
+var TOTAL_TRAM=ACTIVIDADES_TRAM.length;
+
+var negMotos=null,negAvances=null,negLoading=false,negError='';
+var negSortKey='code',negSortDir='asc';
+var negFilterTipo='',negFilterMarca='',negSearchTxt='';
+
+// Normaliza el tipo de moto desde BD_Tramites
+function negNormTipo(t){
+  if(!t)return'';
+  var s=String(t).toLowerCase();
+  if(s.indexOf('subdistr')>=0)return'ns';
+  if(s.indexOf('distrib')>=0)return'nd';
+  if(s.indexOf('usad')>=0)return'us';
+  return'';
+}
+
+// Normaliza marca
+function negNormMarca(m){
+  if(!m)return'OTRA';
+  var s=String(m).toUpperCase().trim();
+  if(s.indexOf('HERO')>=0)return'HERO';
+  if(s.indexOf('SYM')>=0)return'SYM';
+  return'OTRA';
+}
+
+// Parsea fechas en cualquier formato común: DD/MM/YYYY, ISO, número serial Excel, Date object
+function negParseFecha(v){
+  if(!v)return null;
+  // Si ya es Date
+  if(v instanceof Date)return isNaN(v.getTime())?null:v;
+  var s=String(v).trim();
+  if(!s||s==='—'||s.toLowerCase()==='na')return null;
+
+  // Formato DD/MM/YYYY o DD/MM/YY
+  var m=s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})/);
+  if(m){
+    var dia=parseInt(m[1],10);
+    var mes=parseInt(m[2],10)-1;
+    var anio=parseInt(m[3],10);
+    if(anio<100)anio+=2000;
+    var d=new Date(anio,mes,dia);
+    return isNaN(d.getTime())?null:d;
+  }
+
+  // Número serial de Excel (días desde 1900-01-01)
+  if(/^\d+(\.\d+)?$/.test(s)){
+    var n=parseFloat(s);
+    if(n>25569&&n<60000){ // entre 1970 y ~2064
+      var d=new Date((n-25569)*86400000);
+      return isNaN(d.getTime())?null:d;
+    }
+  }
+
+  // Formato ISO o cualquiera que JS reconozca
+  var d=new Date(s);
+  return isNaN(d.getTime())?null:d;
+}
+
+// Días desde fecha_venta hasta hoy
+function negDiasDesde(fechaRaw){
+  var d=negParseFecha(fechaRaw);
+  if(!d)return 0;
+  var ms=Date.now()-d.getTime();
+  return Math.max(0,Math.floor(ms/86400000));
+}
+
+// Formato DD/MM/AA para mostrar
+function negFmtFecha(v){
+  var d=negParseFecha(v);
+  if(!d)return'—';
+  return ('0'+d.getDate()).slice(-2)+'/'+('0'+(d.getMonth()+1)).slice(-2)+'/'+String(d.getFullYear()).slice(-2);
+}
+
+function negProgressColor(p){return p>=100?'#1D9E75':p>=75?'#97C459':p>=50?'#EF9F27':p>=25?'#BA7517':'#E24B4A'}
+
+function renderNegocios(){
+  if(negLoading){
+    return '<div class="eyebrow">VENTAS</div><h1 class="h1">Negocios activos</h1><div style="text-align:center;padding:60px 20px"><div style="font-size:14px;font-weight:500;margin-bottom:6px">Cargando negocios...</div><div style="font-size:11px;color:var(--tm)">Consultando BD Trámites y Lista de actividades</div><div style="margin-top:20px"><div style="width:36px;height:36px;border:3px solid var(--bd);border-top-color:var(--gn);border-radius:50%;margin:0 auto;animation:spin 1s linear infinite"></div></div><style>@keyframes spin{to{transform:rotate(360deg)}}</style></div>';
+  }
+  if(!negMotos){
+    return '<div class="eyebrow">VENTAS</div><h1 class="h1">Negocios activos</h1><div class="sub-title">Lista de motocicletas en proceso</div><div style="text-align:center;padding:40px 20px"><button class="btn btn-p" style="max-width:260px;margin:0 auto" onclick="negSync()">Cargar lista de motos</button>'+(negError?'<div style="margin-top:14px;padding:10px 14px;background:var(--rdl);border-radius:8px;border:0.5px solid var(--rd);color:var(--rdd);font-size:11px;max-width:340px;margin-left:auto;margin-right:auto">'+negError+'</div>':'')+'</div>';
+  }
+
+  // Construye filas con datos calculados
+  var rows=negMotos.map(function(m){
+    var code=m.codigo_barras||m.codigoBarras||m.Title||'';
+    var tipo=negNormTipo(m.tipo_motocicleta||m.tipo);
+    var marca=negNormMarca(m.marca||m.MARCA||m.Marca);
+    var moto=((m.linea||m.LINEA||'')+' '+(m.referencia||m.REFERENCIA||'')).trim()||'—';
+    var fecha=m.fecha_venta||m.FechaVenta||m.fechaVenta||'';
+    var dias=negDiasDesde(fecha);
+
+    // Avances de esta moto
+var actividades=(negAvances||[]).filter(function(r){return(r.codigo_barras||r.Title||'')===code});
+    var ejecutadas=actividades.filter(function(r){return(r.estado||'').toLowerCase()==='ejecutada'});
+    // Solo cuenta las actividades principales (1, 2, 3...) NO las sub (.1)
+    var nums={};
+    ejecutadas.forEach(function(r){
+      var n=String(r.actividad_num||'');
+      if(n&&n.indexOf('.')<0)nums[n]=true;
+    });
+    var doneCount=Object.keys(nums).length;
+    var pct=Math.round((doneCount/TOTAL_TRAM)*100);
+
+// Última actividad: la de mayor número (ordenada por actividad_num real)
+    var sorted=ejecutadas.slice().sort(function(a,b){
+      var na=parseFloat(a.actividad_num||'0');
+      var nb=parseFloat(b.actividad_num||'0');
+      return nb-na;
+    });
+    var ultima=sorted[0];
+    var actLabel='—',actCls='empty';
+    if(ultima){
+      var num=ultima.actividad_num||'';
+      var actObj=ACTIVIDADES_TRAM.find(function(a){return a.num===String(num)});
+      var titulo=actObj?actObj.titulo:(ultima.actividad||'');
+      actLabel=num+' · '+titulo;
+      actCls=pct===100?'green':pct>=75?'green':pct>=50?'warn':'purple';
+    }
+
+    return {
+      code:code,moto:moto,marca:marca,tipo:tipo,fecha:fecha,
+      dias:dias,pct:pct,doneCount:doneCount,
+      act:actLabel,actCls:actCls,
+      com:'',comAuthor:'',comDate:''
+    };
+  }).filter(function(r){return r.code});
+
+  // Filtros
+  var filtered=rows.slice();
+  if(negFilterTipo)filtered=filtered.filter(function(x){return x.tipo===negFilterTipo});
+  if(negFilterMarca)filtered=filtered.filter(function(x){return x.marca===negFilterMarca});
+  if(negSearchTxt){
+    var s=negSearchTxt.toLowerCase();
+    filtered=filtered.filter(function(x){return(x.code+' '+x.moto+' '+x.act).toLowerCase().indexOf(s)>=0});
+  }
+
+  // Conteos para los selects (sobre rows sin filtrar)
+  var cNd=rows.filter(function(r){return r.tipo==='nd'}).length;
+  var cNs=rows.filter(function(r){return r.tipo==='ns'}).length;
+  var cUs=rows.filter(function(r){return r.tipo==='us'}).length;
+
+  // Orden
+  filtered.sort(function(a,b){
+    var va=a[negSortKey],vb=b[negSortKey];
+    if(negSortKey==='pct'||negSortKey==='dias'){va=Number(va);vb=Number(vb)}
+    else{va=String(va).toLowerCase();vb=String(vb).toLowerCase()}
+    if(va<vb)return negSortDir==='asc'?-1:1;
+    if(va>vb)return negSortDir==='asc'?1:-1;
+    return 0;
+  });
+
+  // Header
+  var h='<div class="eyebrow">VENTAS</div><h1 class="h1">Negocios activos</h1><div class="sub-title">Lista de motocicletas en proceso · clic en encabezados para ordenar</div>';
+
+  // Filtros
+  h+='<div class="neg-filters">';
+  h+='<div class="neg-filter-block"><span class="neg-select-label">Tipo de moto</span><select class="neg-select" onchange="negFilterTipo=this.value;render()">';
+  h+='<option value=""'+(negFilterTipo===''?' selected':'')+'>Todos los tipos</option>';
+  h+='<option value="nd"'+(negFilterTipo==='nd'?' selected':'')+'>Nueva Distribución ('+cNd+')</option>';
+  h+='<option value="ns"'+(negFilterTipo==='ns'?' selected':'')+'>Subdistribución ('+cNs+')</option>';
+  h+='<option value="us"'+(negFilterTipo==='us'?' selected':'')+'>Usadas ('+cUs+')</option>';
+  h+='</select></div>';
+  h+='<div class="neg-filter-block"><span class="neg-select-label">Marca</span><select class="neg-select" onchange="negFilterMarca=this.value;render()">';
+  h+='<option value=""'+(negFilterMarca===''?' selected':'')+'>Todas las marcas</option>';
+  h+='<option value="HERO"'+(negFilterMarca==='HERO'?' selected':'')+'>Hero</option>';
+  h+='<option value="SYM"'+(negFilterMarca==='SYM'?' selected':'')+'>SYM</option>';
+  h+='<option value="OTRA"'+(negFilterMarca==='OTRA'?' selected':'')+'>Otra</option>';
+  h+='</select></div>';
+  h+='<button class="btn btn-o" style="width:auto;padding:9px 16px;font-size:11px;height:38px;align-self:flex-end" onclick="negSync()">🔄 Actualizar</button>';
+  h+='</div>';
+
+  // Tabla
+  h+='<div class="neg-table">';
+  h+='<div class="neg-table-bar">';
+  h+='<div class="neg-table-count">'+filtered.length+' NEGOCIO'+(filtered.length!==1?'S':'')+' EN CURSO</div>';
+  h+='<input type="text" class="inp-sm" placeholder="Buscar código, moto, actividad..." value="'+negSearchTxt+'" oninput="negSearchTxt=this.value;render()" style="width:280px">';
+  h+='</div>';
+
+  // Encabezados
+  function th(key,label,right){
+    var active=negSortKey===key;
+    var arrowUp=active&&negSortDir==='asc'?' on':'';
+    var arrowDn=active&&negSortDir==='desc'?' on':'';
+    return '<div class="neg-th'+(active?' active':'')+(right?' right':'')+'" onclick="negSort(\''+key+'\')">'+label+'<span class="neg-th-arrow"><span class="up'+arrowUp+'">▲</span><span class="dn'+arrowDn+'">▼</span></span></div>';
+  }
+  h+='<div class="neg-cols neg-table-head">';
+  h+=th('code','CÓDIGO');
+  h+=th('moto','MOTO');
+  h+=th('fecha','FECHA VENTA');
+  h+=th('act','ACTIVIDAD EN CURSO');
+  h+=th('pct','AVANCE');
+  h+=th('dias','DÍAS',true);
+  h+='</div>';
+
+  if(!filtered.length){
+    h+='<div class="empty">Sin resultados con los filtros aplicados</div>';
+  }else{
+    var tagMap={warn:'neg-tag-warn',purple:'neg-tag-purple',red:'neg-tag-red',green:'neg-tag-green',blue:'neg-tag-blue',empty:'neg-tag-empty'};
+    filtered.forEach(function(r){
+      var commentBlock=r.com?'<span class="neg-comment-icon" onclick="event.stopPropagation();negShowComment(\''+r.code+'\')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg><span class="neg-comment-dot"></span></span>':'<span class="neg-comment-spacer"></span>';
+      var markCls=r.marca==='HERO'?'hero':r.marca==='SYM'?'sym':'otra';
+      var daysCls=r.dias>=15?' neg-days-danger':r.dias>=10?' neg-days-warn':'';
+      h+='<div class="neg-cols neg-row">';
+      h+='<div class="neg-code">'+r.code+'</div>';
+      h+='<div><div class="neg-cell">'+r.moto+'</div><span class="neg-mark '+markCls+'">'+r.marca+'</span></div>';
+      h+='<div class="neg-fecha">'+negFmtFecha(r.fecha)+'</div>';
+      h+='<div style="display:flex;align-items:center"><span class="neg-tag '+(tagMap[r.actCls]||'neg-tag-empty')+'">'+r.act+'</span>'+commentBlock+'</div>';
+      h+='<div class="neg-progress"><div class="neg-progress-bar"><div class="neg-progress-fill" style="width:'+r.pct+'%;background:'+negProgressColor(r.pct)+'"></div></div><span class="neg-progress-pct" style="color:'+negProgressColor(r.pct)+'">'+r.pct+'%</span></div>';
+      h+='<div style="text-align:right;font-size:13px'+(daysCls?';'+(r.dias>=15?'color:var(--rd)':'color:var(--yl)')+';font-weight:500':'')+'">'+r.dias+'</div>';
+      h+='</div>';
+    });
+  }
+  h+='</div>';
+  return h;
+}
+
+function negSort(key){
+  if(negSortKey===key){negSortDir=negSortDir==='asc'?'desc':'asc'}
+  else{negSortKey=key;negSortDir='asc'}
+  render();
+}
+
+function negShowComment(code){
+  // Por definir en futuras fases
+  toast('Comentarios pendientes de implementar');
+}
+
+function negSync(){
+  negLoading=true;negError='';render();
+  var urlLista=getUrl('tramLista');
+  var urlAvance=getUrl('tramAvance');
+  if(!urlLista){negLoading=false;negError='Falta URL de TRAM_Consulta_Lista en Configuración';render();return}
+  if(!urlAvance){negLoading=false;negError='Falta URL de TRAM_Consulta_Avance en Configuración';render();return}
+
+  var ctrl=new AbortController();
+  var to=setTimeout(function(){ctrl.abort()},20000);
+
+  Promise.all([
+    fetch(urlLista,{method:'POST',headers:{'Content-Type':'application/json'},body:'{}',signal:ctrl.signal}).then(function(r){return r.json()}),
+    fetch(urlAvance,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({codigo_barras:'*'}),signal:ctrl.signal}).then(function(r){return r.json()})
+  ]).then(function(results){
+    clearTimeout(to);
+    negLoading=false;
+    var motos=results[0].value||results[0]||[];
+    var avances=results[1].value||results[1]||[];
+    if(!Array.isArray(motos))motos=[];
+    if(!Array.isArray(avances))avances=[];
+    negMotos=motos;
+    negAvances=avances;
+    toast('✓ '+motos.length+' motos cargadas');
+    render();
+  }).catch(function(e){
+    clearTimeout(to);
+    negLoading=false;
+    negError=e.name==='AbortError'?'Tiempo agotado al consultar':'Error: '+e.message;
+    toast('Error al cargar negocios',1);
+    render();
+  });
+}
+// ============= FIN NEGOCIOS =============
+
 function renderAlist(){
   var hasUrl=!!aCfg.urlC;
-  var h='<div class="flex fxc fxb" style="margin-bottom:10px"><div class="conn"><div class="conn-dot" style="background:'+(hasUrl?'var(--gn)':'var(--yl)')+'"></div><span style="color:'+(hasUrl?'var(--gnd)':'var(--yld)')+'">'+(hasUrl?'Conectado':'Sin conexión')+'</span></div><div style="font-size:10px;color:var(--tm)">Llave: chasis</div></div>';
+  var h='<div class="eyebrow">PROCEDIMIENTO / SERVICIO TÉCNICO</div><h1 class="h1">Servicio Técnico</h1><div class="sub-title">Registro de actividades del equipo de alistamiento por chasis</div>';
+  h+='<div class="flex fxc fxb" style="margin-bottom:10px"><div class="conn"><div class="conn-dot" style="background:'+(hasUrl?'var(--gn)':'var(--yl)')+'"></div><span style="color:'+(hasUrl?'var(--gnd)':'var(--yld)')+'">'+(hasUrl?'Conectado':'Sin conexión')+'</span></div><div style="font-size:10px;color:var(--tm)">Llave: chasis</div></div>';
   h+='<div class="sub-tabs">'+['Registrar','Historial','Resumen'].map(function(t){return'<button class="sub-tab'+(aTab===t?' on':'')+'" onclick="aTab=\''+t+'\';render()">'+t+'</button>'}).join('')+'</div>';
   if(aTab==='Registrar')h+=aRegView();
   else if(aTab==='Historial')h+=aHistView();
@@ -279,9 +761,9 @@ function aRegView(){
   var mLinea=aMoto.linea||aMoto.LINEA||'';
   var mRef=aMoto.referencia||aMoto.REFERENCIA||'';
   var mColor=aMoto.color||aMoto.COLOR||'';
-  var mChasis=aMoto.chasis||aMoto.CHASIS||aMoto.codigo_barras||'';
-  var h='<div class="card"><div class="flex fxc fxb"><div><div style="font-size:15px;font-weight:700">'+mLinea+' '+mRef+'</div><div style="font-size:11px;color:var(--tm);margin-top:2px">'+mColor+' · <span style="font-family:var(--fm);font-weight:600">'+mChasis+'</span></div></div><span class="badge" style="background:'+(marca==='HERO'?'var(--gnl)':'var(--orl)')+';color:'+(marca==='HERO'?'var(--gnd)':'#712B13')+'">'+marca+'</span></div></div>';
-  if(done.length){h+='<div class="lbl">Completadas</div>';done.forEach(function(r){h+='<div class="done-row" style="opacity:.7"><div style="width:9px;height:9px;border-radius:50%;background:'+ACT_C[actK(r.proceso)]+'"></div><span style="font-size:12px;font-weight:600;flex:1">'+r.proceso+'</span><div style="text-align:right"><span style="font-size:10px;font-weight:600;color:var(--gn)">✓</span>'+(r.ejecuto?'<div style="font-size:8px;color:var(--tm)">'+r.ejecuto+'</div>':'')+'</div></div>'})}
+  var mChasis=aMoto.chasis||aMoto.CHASIS||'';
+  var mCodigoBarras=aMoto.codigo_barras||aMoto.codigoBarras||aMoto.Title||'';
+  var h='<div class="card"><div class="flex fxc fxb"><div><div style="font-size:15px;font-weight:700">'+mLinea+' '+mRef+'</div><div style="font-size:11px;color:var(--tm);margin-top:2px">'+mColor+(mChasis?' · Chasis: <span style="font-family:var(--fm);font-weight:600;color:#ddd">'+mChasis+'</span>':'')+(mCodigoBarras?' · Código: <span style="font-family:var(--fm);font-weight:600;color:var(--rd)">'+mCodigoBarras+'</span>':'')+'</div></div><span class="badge" style="background:'+(marca==='HERO'?'var(--gnl)':'var(--orl)')+';color:'+(marca==='HERO'?'var(--gnd)':'#712B13')+'">'+marca+'</span></div></div>';if(done.length){h+='<div class="lbl">Completadas</div>';done.forEach(function(r){h+='<div class="done-row" style="opacity:.7"><div style="width:9px;height:9px;border-radius:50%;background:'+ACT_C[actK(r.proceso)]+'"></div><span style="font-size:12px;font-weight:600;flex:1">'+r.proceso+'</span><div style="text-align:right"><span style="font-size:10px;font-weight:600;color:var(--gn)">✓</span>'+(r.ejecuto?'<div style="font-size:8px;color:var(--tm)">'+r.ejecuto+'</div>':'')+'</div></div>'})}
   if(pend.length){
     h+='<div class="lbl" style="margin-top:10px">Pendientes</div>';
     pend.forEach(function(r,i){var proc=r.proceso;var resps=RESP_R[proc+'|'+marca]||['Servicio Técnico'];h+='<div class="act-row'+(aChosen===i?' on':'')+'" onclick="aPick('+i+')"><div style="width:11px;height:11px;border-radius:50%;background:'+ACT_C[actK(proc)]+'"></div><div style="flex:1"><div style="font-size:13px;font-weight:600">'+proc+'</div><div style="font-size:9px;color:var(--tm);margin-top:1px">'+resps.join(' / ')+'</div></div></div>'});
@@ -349,7 +831,34 @@ function aChangePin(){
   aCfg.pin=v;sv(SK_AC,aCfg);toast('✓ PIN actualizado');render();
 }
 
-function aBuscar(){var inp=document.getElementById('aIn');var code=(inp?inp.value:'').trim().toUpperCase();if(!code||code.length<5){toast('Mín 5 caracteres',1);return}var url=aCfg.urlC||pCfg.planC;if(!url){toast('Configura URL de consulta en Config de Alistamientos o en Procedimiento → Config → BD Plan',1);return}aLoading=true;render();var ctrl=new AbortController();var to=setTimeout(function(){ctrl.abort()},12000);fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chasis:code,codigoBarras:code}),signal:ctrl.signal}).then(function(r){clearTimeout(to);return r.json()}).then(function(data){var rs=data.value||data;if(!Array.isArray(rs))rs=[];rs=rs.filter(function(r){return(r.chasis||r.codigo_barras||'').toUpperCase().indexOf(code)>=0});aLoading=false;if(!rs.length){toast('No encontrado: '+code,1);render();return}aRows=rs;aMoto=rs[0];aChosen=null;aResp='';aCmt='';render()}).catch(function(e){clearTimeout(to);aLoading=false;toast(e.name==='AbortError'?'Tiempo agotado':'Error conexión',1);render()})}
+function aBuscar(){
+  var inp=document.getElementById('aIn');
+  var code=(inp?inp.value:'').trim().toUpperCase();
+  if(!code||code.length<5){toast('Mín 5 caracteres',1);return}
+  var url=aCfg.urlC||pCfg.planC;
+  if(!url){toast('Configura URL de consulta',1);return}
+  aLoading=true;render();
+  var ctrl=new AbortController();
+  var to=setTimeout(function(){ctrl.abort()},12000);
+  fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chasis:code,codigoBarras:code}),signal:ctrl.signal})
+  .then(function(r){clearTimeout(to);return r.json()})
+  .then(function(data){
+    var rs=data.value||data;
+    if(!Array.isArray(rs))rs=[];
+    rs=rs.filter(function(r){return(r.chasis||r.codigo_barras||'').toUpperCase().indexOf(code)>=0});
+    aLoading=false;
+    if(!rs.length){
+      render();
+      alert('El chasis '+code+' no se encuentra en el plan de alistamientos.\n\nPosibles causas:\n• No está programado para alistamiento\n• Ya fue entregado al cliente\n• El chasis fue digitado incorrectamente');
+      return;
+    }
+    aRows=rs;aMoto=rs[0];aChosen=null;aResp='';aCmt='';render();
+  })
+  .catch(function(e){
+    clearTimeout(to);aLoading=false;render();
+    alert(e.name==='AbortError'?'Tiempo agotado al consultar.':'Error de conexión: '+e.message);
+  });
+}
 
 function aPick(i){aChosen=i;var marca=(aMoto.marca||'').toUpperCase();var pend=aRows.filter(function(r){return(r.estado||'').toLowerCase()!=='ejecutada'});var resps=RESP_R[pend[i].proceso+'|'+marca]||['Servicio Técnico'];aResp=resps.length===1?resps[0]:'';render()}
 
@@ -362,13 +871,14 @@ function aReset(){aMoto=null;aRows=[];aChosen=null;render()}
 function aExpCSV(){if(!aRecs.length){toast('Sin registros',1);return}var h='CHASIS,PROCESO,ESTADO,RESPONSABLE,COMENTARIO,FECHA,HORA\n';var rs=aRecs.map(function(r){return'"'+r.chasis+'","'+r.proceso+'","'+r.estado+'","'+r.responsable+'","'+(r.comentario||'')+'","'+r.fecha+'","'+r.hora+'"'}).join('\n');var b=new Blob(['\uFEFF'+h+rs],{type:'text/csv;charset=utf-8;'});var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='alistamientos_'+iD()+'.csv';a.click();toast('✓ '+aRecs.length+' exportados')}
 
 function renderProc(){
+  var pHeader='<div class="eyebrow">PROCEDIMIENTO</div><h1 class="h1">Trámites</h1><div class="sub-title">Registra avances o consulta el procedimiento por área</div>';
   if(pLoading){
-    return '<div style="text-align:center;padding:50px 20px"><div style="font-size:32px;margin-bottom:12px">🔍</div><div style="font-size:15px;font-weight:700;margin-bottom:6px">Buscando motocicleta...</div><div style="font-size:12px;color:var(--tm)">Consultando BD Trámites en SharePoint</div><div style="margin-top:16px"><div style="width:40px;height:40px;border:3px solid var(--bd);border-top-color:var(--gn);border-radius:50%;margin:0 auto;animation:spin 1s linear infinite"></div></div><style>@keyframes spin{to{transform:rotate(360deg)}}</style><button class="btn btn-o" style="max-width:200px;margin:20px auto 0" onclick="pLoading=false;render()">Cancelar</button></div>';
+    return pHeader+'<div style="text-align:center;padding:50px 20px"><div style="font-size:32px;margin-bottom:12px">🔍</div><div style="font-size:15px;font-weight:700;margin-bottom:6px">Buscando motocicleta...</div><div style="font-size:12px;color:var(--tm)">Consultando BD Trámites en SharePoint</div><div style="margin-top:16px"><div style="width:40px;height:40px;border:3px solid var(--bd);border-top-color:var(--gn);border-radius:50%;margin:0 auto;animation:spin 1s linear infinite"></div></div><style>@keyframes spin{to{transform:rotate(360deg)}}</style><button class="btn btn-o" style="max-width:200px;margin:20px auto 0" onclick="pLoading=false;render()">Cancelar</button></div>';
   }
   if(!pActive){
     var regS=TRAM_STEPS.filter(function(s){return s.bd||s.tp==='alist'});
     var recent=Object.entries(pMotos).sort(function(a,b){var aL=Object.values(a[1].steps).sort().pop()||a[1].created;var bL=Object.values(b[1].steps).sort().pop()||b[1].created;return bL.localeCompare(aL)}).slice(0,8);
-    var h='<div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">';
+    var h=pHeader+'<div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">';
     h+='<div style="text-align:center;margin-bottom:4px"><div style="font-size:13px;font-weight:700">¿Qué deseas hacer?</div></div>';
     h+='<div class="card" style="border:1.5px solid var(--bl);cursor:pointer" onclick="pMode=\'track\';render()"><div class="flex fxc" style="gap:12px"><div style="width:36px;height:36px;border-radius:8px;background:var(--bll);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">📝</div><div><div style="font-size:13px;font-weight:700">Registrar avance</div><div style="font-size:10px;color:var(--tm);margin-top:1px">Ingresar código de barras y registrar progreso</div></div></div></div>';
     h+='<div class="card" style="border:1.5px solid var(--bd);cursor:pointer" onclick="pMode=\'view\';pActive=\'__view__\';render()"><div class="flex fxc" style="gap:12px"><div style="width:36px;height:36px;border-radius:8px;background:var(--sf);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">👁</div><div><div style="font-size:13px;font-weight:700">Solo visualizar</div><div style="font-size:10px;color:var(--tm);margin-top:1px">Consultar pasos del procedimiento por área</div></div></div></div>';
@@ -716,73 +1226,72 @@ function pBuscar(){
   var inp=document.getElementById('pIn');
   var code=(inp?inp.value:'').trim().toUpperCase();
   if(!code){toast('Ingresa código',1);return}
-  if(!pMotos[code]){
-    pMotos[code]={created:new Date().toISOString(),steps:{},alist:[],remote:{},checks:{},info:{}};
-  }
-  pMotos[code].checks=pMotos[code].checks||{};
-  pMotos[code].steps=pMotos[code].steps||{};
-  pMotos[code].info=pMotos[code].info||{};
-  sv(SK_P,pMotos);
-  pAlistSel=[];
-  pExpandStep=null;
-  pFocusReg=null;
 
-  if(pCfg.tramC){
-    // Show loading in menu area
-    pLoading=true;pActive=null;render();
-    var ctrl=new AbortController();
-    var to=setTimeout(function(){ctrl.abort()},12000);
-    fetch(pCfg.tramC,{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({codigoBarras:code}),signal:ctrl.signal
-    }).then(function(r){clearTimeout(to);return r.json()}).then(function(data){
-      var rows=data.value||data;
-      if(rows&&rows.length>0){
-        var row=Array.isArray(rows)?rows[0]:rows;
-        pMotos[code].info={
-          marca:row.marca||row.MARCA||row.Marca||'',
-          linea:row.linea||row.LINEA||row.Linea||'',
-          referencia:row.referencia||row.REFERENCIA||row.Referencia||'',
-          modelo:row.modelo||row.MODELO||row.Modelo||'',
-          color:row.color||row.COLOR||row.Color||''
-        };
-        var colMap={
-          'manifiesto':'s03','asig_placa':'s04a','cot_datapro':'s05',
-          'solic_soat':'s06','soat_ok':'s07','matricula':'s08',
-          'mat_ok':'s09','rec_placa':'s10','garantia':'s11'
-        };
-        for(var col in colMap){
-          var val=row[col]||'';
-          if(val&&val.toString().trim()!=='')pMotos[code].steps[colMap[col]]=val;
-        }
-        sv(SK_P,pMotos);
-      }else{
-        toast('Código no encontrado en BD Trámites',1);
-      }
-      pLoading=false;pActive=code;render();
-    }).catch(function(e){
-      clearTimeout(to);
-      pLoading=false;pActive=code;
-      toast(e.name==='AbortError'?'Tiempo agotado — modo local':'Sin conexión — modo local',1);
-      render();
-    });
-  }else{
-    pActive=code;render();
+  if(!pCfg.tramC){
+    toast('No hay conexión configurada',1);
+    return;
   }
+
+  pLoading=true;pActive=null;render();
+  var ctrl=new AbortController();
+  var to=setTimeout(function(){ctrl.abort()},12000);
+  fetch(pCfg.tramC,{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({codigoBarras:code}),signal:ctrl.signal
+  }).then(function(r){clearTimeout(to);return r.json()}).then(function(data){
+    var rows=data.value||data;
+    var row=null;
+    if(Array.isArray(rows)&&rows.length>0)row=rows[0];
+    else if(rows&&!Array.isArray(rows)&&Object.keys(rows).length>0)row=rows;
+
+    if(!row){
+      pLoading=false;pActive=null;render();
+      alert('La motocicleta '+code+' no se encuentra registrada en BD Trámites.\n\nPosibles causas:\n• No está en proceso de venta\n• Ya fue entregada al cliente\n• El código fue digitado incorrectamente');
+      return;
+    }
+
+    if(!pMotos[code]){
+      pMotos[code]={created:new Date().toISOString(),steps:{},alist:[],remote:{},checks:{},info:{}};
+    }
+    pMotos[code].checks=pMotos[code].checks||{};
+    pMotos[code].steps=pMotos[code].steps||{};
+    pMotos[code].info={
+      marca:row.marca||row.MARCA||row.Marca||'',
+      linea:row.linea||row.LINEA||row.Linea||'',
+      referencia:row.referencia||row.REFERENCIA||row.Referencia||'',
+      modelo:row.modelo||row.MODELO||row.Modelo||'',
+      color:row.color||row.COLOR||row.Color||''
+    };
+    var colMap={
+      'manifiesto':'s03','asig_placa':'s04a','cot_datapro':'s05',
+      'solic_soat':'s06','soat_ok':'s07','matricula':'s08',
+      'mat_ok':'s09','rec_placa':'s10','garantia':'s11'
+    };
+    for(var col in colMap){
+      var val=row[col]||'';
+      if(val&&val.toString().trim()!=='')pMotos[code].steps[colMap[col]]=val;
+    }
+    sv(SK_P,pMotos);
+    pAlistSel=[];pExpandStep=null;pFocusReg=null;
+    pLoading=false;pActive=code;render();
+  }).catch(function(e){
+    clearTimeout(to);
+    pLoading=false;pActive=null;render();
+    alert(e.name==='AbortError'?'Tiempo agotado al consultar la moto. Verifica conexión.':'Error al consultar la moto: '+e.message);
+  });
 }
 
 function pReg(sid){
   var now=new Date();
   var fechaISO=now.toISOString();
-  var fechaLocal=now.toLocaleDateString('es-CO',{day:'2-digit',month:'2-digit',year:'numeric'});
+  // Formato ISO YYYY-MM-DD para enviar (sin ambigüedad)
+  var fechaSinAmbig=now.getFullYear()+'-'+('0'+(now.getMonth()+1)).slice(-2)+'-'+('0'+now.getDate()).slice(-2);
 
-  // Save locally first (always)
   pMotos[pActive].steps[sid]=fechaISO;
   sv(SK_P,pMotos);
 
   var step=TRAM_STEPS.find(function(s){return s.id===sid});
 
-  // If step has a BD and we have the write URL, send to SharePoint
   if(step&&step.bd==='tram'&&step.col&&pCfg.tramW){
     fetch(pCfg.tramW,{
       method:'POST',
@@ -790,10 +1299,10 @@ function pReg(sid){
       body:JSON.stringify({
         codigoBarras:pActive,
         columna:step.col,
-        valor:fechaLocal
+        valor:fechaSinAmbig
       })
     }).then(function(r){return r.json()}).then(function(){
-      pMotos[pActive].remote[sid]=fechaLocal;
+      pMotos[pActive].remote[sid]=fechaSinAmbig;
       sv(SK_P,pMotos);
       toast('✓ '+step.t+' — guardado en SharePoint');
     }).catch(function(){
@@ -836,7 +1345,7 @@ function pToggle(opt){var idx=pAlistSel.indexOf(opt);if(idx>=0)pAlistSel.splice(
 function pConfirmAlist(){
   if(!pAlistSel.length)return;
   var now=new Date();
-  var fechaLocal=now.toLocaleDateString('es-CO',{day:'2-digit',month:'2-digit',year:'numeric'});
+  var fechaLocal=now.getFullYear()+'-'+('0'+(now.getMonth()+1)).slice(-2)+'-'+('0'+now.getDate()).slice(-2);
   pMotos[pActive].steps.s02=now.toISOString();
   pMotos[pActive].alist=pAlistSel.slice();
   sv(SK_P,pMotos);
@@ -870,7 +1379,7 @@ function pConfirmAlist(){
 
 function pRegPlaca(){
   var now=new Date();
-  var fechaLocal=now.toLocaleDateString('es-CO',{day:'2-digit',month:'2-digit',year:'numeric'});
+  var fechaLocal=now.getFullYear()+'-'+('0'+(now.getMonth()+1)).slice(-2)+'-'+('0'+now.getDate()).slice(-2);
   pMotos[pActive].steps['placa_programada']=now.toISOString();
   sv(SK_P,pMotos);
 
@@ -900,16 +1409,47 @@ function pUndo(sid){delete pMotos[pActive].steps[sid];sv(SK_P,pMotos);toast('Rev
 function pToggleDay(d){pOpenDays[d]=!pOpenDays[d];render()}
 
 function pToggleAll(){var days=DAYS.map(function(d){return d.day});var allOpen=days.every(function(d){return pOpenDays[d]});days.forEach(function(d){pOpenDays[d]=!allOpen});render()}
+// Mapeo de paso DAYS → actividad_num oficial de Tramites.xlsx
+function pGetActNum(stepTitle){
+  var map={
+    'Adjuntar improntas en manifiesto':'1',
+    'Verificar ítems del pedido':'2',
+    'Programar alistamientos':'3',
+    'Asignar manifiesto':'4',
+    'Solicitar preasignación de placa':'5',
+    'Confirmar placa':'6',
+    'Validar cotización DataPro':'7',
+    'Plan de marca':'8',
+    'Solicitar factura de venta':'9',
+    'Verificar plan de marca en factura':'10',
+    'Solicitar SOAT':'11',
+    'Organizar paquete de venta':'12',
+    'Entregar paquetes para matricular':'13',
+    'Verificar activación SOAT':'14',
+    'Imprimir SOAT':'15',
+    'Incluir SOAT en paquete de venta':'16',
+    'Informar cliente SOAT OK [1]':'17',
+    'Verificar matrícula en RUNT':'18',
+    'Revisar avance alistamientos':'19',
+    'Recibir matrícula y placa':'20',
+    'Activar garantía':'21',
+    'Programar instalación de placa':'22',
+    'Informar cliente matrícula OK [2]':'23',
+    'Verificar alistamientos completos':'24',
+    'Informar asesores de crédito':'25',
+    'Programar entrega':'26',
+    'Informar cliente moto OK [3]':'27'
+  };
+  return map[stepTitle]||null;
+}
+
 function pCheckStep(dayNum,stepIdx){
   var md=pMotos[pActive];if(!md.checks)md.checks={};
   var key=dayNum+'_'+stepIdx;
-  // Already checked = permanent, no undo
   if(md.checks[key])return;
-  // Find all steps for this day and area to enforce sequential
   var day=DAYS.find(function(d){return d.day===dayNum});
   if(!day)return;
   var areaSteps=pUserArea?day.steps.filter(function(s){return s.c===pUserArea}):day.steps;
-  // Check that all previous steps in this day are completed
   for(var i=0;i<areaSteps.length;i++){
     var oi=day.steps.indexOf(areaSteps[i]);
     var pk=dayNum+'_'+oi;
@@ -918,6 +1458,33 @@ function pCheckStep(dayNum,stepIdx){
   }
   md.checks[key]=new Date().toISOString();
   sv(SK_P,pMotos);render();
+
+  // Enviar a Lista SharePoint
+  var step=day.steps[stepIdx];
+  var actNum=pGetActNum(step.t);
+  var urlEscr=getUrl('tramEscrAct');
+  if(actNum&&urlEscr){
+    var now=new Date();
+    var fechaISO=now.getFullYear()+'-'+('0'+(now.getMonth()+1)).slice(-2)+'-'+('0'+now.getDate()).slice(-2);
+    fetch(urlEscr,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        codigo_barras:pActive,
+        actividad_num:actNum,
+        actividad:step.t,
+        dia:'Día '+dayNum,
+        estado:'Ejecutada',
+        responsable:pUserArea?(AREAS[pUserArea]?AREAS[pUserArea].l:''):'',
+        fecha_registro:fechaISO,
+        comentario:''
+      })
+    }).then(function(r){return r.json()}).then(function(){
+      // ok silencioso
+    }).catch(function(){
+      // falló silencioso, sigue funcionando local
+    });
+  }
 }
 
 var planData=null,planLoading=false,planFilter='',planFilterProc='',planFilterEstado='',planFilterFecha='';
@@ -930,7 +1497,8 @@ function renderConfig(){
     return '<div style="text-align:center;padding:30px 20px"><div style="font-size:36px;margin-bottom:12px">🔒</div><div style="font-size:14px;font-weight:700;margin-bottom:4px">Configuración administrador</div><div style="font-size:11px;color:var(--tm);margin-bottom:16px">Solo el administrador puede modificar la configuración</div><input type="password" inputmode="numeric" maxlength="6" class="inp" style="max-width:180px;margin:0 auto 12px;display:block;letter-spacing:8px" id="cfgPinIn" placeholder="••••" value="'+cfgPinInput+'" oninput="cfgPinInput=this.value" onkeydown="if(event.key===\'Enter\')cfgCheckPin()"><button class="btn btn-p" style="max-width:180px;margin:0 auto" onclick="cfgCheckPin()">Ingresar</button></div>';
   }
 
-  var h='<div class="flex fxc fxb" style="margin-bottom:12px"><div style="font-size:14px;font-weight:700">Configuración administrador</div><button style="font-size:10px;color:var(--rd);background:none;border:1px solid var(--rd);border-radius:5px;padding:3px 8px;cursor:pointer" onclick="cfgAdmin=false;cfgPinInput=\'\';render()">🔒 Cerrar sesión</button></div>';
+  var h='<div class="eyebrow">SISTEMA</div><h1 class="h1">Configuración</h1><div class="sub-title">Conexiones de Power Automate por módulo</div>';
+  h+='<div class="flex fxc fxb" style="margin-bottom:18px"><div></div><button style="font-size:10px;color:var(--rd);background:rgba(226,75,74,0.08);border:0.5px solid var(--rd);border-radius:5px;padding:5px 10px;cursor:pointer" onclick="cfgAdmin=false;cfgPinInput=\'\';render()">🔒 Cerrar sesión</button></div>';
 
   var sections=[
     {title:'📋 Procedimiento — BD Trámites',desc:'Consulta y escritura de fechas en BD_Tramites.xlsx',items:[
@@ -991,7 +1559,7 @@ function cfgCheckPin(){
 }
 
 function renderPlan(){
-  var h='<div style="margin-bottom:12px"><div style="font-size:14px;font-weight:700;margin-bottom:4px">Plan de alistamientos</div><div style="font-size:11px;color:var(--tm)">Vista de la tabla BD_Plan desde SharePoint</div></div>';
+  var h='<div class="eyebrow">PROCEDIMIENTO / PLAN</div><h1 class="h1">Plan de alistamientos</h1><div class="sub-title">Vista de la tabla BD_Plan desde SharePoint</div>';
 
   if(!pCfg.planC){
     h+='<div style="text-align:center;padding:30px;color:var(--tm)"><div style="font-size:28px;margin-bottom:8px">⚠️</div><div style="font-size:12px">URL de consulta no configurada.<br>Ingresá a Procedimiento → Config para agregar la URL de BD Plan de alistamientos.</div></div>';
@@ -1088,6 +1656,228 @@ function planSync(){
 try{render()}catch(e){
   document.getElementById('c').innerHTML='<div style="text-align:center;padding:40px"><div style="font-size:28px;margin-bottom:10px">⚠️</div><div style="font-size:14px;font-weight:600;margin-bottom:8px">Error al cargar</div><div style="font-size:12px;color:var(--tm);margin-bottom:16px">'+e.message+'</div><button class="btn btn-d" style="max-width:240px;margin:0 auto" onclick="localStorage.removeItem(\'dugo-p-v2\');localStorage.removeItem(\'dugo-a-v4\');location.reload()">Reiniciar datos y recargar</button></div>';
 }
+
+// ============= PESTAÑA AVANCE =============
+var avMotos=null,avAvances=null,avLoading=false,avError='';
+var avFilterCode='',avFilterMarca='',avFilterAsesor='',avFilterEstado='',avSelectedCode=null;
+
+// Catálogo oficial de las 36 actividades de trámites
+var ACTIVIDADES_TRAM=[
+  {num:'1',titulo:'Adjuntar improntas en el manifiesto',dia:'Día 3'},
+  {num:'2',titulo:'Revisar ítems del pedido',dia:'Día 4'},
+  {num:'3',titulo:'Programar alistamientos',dia:'Día 4'},
+  {num:'4',titulo:'Asignar manifiesto',dia:'Día 4'},
+  {num:'4.1',titulo:'Consignar fecha de manifiesto',dia:'Día 4'},
+  {num:'5',titulo:'Solicitar preasignación de placa',dia:'Día 4'},
+  {num:'5.1',titulo:'Consignar fecha de preasignación de placa',dia:'Día 4'},
+  {num:'6',titulo:'Confirmar placa',dia:'Día 4'},
+  {num:'7',titulo:'Validar cotización en DataPro',dia:'Día 4'},
+  {num:'7.1',titulo:'Consignar fecha de cotización',dia:'Día 4'},
+  {num:'8',titulo:'Consignar plan de marca',dia:'Día 4'},
+  {num:'9',titulo:'Solicitar factura de venta',dia:'Día 4'},
+  {num:'10',titulo:'Revisar comentarios de plan de marca en factura',dia:'Día 4'},
+  {num:'11',titulo:'Solicitar SOAT',dia:'Día 4'},
+  {num:'11.1',titulo:'Consignar fecha de solicitud de SOAT',dia:'Día 4'},
+  {num:'12',titulo:'Organizar paquete de venta para matricular',dia:'Día 4'},
+  {num:'13',titulo:'Entregar paquetes para matricular',dia:'Día 4'},
+  {num:'13.1',titulo:'Consignar fecha de solicitud de matrícula',dia:'Día 4'},
+  {num:'14',titulo:'Verificar activación del SOAT',dia:'Día 5'},
+  {num:'14.1',titulo:'Consignar fecha SOAT OK',dia:'Día 5'},
+  {num:'15',titulo:'Imprimir SOAT',dia:'Día 5'},
+  {num:'16',titulo:'Incluir SOAT en paquete de venta',dia:'Día 5'},
+  {num:'17',titulo:'Informar cliente SOAT OK [1]',dia:'Día 5'},
+  {num:'18',titulo:'Verificar activación de matrícula en RUNT',dia:'Día 5'},
+  {num:'18.1',titulo:'Consignar fecha de matrícula OK',dia:'Día 5'},
+  {num:'19',titulo:'Revisar avance alistamientos',dia:'Día 5'},
+  {num:'20',titulo:'Recibir matrícula y placa',dia:'Día 5'},
+  {num:'20.1',titulo:'Consignar fecha de recepción OK',dia:'Día 5'},
+  {num:'21',titulo:'Activar garantía',dia:'Día 5'},
+  {num:'21.1',titulo:'Consignar fecha de garantía OK',dia:'Día 5'},
+  {num:'22',titulo:'Programar instalación de placa',dia:'Día 5'},
+  {num:'23',titulo:'Informar cliente matrícula OK [2]',dia:'Día 5'},
+  {num:'24',titulo:'Verificar alistamientos completos',dia:'Día 6'},
+  {num:'25',titulo:'Informar a los asesores de crédito',dia:'Día 6'},
+  {num:'26',titulo:'Programar entrega de motocicleta',dia:'Día 6'},
+  {num:'27',titulo:'Informar cliente motocicleta OK [3]',dia:'Día 6'}
+];
+
+// Solo cuenta las actividades principales (sin las sub-actividades .1, .2, etc.)
+var TOTAL_TRAM=ACTIVIDADES_TRAM.filter(function(a){return a.num.indexOf('.')<0}).length;
+
+function renderAvance(){
+  if(avLoading){
+    return '<div style="text-align:center;padding:50px 20px"><div style="font-size:32px;margin-bottom:12px">📈</div><div style="font-size:15px;font-weight:700;margin-bottom:6px">Cargando avances...</div><div style="font-size:12px;color:var(--tm)">Consultando BD Trámites y Lista de actividades</div><div style="margin-top:16px"><div style="width:40px;height:40px;border:3px solid var(--bd);border-top-color:var(--gn);border-radius:50%;margin:0 auto;animation:spin 1s linear infinite"></div></div><style>@keyframes spin{to{transform:rotate(360deg)}}</style></div>';
+  }
+  if(avSelectedCode){return renderAvanceDetalle(avSelectedCode)}
+  if(!avMotos){
+    return '<div style="text-align:center;padding:30px"><div style="font-size:32px;margin-bottom:12px">📈</div><div style="font-size:15px;font-weight:700;margin-bottom:8px">Avance del procedimiento</div><div style="font-size:12px;color:var(--tm);margin-bottom:20px">Lista de motocicletas Nueva Distribuidor en proceso</div><button class="btn btn-p" style="max-width:240px;margin:0 auto" onclick="avSync()">🔄 Cargar lista de motos</button>'+(avError?'<div style="margin-top:14px;padding:10px 14px;background:var(--rdl);border-radius:8px;border:.5px solid var(--rd);color:var(--rdd);font-size:11px">'+avError+'</div>':'')+'</div>';
+  }
+
+  // Build counts per moto
+  var motosConAvance=avMotos.map(function(m){
+    var code=m.codigo_barras||m.codigoBarras||'';
+    var actividades=(avAvances||[]).filter(function(r){return(r.codigo_barras||r.Title||'')===code});
+    var ejecutadas=actividades.filter(function(r){return(r.estado||'').toLowerCase()==='ejecutada'});
+    var numsUnicos={};
+    ejecutadas.forEach(function(r){numsUnicos[r.actividad_num||'']=true});
+    var doneCount=Object.keys(numsUnicos).length;
+    var pct=Math.round((doneCount/TOTAL_TRAM)*100);
+    // Última actividad
+    var sorted=ejecutadas.slice().sort(function(a,b){return(b.fecha_registro||'').localeCompare(a.fecha_registro||'')});
+    var ultima=sorted[0]||null;
+    return{moto:m,code:code,doneCount:doneCount,pct:pct,ultima:ultima,actividades:actividades}
+  });
+
+  // Apply filters
+  var filtered=motosConAvance.slice();
+  if(avFilterCode)filtered=filtered.filter(function(x){return(x.code||'').toUpperCase().indexOf(avFilterCode.toUpperCase())>=0});
+  if(avFilterMarca)filtered=filtered.filter(function(x){return((x.moto.marca||'')+'').toUpperCase()===avFilterMarca.toUpperCase()});
+  if(avFilterAsesor)filtered=filtered.filter(function(x){return((x.moto.asesor||x.moto.Asesor||'')+'').toUpperCase().indexOf(avFilterAsesor.toUpperCase())>=0});
+  if(avFilterEstado==='completo')filtered=filtered.filter(function(x){return x.pct===100});
+  else if(avFilterEstado==='enproceso')filtered=filtered.filter(function(x){return x.pct>0&&x.pct<100});
+  else if(avFilterEstado==='sinIniciar')filtered=filtered.filter(function(x){return x.pct===0});
+
+  // Header
+  var h='<div class="flex fxc fxb" style="margin-bottom:10px"><div><div style="font-size:14px;font-weight:700">Avance del procedimiento</div><div style="font-size:10px;color:var(--tm)">'+filtered.length+' de '+motosConAvance.length+' motos</div></div><button class="btn btn-o" style="width:auto;padding:8px 14px;font-size:11px" onclick="avSync()">🔄 Actualizar</button></div>';
+
+  // Filters
+  h+='<div class="lbl">Filtros</div>';
+  h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px">';
+  h+='<input class="inp inp-sm" placeholder="Código de barras..." value="'+avFilterCode+'" oninput="avFilterCode=this.value;render()">';
+  h+='<select class="inp inp-sm" onchange="avFilterMarca=this.value;render()"><option value=""'+(avFilterMarca===''?' selected':'')+'>Todas las marcas</option><option value="Hero"'+(avFilterMarca==='Hero'?' selected':'')+'>Hero</option><option value="SYM"'+(avFilterMarca==='SYM'?' selected':'')+'>SYM</option></select>';
+  h+='</div>';
+  h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px">';
+  h+='<input class="inp inp-sm" placeholder="Asesor..." value="'+avFilterAsesor+'" oninput="avFilterAsesor=this.value;render()">';
+  h+='<select class="inp inp-sm" onchange="avFilterEstado=this.value;render()"><option value=""'+(avFilterEstado===''?' selected':'')+'>Todos los estados</option><option value="completo"'+(avFilterEstado==='completo'?' selected':'')+'>Completo (100%)</option><option value="enproceso"'+(avFilterEstado==='enproceso'?' selected':'')+'>En proceso</option><option value="sinIniciar"'+(avFilterEstado==='sinIniciar'?' selected':'')+'>Sin iniciar (0%)</option></select>';
+  h+='</div>';
+  if(avFilterCode||avFilterMarca||avFilterAsesor||avFilterEstado){
+    h+='<button style="font-size:10px;color:var(--bl);background:none;border:none;cursor:pointer;text-decoration:underline;margin-bottom:10px" onclick="avFilterCode=\'\';avFilterMarca=\'\';avFilterAsesor=\'\';avFilterEstado=\'\';render()">Limpiar filtros</button>';
+  }
+
+  if(!filtered.length){
+    h+='<div style="text-align:center;padding:24px;color:var(--tm);font-size:12px">Sin resultados con los filtros aplicados</div>';
+    return h;
+  }
+
+  // List of motos
+  filtered.forEach(function(x){
+    var m=x.moto;var pct=x.pct;
+    var pctColor=pct===100?'var(--gn)':pct>=75?'#5BA12C':pct>=50?'var(--or)':pct>=25?'var(--yl)':'var(--rd)';
+    var marca=(m.marca||'').toString().toUpperCase();
+    var marcaBg=marca==='HERO'?'var(--gnl)':marca==='SYM'?'var(--orl)':'var(--sf)';
+    var marcaColor=marca==='HERO'?'var(--gnd)':marca==='SYM'?'#712B13':'var(--tm)';
+    var ultimaTxt=x.ultima?'Act. '+x.ultima.actividad_num+' · '+(x.ultima.responsable||''):'Sin actividades';
+    var areaTxt=x.ultima?(x.ultima.responsable||'—'):'—';
+
+    h+='<div class="card" style="padding:12px 14px;cursor:pointer;margin-bottom:6px" onclick="avSelectedCode=\''+x.code+'\';render()">';
+    h+='<div class="flex fxc fxb" style="margin-bottom:8px">';
+    h+='<div style="flex:1;min-width:0">';
+    h+='<div class="flex fxc" style="gap:8px;margin-bottom:2px"><span style="font-family:var(--fm);font-size:14px;font-weight:700">'+x.code+'</span><span style="font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;background:'+marcaBg+';color:'+marcaColor+'">'+marca+'</span></div>';
+    h+='<div style="font-size:12px;font-weight:600">'+(m.linea||'')+' '+(m.referencia||'')+'</div>';
+    if(m.cliente)h+='<div style="font-size:10px;color:var(--tm);margin-top:1px">'+(m.cliente||'')+(m.asesor?' · '+m.asesor:'')+'</div>';
+    h+='</div>';
+    h+='<div style="text-align:right;flex-shrink:0">';
+    h+='<div style="font-size:18px;font-weight:800;color:'+pctColor+'">'+pct+'%</div>';
+    h+='<div style="font-size:9px;color:var(--tm)">'+x.doneCount+'/'+TOTAL_TRAM+'</div>';
+    h+='</div>';
+    h+='</div>';
+    // Progress bar
+    h+='<div style="height:6px;background:var(--sf);border-radius:3px;overflow:hidden;margin-bottom:6px"><div style="height:100%;width:'+pct+'%;background:'+pctColor+';border-radius:3px;transition:width .3s"></div></div>';
+    // Última actividad
+    h+='<div style="display:flex;align-items:center;justify-content:space-between;font-size:10px"><span style="color:var(--tm)">Última: <strong style="color:var(--tx)">'+ultimaTxt+'</strong></span>';
+    if(x.ultima&&x.ultima.fecha_registro)h+='<span style="font-family:var(--fm);color:var(--tm)">'+(x.ultima.fecha_registro||'')+'</span>';
+    h+='</div>';
+    h+='</div>';
+  });
+
+  return h;
+}
+
+function renderAvanceDetalle(code){
+  var motoData=(avMotos||[]).find(function(m){return(m.codigo_barras||m.codigoBarras)===code});
+  if(!motoData)return'<div style="padding:20px"><button class="btn btn-o" onclick="avSelectedCode=null;render()">← Volver</button><div style="text-align:center;margin-top:20px;color:var(--tm)">Moto no encontrada</div></div>';
+  var actividades=(avAvances||[]).filter(function(r){return(r.codigo_barras||r.Title||'')===code});
+  var ejecutadas={};
+  actividades.forEach(function(r){if((r.estado||'').toLowerCase()==='ejecutada')ejecutadas[r.actividad_num||'']=r});
+
+  var doneCount=Object.keys(ejecutadas).length;
+  var pct=Math.round((doneCount/TOTAL_TRAM)*100);
+  var pctColor=pct===100?'var(--gn)':pct>=75?'#5BA12C':pct>=50?'var(--or)':pct>=25?'var(--yl)':'var(--rd)';
+  var marca=(motoData.marca||'').toString().toUpperCase();
+  var marcaBg=marca==='HERO'?'linear-gradient(135deg,#085041,#1D9E75)':marca==='SYM'?'linear-gradient(135deg,#712B13,#D85A30)':'linear-gradient(135deg,#444,#888)';
+
+  var h='<button class="btn btn-o" style="margin-bottom:10px;width:auto;padding:7px 14px;font-size:11px" onclick="avSelectedCode=null;render()">← Volver a la lista</button>';
+  // Card moto
+  h+='<div style="background:'+marcaBg+';border-radius:10px;padding:14px;color:#fff;margin-bottom:12px">';
+  h+='<div class="flex fxc fxb" style="margin-bottom:8px">';
+  h+='<div style="flex:1"><div style="font-size:11px;font-weight:600;opacity:.7;text-transform:uppercase;letter-spacing:1px">'+marca+'</div><div style="font-size:18px;font-weight:800;margin-top:2px">'+(motoData.linea||'')+' '+(motoData.referencia||'')+'</div></div>';
+  h+='<div style="text-align:right"><div style="font-family:var(--fm);font-size:14px;font-weight:700;background:rgba(255,255,255,.2);padding:4px 10px;border-radius:6px">'+code+'</div></div>';
+  h+='</div>';
+  h+='<div style="display:flex;flex-wrap:wrap;gap:6px;font-size:10px;opacity:.9">';
+  if(motoData.cliente)h+='<span>👤 '+motoData.cliente+'</span>';
+  if(motoData.asesor)h+='<span>· 💼 '+motoData.asesor+'</span>';
+  if(motoData.color)h+='<span>· 🎨 '+motoData.color+'</span>';
+  if(motoData.fecha_venta)h+='<span>· 📅 '+(motoData.fecha_venta||'').toString().split('T')[0]+'</span>';
+  h+='</div>';
+  h+='</div>';
+  // Progress
+  h+='<div class="card" style="padding:12px 14px;margin-bottom:10px">';
+  h+='<div class="flex fxc fxb" style="margin-bottom:8px"><div style="font-size:11px;font-weight:700;color:var(--tm);text-transform:uppercase;letter-spacing:.5px">Avance general</div><div style="font-size:22px;font-weight:800;color:'+pctColor+'">'+pct+'%</div></div>';
+  h+='<div style="height:8px;background:var(--sf);border-radius:4px;overflow:hidden"><div style="height:100%;width:'+pct+'%;background:'+pctColor+';border-radius:4px"></div></div>';
+  h+='<div style="display:flex;justify-content:space-between;margin-top:6px;font-size:10px;color:var(--tm)"><span>'+doneCount+' completadas</span><span>de '+TOTAL_TRAM+' actividades</span></div>';
+  h+='</div>';
+
+  // Lista de las 36 actividades
+  h+='<div class="lbl">Detalle de actividades</div>';
+  ACTIVIDADES_TRAM.forEach(function(act){
+    var registro=ejecutadas[act.num];
+    var isDone=!!registro;
+    var bg=isDone?'#F7FBF2':'var(--sf)';
+    var bd=isDone?'.5px solid #C0DD97':'.5px solid var(--bd)';
+    h+='<div style="padding:8px 12px;background:'+bg+';border:'+bd+';border-radius:7px;margin-bottom:3px;display:flex;align-items:center;gap:10px">';
+    h+='<div style="width:18px;height:18px;border-radius:50%;background:'+(isDone?'var(--gn)':'transparent')+';border:2px solid '+(isDone?'var(--gn)':'var(--bd2)')+';display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:9px;color:#fff;font-weight:700">'+(isDone?'✓':'')+'</div>';
+    h+='<div style="flex:1;min-width:0">';
+    h+='<div style="display:flex;align-items:center;gap:6px"><span style="font-family:var(--fm);font-size:11px;font-weight:700;color:'+(isDone?'var(--gnd)':'var(--tm)')+';flex-shrink:0;min-width:32px">'+act.num+'</span><span style="font-size:11px;font-weight:'+(isDone?'600':'400')+';color:'+(isDone?'var(--tx)':'var(--tm)')+'">'+act.titulo+'</span></div>';
+    if(isDone&&registro.responsable)h+='<div style="font-size:9px;color:var(--gn);margin-top:1px;padding-left:38px">'+registro.responsable+(registro.fecha_registro?' · '+registro.fecha_registro:'')+'</div>';
+    h+='</div>';
+    h+='</div>';
+  });
+  return h;
+}
+
+function avSync(){
+  avLoading=true;avError='';render();
+  var urlLista=getUrl('tramLista');
+  var urlAvance=getUrl('tramAvance');
+  if(!urlLista){avLoading=false;avError='Falta URL de TRAM_Consulta_Lista';render();return}
+  if(!urlAvance){avLoading=false;avError='Falta URL de TRAM_Consulta_Avance';render();return}
+
+  var ctrl=new AbortController();
+  var to=setTimeout(function(){ctrl.abort()},20000);
+
+  Promise.all([
+    fetch(urlLista,{method:'POST',headers:{'Content-Type':'application/json'},body:'{}',signal:ctrl.signal}).then(function(r){return r.json()}),
+    fetch(urlAvance,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({codigo_barras:'*'}),signal:ctrl.signal}).then(function(r){return r.json()})
+  ]).then(function(results){
+    clearTimeout(to);
+    avLoading=false;
+    var motos=results[0].value||results[0]||[];
+    var avances=results[1].value||results[1]||[];
+    if(!Array.isArray(motos))motos=[];
+    if(!Array.isArray(avances))avances=[];
+    avMotos=motos;
+    avAvances=avances;
+    toast('✓ '+motos.length+' motos cargadas');
+    render();
+  }).catch(function(e){
+    clearTimeout(to);
+    avLoading=false;
+    avError=e.name==='AbortError'?'Tiempo agotado al consultar':'Error: '+e.message;
+    toast('Error al cargar avances',1);
+    render();
+  });
+}
+// ============= FIN PESTAÑA AVANCE =============
 </script>
 </body>
 </html>
